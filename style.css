@@ -1,0 +1,110 @@
+/*global variables*/
+:root {
+    --main-color: #3bb87d;
+    --main-color-dark: #2b7a5f;
+    --secondary-color: #dadada;
+    --secondary-color-dark: #9e9e9e;
+
+}
+
+form{
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    margin: 1em;
+    padding: 0em;
+}
+
+input {
+    padding: 0.5em;
+    margin: 0em;
+    width: 100%;
+    height: 2em;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+}
+
+button {
+    background-color: var(--main-color);
+    font-size: 1rem;
+    color: white;
+    border: 2px solid var(--secondary-color-dark);
+    padding: 1em 4em;
+    margin: 1em;
+    cursor: pointer;
+}
+
+body {
+    background-color: var(--secondary-color);
+    font-family: Arial, sans-serif;
+    margin: 0em;
+    padding: 0em;
+}
+header {
+    background-color: var(--main-color);
+    color: white;
+    padding: 2em;
+    margin: 0em;
+    text-align: center;
+}
+
+main {
+    background-color: var(--secondary-color);
+    padding: 1em 0em;
+    margin: 0em;
+    text-align: center;
+    max-width: 400px;
+    margin: auto;
+}
+
+footer {
+    background-color: var(--main-color);
+    color: white;
+    padding: 1em;
+    margin: 0em;
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--main-color-dark);
+    margin: 0em;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+h3 {
+    font-size: 1em;
+}
+
+h4 {
+    font-size: 0.8em;
+}
+
+h5 {
+    font-size: 0.6em;
+}
+
+p {
+    font-size: 1em;
+    margin: 1em auto;
+}
+
+@media (min-width: 600px) {
+    body {
+        
+    }
+    header {
+        
+    main {
+        
+    }
+    footer {
+        
+    }
+}
