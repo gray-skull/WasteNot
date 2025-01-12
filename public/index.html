@@ -10,31 +10,36 @@
         <title>WasteNot</title>
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="icon" type="image/png" href="images/favicon.png">
-        <script src="app.js"></script>
+        <script src="/script.js"></script>
 
     </head>
 
     <body>
         <header>
-            <nav>
-                <div class="logo">
-                    <a href="index.html"><img src="images/logo.png" alt="WasteNot logo"></a>
-                </div>
-            </nav>
+            <div class="logo">
+                <a href="index.html"><img src="images/logo.png" alt="WasteNot logo"></a>
+            </div>
+            <apptitle>WasteNot:<br></apptitle>
+            <subtitle>Cook Smarter, Waste Less!</subtitle>
         </header>
 
         <main>
-            <h1>WasteNot:</h1>
-            <h3>Cook Smarter, Waste Less!</h3>
+
             <p>Find recipes based on the ingredients you have at home</p>
             <section class="search">
                 <div class="search-content">
-                    <form>
-                        <input type="text" id="ingredients" name="ingredients" placeholder="Enter ingredients">
-                        <button type="button" onclick="getRecipes()">Get recipes</button>
+                    <form id="search-form">
+                        <input type="text" name="ingredients" id="ingredients" placeholder="Enter ingredients, comma-separated">
+                        <button type="submit">Search</button>
                     </form>
                 </div>
+                <div class="search-results">
+                    <h2>Recipes:</h2>
+                    <ul id="recipes-list"></ul>
+                </div>
             </section>
+
+            <section class="results"></section>
 
             <section class="about">
                 <div class="about-content">
