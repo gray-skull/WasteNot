@@ -5,20 +5,20 @@ document.addEventListener('DOMContentLoaded', async function () {
     const ingredients = document.getElementById('ingredients').value;
 
     try {
-      const response = await fetch('/api/recipes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ingredients }),
+      // send a POST request with the ingredients to the server
+      const response = await fetch('http://localhost:5500/recipes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ingredients}),
       });
 
       if (!response.ok) {
-        throw new Error('Bad response from Spoonacular', response.statusText);
+        throw new Error(`Server error: ${response.status}`);
       }
 
       const data = await response.json();
-
       const recipesList = document.getElementById('recipes-list');
       recipesList.innerHTML = '';
 
@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
       }
     } catch (error) {
-      console.error('Error fetching recipes from Spoonacular:', error);
-      alert('Error fetching recipes from Spoonacular');
+      console.error(error);
+      alert(error);
     }
   });
 });
