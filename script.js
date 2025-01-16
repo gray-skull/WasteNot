@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     try {
       // send a POST request with the ingredients to the server
-      const response = await fetch('http://localhost:5500/recipes', {
+      const response = await fetch('http://localhost:3000/recipes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

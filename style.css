@@ -52,6 +52,51 @@ main {
     margin: auto;
 }
 
+.search-results {
+    background-color: var(--main-color);
+    padding: 1em;
+    margin: 1em;
+    text-align: center;
+    border-radius: 40px;
+}
+
+.search-results h2 {
+    color: white;
+}
+
+ul#recipes-list {
+    color: var(--secondary-color);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+ul#recipes-list h3 {
+    color: var(--main-color-dark);
+    padding: 0.5em;
+}
+
+ul#recipes-list li {
+    background-color: var(--secondary-color);
+    margin: 0.5em 0em;
+    padding: 1em;
+    border-radius: 40px;
+    width: 80%;
+    max-width: auto;
+    text-align: center;
+}
+
+ul#recipes-list li img {
+    width: 100%;
+    height: auto;
+    border-radius: 40px;
+}
+
 footer {
     background-color: var(--main-color);
     color: white;
@@ -79,9 +124,10 @@ input {
 
 button {
     background-color: var(--main-color);
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: white;
     border: 2px solid var(--secondary-color-dark);
+    border-radius: 40px;
     padding: 1em 4em;
     margin: 1em;
     cursor: pointer;

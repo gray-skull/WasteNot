@@ -12,9 +12,12 @@ const port = process.env.PORT;
 
 // setup middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors()); // enable CORS - needed during development
 
 // TODO: setup mongoose connection
+const mongoose = require('mongoose');
+const dbUrl = process.env.MONGO_URL;
+
 // TODO: connect to MongoDB
 
 // setup connection to Spoonacular API
@@ -29,9 +32,7 @@ app.get('/', (res) => {
 
 // route to handle recipe search
 app.post('/recipes', async (req, res) => {
-  
   const { ingredients } = req.body;
-  console.log('Post request to /recipes for ingredients:', ingredients);
 
   if (!ingredients) {
     return res.status(400).json({ error: 'Ingredients parameter is required.' });
