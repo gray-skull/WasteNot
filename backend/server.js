@@ -15,9 +15,6 @@ app.use(bodyParser.json());
 app.use(cors()); // enable CORS - needed during development
 
 // TODO: setup mongoose connection
-const mongoose = require('mongoose');
-const dbUrl = process.env.MONGO_URL;
-
 // TODO: connect to MongoDB
 
 // setup connection to Spoonacular API
