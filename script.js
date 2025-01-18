@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', async function () {
   document.getElementById('search-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    // TODO: add input validation here to ensure ingredients are a comma-separated list
+
+    // get the ingredients from the form
     const ingredients = document.getElementById('ingredients').value;
 
     try {
@@ -27,6 +30,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       } else {
         data.forEach((recipe) => {
           const li = document.createElement('li');
+          // TODO: make the <li> a link to the recipe page and include more details
           li.innerHTML = `<h3>${recipe.title}</h3>
                           <img src="${recipe.image}" alt="${recipe.title}" />
                           `;

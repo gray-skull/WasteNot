@@ -97,6 +97,10 @@ ul#recipes-list li img {
     border-radius: 40px;
 }
 
+ul#recipes-list li p {
+    color: var(--main-color-dark);
+}
+
 footer {
     background-color: var(--main-color);
     color: white;
