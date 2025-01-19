@@ -32,7 +32,9 @@ document.addEventListener('DOMContentLoaded', async function () {
           const li = document.createElement('li');
           // TODO: make the <li> a link to the recipe page and include more details
           li.innerHTML = `<h3>${recipe.title}</h3>
+                          <section class="image-box">
                           <img src="${recipe.image}" alt="${recipe.title}" />
+                          </section>
                           `;
           recipesList.appendChild(li);
         });

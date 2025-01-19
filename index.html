@@ -9,66 +9,65 @@
 
         <title>WasteNot</title>
         <link rel="stylesheet" type="text/css" href="style.css">
-        <link rel="icon" type="image/png" href="images/favicon.png">
+        <link rel="icon" type="image/png" href="./content/images/favicon.png">
         <script src="script.js"></script>
 
     </head>
 
     <body>
         <header>
-            <div class="logo">
-                <a href="index.html"><img src="images/logo.png" alt="WasteNot logo"></a>
+            <div class="logo rounded-card">
+                <a href="index.html"><img src="./content/images/logo.webp" id="logo" alt="WasteNot logo"></a>
+                <subtitle><br>Cook Smarter, Waste Less!</subtitle>
             </div>
-            <apptitle>WasteNot:<br></apptitle>
-            <subtitle>Cook Smarter, Waste Less!</subtitle>
         </header>
 
         <main>
 
-            <p>Find recipes based on the ingredients you have at home</p>
-            <section class="search">
+            
+            <section class="search rounded-card">
                 <div class="search-content">
                     <form id="search-form">
+                        <h2>Find recipes based on the ingredients you have at home</h2>
                         <input type="text" name="ingredients" id="ingredients" placeholder="Enter ingredients, comma-separated">
                         <!--Send the ingredients to the /recipes endpoint using POST method-->
-                        <button type="submit">Search</button>
+                        <button type="submit" id="search-button">Search</button>
                     </form>
                 </div>
                 <div class="search-results">
-                    <h2>Recipes:</h2>
                     <ul id="recipes-list"></ul>
                 </div>
             </section>
 
-            <section class="about">
+            <section class="about rounded-card" >
                 <div class="about-content">
                     <h2>About WasteNot</h2>
                     <p>WasteNot is a web application that helps users reduce food waste by providing recipes based on the ingredients they have at home. By using WasteNot, you can save money, reduce your carbon footprint, and help the environment.</p>
                 </div>
             </section>
 
-            <section class="features">
+            <section class="features rounded-card">
                 <div class="feature">
                     <img src="images/feature1.png" alt="Feature 1">
-                    <h3>Save money</h3>
+                    <h2>Save money</h2>
                     <p>Use up the ingredients you already have at home instead of buying new ones</p>
                 </div>
                 <div class="feature">
                     <img src="images/feature2.png" alt="Feature 2">
-                    <h3>Reduce waste</h3>
+                    <h2>Reduce waste</h2>
                     <p>Prevent food from going bad and ending up in the trash</p>
                 </div>
                 <div class="feature">
                     <img src="images/feature3.png" alt="Feature 3">
-                    <h3>Help the environment</h3>
+                    <h2>Help the environment</h2>
                     <p>Reduce your carbon footprint and contribute to a more sustainable planet</p>
                 </div>
             </section>
         </main>
 
         <footer>
-            <div class="footer-content">
-                <p>&copy; 2025 WasteNot</p>
+            <div class="footer-content rounded-card">
+                <h2>&copy; 2025 WasteNot</h2>
             </div>
         </footer>
 

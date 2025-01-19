@@ -1,41 +1,100 @@
 /*global variables*/
+
 :root {
     --main-color: #3bb87d;
     --main-color-dark: #2b7a5f;
-    --secondary-color: #dadada;
-    --secondary-color-dark: #9e9e9e;
-
+    --secondary-color: #d8d8d8;
+    --secondary-color-dark: #727272;
 }
 
-apptitle {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 2em;
-    text-shadow: 0px 0px 4px #000000;
-    padding: 0;
+/*global media queries*/
+
+@media (min-width: 600px) {
+    body {
+        
+    }
+    header {
+        
+    }
+    main {
+        
+    }
+    footer {
+        
+    }
+}
+
+/*global styles*/
+
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+/*global classes*/
+
+.center {
+    text-align: center;
+}
+
+.rounded-card {
+    background: radial-gradient(circle, var(--main-color) 0%, var(--main-color-dark) 100%);
+    color: white;
+    border-radius: 40px;
+    border: 2px solid var(--main-color);
+    padding: 1em 0.5em;
+    margin: 0em 0em 0.5em 0em;
+    text-align: center;
+}
+
+.search-results {
+    padding: 0em;
+    margin: 1em 0em;
+    text-align: center;
+}
+
+.search-results h2 {
     color: white;
 }
+
+.divider {
+    border: 2px dashed var(--main-color-dark);
+    width: 100%;
+    margin: 0em 0em;
+    padding: 0em;
+}
+
+/*global ids*/
 
 subtitle {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
+    text-shadow: 0px 0px 4px black;
     padding: 0;
     margin: 0;
     color: white;
 }
 
+img#logo {
+    width: 75%;
+    height: auto;
+    max-width: 400px;
+    border-radius: 40px;
+}
+
 body {
-    background-color: var(--secondary-color);
-    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--secondary-color-dark) 100%);
+    border: 6px solid var(--main-color);
+    font-family: Georgia, 'Times New Roman', Times, serif;
     margin: 0em;
     padding: 0em;
 }
 
 header {
-    background-color: var(--main-color);
-    color: white;
-    padding: 2em;
-    margin: 0em;
+    margin: 0.5em auto 0em auto;
+    padding: 0em;
+    max-width: 400px;
     text-align: center;
 }
 
@@ -44,24 +103,46 @@ header h1, h3 {
 }
 
 main {
-    background-color: var(--secondary-color);
-    padding: 1em 0em;
-    margin: 0em;
+    padding: 0em;
     text-align: center;
     max-width: 400px;
-    margin: auto;
+    margin: 0.5em auto 0em auto;
 }
 
-.search-results {
-    background-color: var(--main-color);
-    padding: 1em;
-    margin: 1em;
+form#search-form {
+    width: 100%;
+    padding: 0em;
+    margin: 0em 0em 1em 0em;
     text-align: center;
-    border-radius: 40px;
 }
 
-.search-results h2 {
+form#search-form h2 {
     color: white;
+    padding: 0em 2em 0.5em 2em;
+}
+
+form#search-form input {
+    font-size: 1rem;
+    width: 90%;
+    padding: 0.5em;
+    margin: 1rem 0rem;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+button#search-button {
+    background-color: var(--secondary-color);
+    border: 2px solid black;
+    border-radius: 20px;
+    box-shadow: 0px 0px 6px black;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--main-color-dark);
+    width: 90%;
+    padding: 0.5rem 8rem;
+    margin: 0em;
+    cursor: pointer;
 }
 
 ul#recipes-list {
@@ -78,23 +159,36 @@ ul#recipes-list {
 
 ul#recipes-list h3 {
     color: var(--main-color-dark);
+    text-shadow: none;
     padding: 0.5em;
 }
 
 ul#recipes-list li {
     background-color: var(--secondary-color);
     margin: 0.5em 0em;
-    padding: 1em;
+    padding: 0.5em;
     border-radius: 40px;
-    width: 80%;
+    width: 100%;
     max-width: auto;
     text-align: center;
 }
 
-ul#recipes-list li img {
+section.image-box {
     width: 100%;
     height: auto;
+    border: 4px solid var(--main-color);
     border-radius: 40px;
+    background: black;
+    overflow: hidden;
+}
+
+section.image-box img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    object-fit: cover;
+    transform: scale(1.1);
+    
 }
 
 ul#recipes-list li p {
@@ -102,19 +196,11 @@ ul#recipes-list li p {
 }
 
 footer {
-    background-color: var(--main-color);
     color: white;
-    padding: 1em;
-    margin: 0em;
-    text-align: center;
-}
-
-form {
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    margin: 1em;
     padding: 0em;
+    margin: 0em auto;
+    text-align: center;
+    max-width: 400px;
 }
 
 input {
@@ -126,19 +212,8 @@ input {
     border-radius: 5px;
 }
 
-button {
-    background-color: var(--main-color);
-    font-size: 1.25rem;
-    color: white;
-    border: 2px solid var(--secondary-color-dark);
-    border-radius: 40px;
-    padding: 1em 4em;
-    margin: 1em;
-    cursor: pointer;
-}
 
 h1, h2, h3, h4, h5 {
-    color: var(--main-color-dark);
     margin: 0em;
 }
 
@@ -148,6 +223,7 @@ h1 {
 
 h2 {
     font-size: 1.2em;
+    text-shadow: 0px 0px 6px black;
 }
 
 h3 {
@@ -167,17 +243,4 @@ p {
     margin: 1em auto;
 }
 
-@media (min-width: 600px) {
-    body {
-        
-    }
-    header {
-        
-    }
-    main {
-        
-    }
-    footer {
-        
-    }
-}
+
