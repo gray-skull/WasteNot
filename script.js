@@ -42,10 +42,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                           <section class="image-box">
                           <img src="${recipe.image}" alt="${recipe.title}" />
                           </section>
-                          <h3>Used ingredients:</h3>
-                          <p>${recipe.usedIngredients.map(ingredient => ingredient.name).join(', ')}</p>
-                          <h3>Additional ingredients:</h3>
-                          <p>${recipe.missedIngredients.map(ingredient => ingredient.name).join(', ')}</p>
                           `;
           recipesList.appendChild(li);
         });
