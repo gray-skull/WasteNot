@@ -1,12 +1,13 @@
 /*global variables*/
 
 :root {
-    --main-color: #3bb87d;
-    --main-color-dark: #2b7a5f;
-    --secondary-color: #d8d8d8;
-    --secondary-color-dark: #727272;
-    --tertiary-color: #c9c6a6;
-    --tertiary-color-dark: #8f8d6f;
+    --main-color: #e7e7e7;
+    --main-color-dark: #6f6f6f;
+    --secondary-color: #9fd18b;
+    --secondary-color-dark: #6d8f5f;
+    --tertiary-color: #ff6f61;
+    --tertiary-color-dark: #642b26;
+    --shadow-standard: 2px 2px 6px black;
 }
 
 /*global media queries*/
@@ -18,170 +19,155 @@
 /*global styles*/
 
 * {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: "Poor Richard", serif;
+    font-size: 20px;
     box-sizing: border-box;
     margin: 0rem;
     padding: 0rem;
+    text-align: center;
 }
 
 /*global classes*/
 
 .cabin-sketch-regular {
     font-family: "Cabin Sketch", serif;
-    font-weight: 400;
-    font-style: normal;
-}
-  
-.cabin-sketch-bold {
-    font-family: "Cabin Sketch", serif;
     font-weight: 700;
     font-style: normal;
-}  
+} 
 
 .rounded-card {
-    background: radial-gradient(circle, var(--main-color) 0%, var(--main-color-dark) 100%);
-    color: white;
-    border-radius: 40px;
-    border: 2px solid var(--tertiary-color);
-    padding: 1rem 1rem;
+    background: radial-gradient(circle, var(--main-color) 0%, var(--main-color-dark) 200%);
+    border: 2px solid var(--main-color-dark);
+    border-radius: 20px;
+    padding: 0.5rem 0.5rem;
     margin: 0rem 0rem 0.5rem 0rem;
-    text-align: center;
+    box-shadow: var(--shadow-standard);
 }
 
 .search-results {
-    padding: 0rem;
     margin: 1rem 0rem;
-    text-align: center;
-}
-
-.search-results h2 {
-    color: white;
 }
 
 .divider {
-    border: 2px dashed var(--main-color-dark);
-    width: 100%;
-    margin: 0rem 0rem;
-    padding: 0rem;
+    border: 2px dashed var(--tertiary-color-dark);
+    margin: 2rem auto 1rem auto;
+    width: 90%;
 }
 
 /*global ids*/
 
 subtitle {
-    font-size: 2rem;
-    padding: 0;
-    margin: 0;
-    color: white;
+    font-size: 1.8rem;
+    margin: 1rem auto;
+}
+
+img.feature-icon {
+    width: 120px;
+    height: auto;
+    margin: 1rem auto 0rem auto;
 }
 
 img#logo {
-    background: var(--tertiary-color);
-    width: 50%;
+    width: 60%;
     height: auto;
     max-width: 400px;
-    border-radius: 180px;
 }
 
 body {
-    background: linear-gradient(to bottom, var(--tertiary-color) 0%, var(--secondary-color-dark) 100%);
-    border: 6px solid var(--main-color);
-    
-    margin: 0rem;
-    padding: 0rem;
+    background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--secondary-color-dark) 100%);
+    border: 4px solid var(--tertiary-color-dark);
+    padding: 0.5rem 0rem 0rem 0rem;
 }
 
 header {
-    margin: 0.5rem auto 0rem auto;
-    padding: 0rem;
+    margin: 0rem auto;
     max-width: 400px;
-    text-align: center;
-}
-
-header h1, h3 {
-    color: white;
 }
 
 main {
-    padding: 0rem;
-    text-align: center;
     max-width: 400px;
     margin: 0.5rem auto 0rem auto;
 }
 
 form#search-form {
     width: 100%;
-    padding: 0rem;
     margin: 0rem 0rem 1rem 0rem;
-    text-align: center;
 }
 
-form#search-form h2 {
-    font-size: 1.1rem;
-    color: white;
-    padding: 0rem 1rem;
-}
-
-form#search-form input {
-    font-size: 1rem;
-    color: var(--secondary-color-dark);
-    background-color: var(--secondary-color);
-    width: 90%;
+input#ingredients {
+    appearance: none;
+    width: 100%;
     height: auto;
     padding: 1rem;
     margin: 1rem 0rem;
     border: 2px solid black;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
 button#search-button {
-    font-size: 1.8rem;
-    width: 90%;
+    font-size: 1.6rem;
+    font-weight: bodler;
+
+    width: 100%;
     height: auto;
     padding: 0.5rem;
-    background-color: var(--secondary-color);
-    border: 2px solid black;
+
+    background-color: var(--tertiary-color);
     border-radius: 20px;
-    box-shadow: 0px 0px 6px black;
-    font-weight: bold;
-    color: var(--main-color-dark);
-    margin: 0rem;
+    box-shadow: var(--shadow-standard);
+
     cursor: pointer;
 }
 
 ul#recipes-list {
-    color: var(--secondary-color);
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     list-style-type: none;
-    padding: 0;
-    margin: 0;
     flex-direction: column;
     align-items: center;
 }
 
 ul#recipes-list h3 {
-    color: var(--main-color-dark);
-    text-shadow: none;
-    padding: 0.5rem;
+    font-weight: 400;
+    text-shadow: 0px 0px 4px white;
 }
 
 ul#recipes-list li {
-    background-color: var(--secondary-color);
-    border: 2px solid var(--tertiary-color);
+    background: radial-gradient(circle, var(--secondary-color-dark) 0%, var(--secondary-color) 100%);
+    box-shadow: var(--shadow-standard);
     margin: 0.5rem 0rem;
     padding: 0.5rem;
-    border-radius: 40px;
+    border-radius: 20px;
     width: 100%;
     max-width: auto;
-    text-align: center;
+    transition: animation color-fade;
+}
+
+ul#recipes-list li:hover {
+    animation: color-fade 2s ease-in-out infinite;
+}
+
+@keyframes color-fade {
+    0% {
+        background: var(--secondary-color-dark);
+    }
+    50% {
+        background: var(--secondary-color);
+    }
+    100% {
+        background: var(--secondary-color-dark);
+    }
+}
+
+ul#recipes-list li p {
+    color: var(--main-color-dark);
 }
 
 section.image-box {
     width: 100%;
     height: auto;
-    border: 2px solid var(--main-color);
-    border-radius: 40px;
+    border-radius: 20px;
     overflow: hidden;
 }
 
@@ -194,58 +180,40 @@ section.image-box img {
     
 }
 
-ul#recipes-list li p {
-    color: var(--main-color-dark);
-    padding: 0rem;
-    margin: 0rem;
-}
+
 
 footer {
-    color: white;
-    padding: 0rem;
     margin: 0rem auto;
-    text-align: center;
     max-width: 400px;
 }
 
-input {
-    padding: 0.5rem;
-    margin: 0rem;
-    width: 100%;
-    height: 2rem;
-    border: 2px solid var(--main-color);
-    border-radius: 5px;
-}
-
-
 h1, h2, h3, h4, h5 {
-    margin: 0rem;
+    margin: 0.5rem 0rem;
 }
 
 h1 {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
 }
 
 h2 {
-    font-size: 1.5rem;
-    text-shadow: 0px 0px 6px black;
+    font-size: 1.4rem;
 }
 
 h3 {
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 h4 {
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 h5 {
-    font-size: 0.6rem;
+    font-size: 1rem;
 }
 
 p {
-    font-size: 1rem;
-    margin: 1rem auto;
+    line-height: 30px;
+    margin: 0.5rem 0.5rem;
 }
 
 

@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', async function () {
       const data = await response.json();
       
       const searchResults = document.getElementById('search-results');
-      searchResults.innerHTML = `<h2>Recipes using: ${ingredients}</h2>
-                                 <ul id="recipes-list"></ul>
-                                 `;
+      searchResults.innerHTML = `<div class="divider"></div>
+                                <ul id="recipes-list"></ul>
+                                `;
       
       const recipesList = document.getElementById('recipes-list');
       recipesList.innerHTML = '';
