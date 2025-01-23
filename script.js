@@ -70,10 +70,17 @@ document.addEventListener("DOMContentLoaded", () => {
               recipesList.innerHTML = "<li><h3>Sorry, no recipes found</h3></li>";
             } else { // otherwise, display the recipes
             recipes.forEach(recipe => {
-              // create a new <li> element for each recipe and add it to the list
-              // TODO: make the <li> a link to the recipe page and include more details
+              // <li> links to recipe.html but still needs to connect to backend for details
+              // TODO: link <li> recipe description and prep time to results to backend
               const li = document.createElement("li");
-              li.innerHTML = `<h3>${recipe.title}</h3><img src="${recipe.image}" alt="${recipe.title}" />`;
+              li.innerHTML = `
+                <a href="recipe.html?id=${recipe.id}">
+                  <h3>${recipe.title}</h3>
+                  <img src="${recipe.image}" alt="${recipe.title}" />
+                </a>
+                <p>${recipe.description}</p>
+                <p>Preparation time: ${recipe.prepTime} minutes</p>
+              `;
               recipesList.appendChild(li);
             });
             }
