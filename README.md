@@ -29,6 +29,7 @@ Create a ```.env``` file in the root directory to store API keys and other sensi
 ```bash
 SPOONACULAR_API_KEY = your_api_key_goes_here
 PORT = enter_your_desired_port_here
+MONGO_URI= your_mongo_URI_goes_here
 ```
 
 ## Frontend Design
