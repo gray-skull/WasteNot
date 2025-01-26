@@ -242,6 +242,11 @@ ul#recipes-list li p {
     color: var(--main-color-dark);
 }
 
+ul#recipes-list li a {
+    color: var(--tertiary-color-dark);
+    text-decoration: none;
+}
+
 section.image-box {
     width: 100%;
     height: auto;
@@ -302,6 +307,70 @@ footer {
     padding: 0px auto 20px auto; /* Prevent overlap with the bottom menu */
     text-align: center;
 }
+
+/*recipe details page*/
+
+#recipe-details {
+    margin: 0rem auto;
+    max-width: 400px;
+    padding: 1rem;
+}
+
+#recipe-details img {
+    width: 100%;
+    height: auto;
+    margin: 0rem auto;
+    border-radius: 20px;
+    box-shadow: var(--shadow-standard);
+}
+
+#recipe-details h3 {
+    font-size: 1.6rem;
+    margin: 0.5rem auto;
+    text-align: left;
+}
+
+#recipe-details p {
+    margin: 0.5rem auto;
+    line-height: 30px;
+    text-align: left;
+}
+
+#recipe-details ul {
+    margin: 0.5rem 0rem;
+    list-style-type: disc;
+    text-align: left;
+    list-style-position: inside;
+}
+
+#recipe-details ul li {
+    margin: 0.5rem 0rem;
+    text-align: left;
+}
+
+#recipe-details ol {
+    margin: 0.5rem 0rem;
+    list-style-type: decimal;
+    text-align: left;
+    list-style-position: inside;
+}
+
+#recipe-details ol li {
+    margin: 0.5rem 0rem;
+    text-align: left;
+}
+
+#recipe-details a {
+    color: var(--tertiary-color-dark);
+    text-decoration: none;
+}
+
+#recipe-details a:hover {
+    color: var(--tertiary-color);
+    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+}
+
+/*global tags*/
 
 h1, h2, h3, h4, h5 {
     margin: 0.5rem 0rem;
