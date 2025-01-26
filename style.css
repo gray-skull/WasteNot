@@ -13,7 +13,27 @@
 /*global media queries*/
 
 @media (min-width: 600px) {
-    /*TODO: Add media query for screens larger than 600px*/
+    /* Adjust styles for screens larger than 600px */
+    body {
+        font-size: 18px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .nav-menu {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .sidebar {
+        display: block;
+        width: 250px;
+    }
+
+    /* Any other styles you need for larger screens */
 }
 
 /*global styles*/
@@ -34,6 +54,19 @@
     font-weight: 700;
     font-style: normal;
 } 
+
+::-webkit-scrollbar {
+    width: 10px;
+    background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--secondary-color-dark) 100%);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color:var(--tertiary-color);
+    border-radius: 20px;
+    border: 1px solid var(--tertiary-color-dark);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+
+}
 
 .rounded-card {
     background: radial-gradient(circle, var(--main-color) 0%, var(--main-color-dark) 200%);
@@ -135,6 +168,35 @@ button#search-button {
     cursor: pointer;
 }
 
+button#search-button:hover {
+    color: var(--tertiary-color-dark);
+    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+}
+
+select#recipe-type {
+    font-family: "Cabin Sketch", serif;
+    font-weight: 700;
+    font-style: normal;
+    border-radius: 20px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    height: auto;
+    background-color: var(--tertiary-color);
+    box-shadow: var(--shadow-standard);
+}
+
+select#recipe-type:hover {
+    color: var(--tertiary-color-dark);
+    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+}
+
+option {
+    font-family: "Cabin Sketch", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
 ul#recipes-list {
     display: flex;
     flex-wrap: wrap;
@@ -206,8 +268,9 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    background-color: var(--main-color-dark);
+    width: 99.2%;
+
+    border-radius: 35px;
     display: flex;
     justify-content: space-evenly;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
@@ -217,15 +280,20 @@ footer {
 .bottom-menu a {
     color: black;
     font-size: 1.0rem;
+    font-family: "Cabin Sketch", serif;
+    font-weight: 700;
+    font-style: normal; 
     text-decoration: none;
-    border: 1px solid var(--secondary-color);
+    border: 1px solid var(--tertiary-color-dark);
+    background-color: #fa6a5dd0;
+    border-radius: 20px;
     width: 100%;
     padding: 30px 0px;
     text-align: center;
 }
 
 .bottom-menu a:hover {
-    color: var(--tertiary-color);
+    color: var(--tertiary-color-dark);
     text-shadow: var(--shadow-standard); /* Highlight color on hover */
 }
 

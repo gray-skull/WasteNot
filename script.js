@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
                   <h3>${recipe.title}</h3>
                   <img src="${recipe.image}" alt="${recipe.title}" />
                 </a>
-                <p>${recipe.description}</p>
-                <p>Preparation time: ${recipe.prepTime} minutes</p>
+                <p>${recipe.description || "no description available"}</p>
+                <p>Ready time: ${recipe.maxReadyTime || "N/A"} minutes</p>
               `;
               recipesList.appendChild(li);
             });
