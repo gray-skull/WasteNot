@@ -75,6 +75,13 @@ app.post("/recipes", async (req, res) => {
     // Fetch recipes from Spoonacular API
     const response = await axios.get(urlWithIngredients)
 
+    if (response.data.results.length === 0) {
+      console.log("No recipes found")
+      return res
+        .status(200)
+        .json("No recipes found");
+    }
+
     // Transform data and prepare for MongoDB
     const recipes = response.data.results.map(recipe => ({
       id: recipe.id,

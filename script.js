@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const recipesList = document.getElementById("recipes-list");
             recipesList.innerHTML = "";
 
-            // if no recipes are found, display a message
-            if(recipes.length === 0) {
+            // if no recipes are found or response is "No recipes found", display a message
+            if(recipes.length === 0 || recipes === "No recipes found") {
               recipesList.innerHTML = "<li><h3>Sorry, no recipes found</h3></li>";
             } else { // otherwise, display the recipes
             recipes.forEach(recipe => {
@@ -89,12 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             }
 
-          } else { // if the response is not OK, throw an error
-            throw new Error(`Server error: ${response.status}`);
+          } else { // if the response is not OK, throw an error with the status and parameter "error" from the response
+            throw new Error(`${response.status}: ${await response.text()}`);
           }
       } catch (error) { // catch any errors and log them to the console
-        console.error("Error fetching recipes", error);
-        alert("Error fetching recipes");
+        console.error(error.message);
       }
 
       // scroll to the first result
