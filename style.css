@@ -7,7 +7,7 @@
     --secondary-color-dark: #6d8f5f;
     --tertiary-color: #ff6f61;
     --tertiary-color-dark: #642b26;
-    --shadow-standard: 2px 2px 6px black;
+    --shadow-standard: 2px 2px 6px rgba(0, 0, 0, 0.646);
 }
 
 /*global media queries*/
@@ -125,7 +125,7 @@ html, body {
 body {
     background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--secondary-color-dark) 100%);
     ;
-    padding: 0rem 0rem 0rem 0rem;
+    padding: 0rem;
 }
 
 header {
@@ -143,15 +143,90 @@ form#search-form {
     margin: 0rem 0rem 1rem 0rem;
 }
 
-input#ingredients {
-    appearance: none;
+input[type="text"] {
     width: 100%;
     height: auto;
     padding: 1rem;
     margin: 1rem 0rem;
-    border: 2px solid black;
+    border: 2px solid var(--main-color-dark);
     border-radius: 20px;
+    background-color: var(--main-color);
 }
+
+input[type="text"]:focus {
+    background-color: var(--secondary-color); /* Slightly darker gray */
+    border-color: var(--tertiary-color-dark); /* Darker blue */
+    outline: none; /* Remove default outline */
+}
+
+input[type="text"]::placeholder {
+    font-size: 1rem;
+    color: #888888; /* Gray placeholder text */
+    opacity: 1; /* Ensure full opacity for placeholder text */
+}
+
+.toggle-button {
+    font-size: 0.8rem;
+    font-weight: bold;
+    width: 100%;
+    height: auto;
+    margin: 0.5rem 0rem;
+    padding: 0.2rem;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--tertiary-color-dark);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+div#dietCheckboxArea {
+    display: none;
+    flex-wrap: wrap;
+    gap: 1rem 0rem; 
+    width: 100%;
+    height: auto;
+    margin: 1rem auto;
+    justify-items: start;
+    text-align: center;
+}
+
+div#intolerancesCheckboxArea {
+    display: none;
+    flex-wrap: wrap;
+    gap: 1rem 0rem; 
+    width: 100%;
+    height: auto;
+    margin: 1rem auto;
+    justify-items: start;
+    text-align: center;
+}
+
+div#dietCheckboxArea label, div#intolerancesCheckboxArea label {
+    font-size: 0.8rem;
+    margin: auto;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--tertiary-color-dark);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+input[type="checkbox"] {
+    appearance: none; /* Remove default appearance */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+}
+
+input[type="checkbox"]:checked {
+    display: none; /* Hide the checked checkbox */
+}
+
+input[type="checkbox"]:checked + label {
+    color: var(--tertiary-color-dark);
+    font-weight: bold;
+    background-color: var(--secondary-color);
+    box-shadow: var(--shadow-standard);
+}
+
 
 button#search-button {
     font-size: 1.6rem;
@@ -159,6 +234,7 @@ button#search-button {
 
     width: 100%;
     height: auto;
+    margin: 1rem 0rem 0rem 0rem;
     padding: 0.5rem;
 
     background-color: var(--tertiary-color);
@@ -173,29 +249,7 @@ button#search-button:hover {
     text-shadow: var(--shadow-standard); /* Highlight color on hover */
 }
 
-select#recipe-type {
-    font-family: "Cabin Sketch", serif;
-    font-weight: 700;
-    font-style: normal;
-    border-radius: 20px;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    height: auto;
-    background-color: var(--tertiary-color);
-    box-shadow: var(--shadow-standard);
-}
-
-select#recipe-type:hover {
-    color: var(--tertiary-color-dark);
-    text-shadow: var(--shadow-standard); /* Highlight color on hover */
-}
-
-option {
-    font-family: "Cabin Sketch", serif;
-    font-weight: 700;
-    font-style: normal;
-}
+/* Search results section */
 
 ul#recipes-list {
     display: flex;
@@ -208,7 +262,8 @@ ul#recipes-list {
 
 ul#recipes-list h3 {
     font-weight: 400;
-    text-shadow: 0px 0px 4px white;
+    color: var(--tertiary-color-dark);
+    text-shadow: 0px 0px 2px black;
 }
 
 ul#recipes-list li {
@@ -262,29 +317,33 @@ section.image-box img {
     transform: scale(1.1);
 }
 
+/*footer*/
+
 footer {
     margin: 0px auto 100px auto;
     max-width: 400px;
     position: static;
 }
 
+/*bottom menu*/
+
 .bottom-menu {
     position:fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 99.2%;
-
+    width: auto;
     border-radius: 35px;
     display: flex;
     justify-content: space-evenly;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-    margin: 0px auto;
+    margin: 6px;
+    padding: 0px;
 }
 
 .bottom-menu a {
     color: black;
-    font-size: 1.0rem;
+    font-size: auto;
     font-family: "Cabin Sketch", serif;
     font-weight: 700;
     font-style: normal; 
@@ -293,7 +352,8 @@ footer {
     background-color: #fa6a5dd0;
     border-radius: 20px;
     width: 100%;
-    padding: 30px 0px;
+    height: auto;
+    padding: 20px 0px;
     text-align: center;
 }
 

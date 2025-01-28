@@ -52,6 +52,8 @@ app.get("/", (req, res) => {
 app.post("/recipes", async (req, res) => {
   // Get ingredients from the request body
   const { ingredients } = req.body
+  const { diet } = req.body
+  const { intolerances } = req.body
 
   // Check if ingredients are provided
   if (!ingredients) {
@@ -59,19 +61,26 @@ app.post("/recipes", async (req, res) => {
   }
 
   // Construct the URL with the ingredients
-  const urlWithIngredients = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredients}&number=3`
-  
+  let urlWithIngredients = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&includeIngredients=${ingredients}&sort=min-missing-ingredients&number=3`
+
+  // add diet and intolerances to the URL if provided
+  if(diet !== "All Diets") {
+    urlWithIngredients += `&diet=${diet}`
+  }
+  if (intolerances !== "None") {
+    urlWithIngredients += `&intolerances=${intolerances}`
+  }
 
   try {
     // Fetch recipes from Spoonacular API
     const response = await axios.get(urlWithIngredients)
 
     // Transform data and prepare for MongoDB
-    const recipes = response.data.map(recipe => ({
+    const recipes = response.data.results.map(recipe => ({
       id: recipe.id,
       title: recipe.title,
       image: recipe.image,
-      ingredients: recipe.missedIngredients.map(ing => ing.name),
+      ingredients: recipe.missedIngredients ? recipe.missedIngredients.map(ing => ing.name) : "Ingredients not provided by Spoonacular API", // Placeholder
       instructions: "Instructions not provided by Spoonacular API", // Placeholder
       filters: [], // Add filters if needed
       createdAt: new Date()

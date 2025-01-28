@@ -9,15 +9,113 @@
     <section class="search rounded-card">
       <div class="search-content">
         <form id="search-form">
-          <p>Enter ingredients you have at home:</p>
+          <h4>Enter ingredients you have at home:</h4>
           <input type="text" name="ingredients" id="ingredients" placeholder="Enter ingredients, comma-separated">
-          <select id="recipe-type" name="recipe-type">
-            <option value="all">All Recipes</option>
-            <option value="vegan">Vegan</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="gluten-free">Gluten-Free</option>
-            <option value="dessert">Desserts</option>
-          </select>
+          
+          <div class="diet-checkbox-container">
+            <button type="button" class="toggle-button" id="toggle-diet" onclick="toggleDietCheckboxArea()">Show Diet Options</button>
+            <div class="dietCheckboxArea" id="dietCheckboxArea" name="diet">
+              <div>
+                <input type="checkbox" id="Gluten Free" name="diet" value="Gluten Free">
+                <label for="Gluten Free">Gluten Free</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Ketogenic" name="diet" value="Ketogenic">
+                <label for="Ketogenic">Ketogenic</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Vegetarian" name="diet" value="Vegetarian">
+                <label for="Vegetarian">Vegetarian</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Lacto-Vegetarian" name="diet" value="Lacto-Vegetarian">
+                <label for="Lacto-Vegetarian">Lacto-Vegetarian</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Ovo-Vegetarian" name="diet" value="Ovo-Vegetarian">
+                <label for="Ovo-Vegetarian">Ovo-Vegetarian</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Vegan" name="diet" value="Vegan">
+                <label for="Vegan">Vegan</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Pescetarian" name="diet" value="Pescetarian">
+                <label for="Pescetarian">Pescetarian</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Paleo" name="diet" value="Paleo">
+                <label for="Paleo">Paleo</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Primal" name="diet" value="Primal">
+                <label for="Primal">Primal</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Low FODMAP" name="diet" value="Low FODMAP">
+                <label for="Low FODMAP">Low FODMAP</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Whole30" name="diet" value="Whole30">
+                <label for="Whole30">Whole30</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="intolerances-checkbox-container">
+            <button type="button" class="toggle-button" id="toggle-intolerances" onclick="toggleIntoleranceCheckboxArea()">Show Intolerances Options</button>
+            <div id="intolerancesCheckboxArea" name="intolerances">
+              <div>
+                <input type="checkbox" id="Dairy" name="intolerances" value="Dairy">
+                <label for="Dairy">Dairy</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Egg" name="intolerances" value="Egg">
+                <label for="Egg">Egg</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Gluten" name="intolerances" value="Gluten">
+                <label for="Gluten">Gluten</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Grain" name="intolerances" value="Grain">
+                <label for="Grain">Grain</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Peanut" name="intolerances" value="Peanut">
+                <label for="Peanut">Peanut</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Seafood" name="intolerances" value="Seafood">
+                <label for="Seafood">Seafood</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Sesame" name="intolerances" value="Sesame">
+                <label for="Sesame">Sesame</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Shellfish" name="intolerances" value="Shellfish">
+                <label for="Shellfish">Shellfish</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Soy" name="intolerances" value="Soy">
+                <label for="Soy">Soy</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Sulfite" name="intolerances" value="Sulfite">
+                <label for="Sulfite">Sulfite</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Tree Nut" name="intolerances" value="Tree Nut">
+                <label for="Tree Nut">Tree Nut</label>
+              </div>
+              <div>
+                <input type="checkbox" id="Wheat" name="intolerances" value="Wheat">
+                <label for="Wheat">Wheat</label>
+              </div>
+            </div>
+          </div>
+
           <button  class="cabin-sketch-regular" type="submit" id="search-button">Find Recipes</button>
         </form>
       </div>

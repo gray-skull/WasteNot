@@ -35,13 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // add an event listener to the content div to handle search form submissions
   content.addEventListener("submit", async (event) => {
-    // check if the event target is the search form
-    if (event.target.id === "search-form") {
+    // check if the event target is the search form and the submit button was clicked
+    if (event.target.id === "search-form" && event.submitter.id === "search-button") {
         event.preventDefault(); // prevent the default form submission behavior
 
         // TODO: add input validation here to ensure ingredients are a comma-separated list
         // get the ingredients from the form input
         const ingredients = event.target.elements.ingredients.value;
+        // get the diet from the select element
+        const diet = Array.from(event.target.elements.diet).filter(d => d.checked).map(d => d.value).join(",");
+        // get the intolerances from the selection boxes for intolerances
+        const intolerances = Array.from(event.target.elements.intolerances).filter(i => i.checked).map(i => i.value).join(",");
 
         try { // try to fetch the recipes from the server
           const response = await fetch("http://localhost:3000/recipes", {
@@ -49,7 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ ingredients }) // send the ingredients as JSON
+            // stringify the ingredients, diet, and intolerances and send them in the request body
+            body: JSON.stringify({ ingredients, diet, intolerances })
           });
 
           // if the response from the fetch is OK (status 200), parse the JSON and display the recipes
@@ -80,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 </a>
                 <img src="${recipe.image}" alt="${recipe.title}" />
               `;
-              console.log(recipe.image);
               recipesList.appendChild(li);
             });
             }
@@ -92,8 +96,43 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error fetching recipes", error);
         alert("Error fetching recipes");
       }
+
+      // scroll to the first result
+      const firstResult = document.getElementById("recipes-list").firstElementChild;
+      if (firstResult) {
+        firstResult.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
     }
   });
 });
+
+function toggleDietCheckboxArea() {
+  const dietCheckboxArea = document.getElementById("dietCheckboxArea");
+  const button = document.getElementById("toggle-diet");
+
+  if (dietCheckboxArea.style.display === "none" || dietCheckboxArea.style.display === "") {
+    dietCheckboxArea.style.display = "flex";
+    button.textContent = "Hide Diet Options";
+  } else {
+    dietCheckboxArea.style.display = "none";
+    button.textContent = "Show Diet Options";
+  }
+}
+
+function toggleIntoleranceCheckboxArea() {
+  const intolerancesCheckboxArea = document.getElementById("intolerancesCheckboxArea");
+  const button = document.getElementById("toggle-intolerances");
+
+  if (intolerancesCheckboxArea.style.display === "none" || intolerancesCheckboxArea.style.display === "") {
+    intolerancesCheckboxArea.style.display = "flex";
+    button.textContent = "Hide Intolerances Options";
+  } else {
+    intolerancesCheckboxArea.style.display = "none";
+    button.textContent = "Show Intolerances Options";
+  }
+}
+
+
 
 
