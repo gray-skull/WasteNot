@@ -11,6 +11,7 @@ const mongoURI = process.env.MONGO_URI
 const port = process.env.PORT || 8080
 
 const app = express()
+const path = require("path")
 
 // Middleware
 app.use(bodyParser.json())
@@ -40,14 +41,15 @@ async function connectToDatabase() {
 connectToDatabase()
 
 // Reference to the database
-const database = client.db("wastenot") 
+const database = client.db("wastenot")
 const recipesCollection = database.collection("recipes") // Collection for recipes
 
 // Routes
+// Serve static files from the WasteNot root directory
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html")
+  app.use(express.static(path.join(__dirname, ".."))) // to ensure index.html is served
+  res.sendFile(path.join(__dirname, "..", "index.html"))
 })
-
 // Fetch recipes from Spoonacular API
 app.post("/recipes", async (req, res) => {
   // Get ingredients from the request body
@@ -58,19 +60,17 @@ app.post("/recipes", async (req, res) => {
 
   // Check if ingredients are provided
   if (!ingredients) {
-    return res
-      .status(400)
-      .json({ 
-              "status": "error",
-              "message": "no ingredients given"
-            });
+    return res.status(400).json({
+      status: "error",
+      message: "no ingredients given"
+    })
   }
 
   // Construct the URL with the ingredients
   let urlWithIngredients = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&includeIngredients=${ingredients}&sort=max-used-ingredients&number=${resultLimit}`
 
   // add diet and intolerances to the URL if provided
-  if(diet !== "All Diets") {
+  if (diet !== "All Diets") {
     urlWithIngredients += `&diet=${diet}`
   }
   if (intolerances !== "None") {
@@ -83,9 +83,7 @@ app.post("/recipes", async (req, res) => {
 
     if (response.data.results.length === 0) {
       console.log("No recipes found")
-      return res
-        .status(200)
-        .json("No recipes found");
+      return res.status(200).json("No recipes found")
     }
 
     // Transform data and prepare for MongoDB
@@ -93,7 +91,9 @@ app.post("/recipes", async (req, res) => {
       id: recipe.id,
       title: recipe.title,
       image: recipe.image,
-      ingredients: recipe.missedIngredients ? recipe.missedIngredients.map(ing => ing.name) : "Ingredients not provided by Spoonacular API", // Placeholder
+      ingredients: recipe.missedIngredients
+        ? recipe.missedIngredients.map(ing => ing.name)
+        : "Ingredients not provided by Spoonacular API", // Placeholder
       instructions: "Instructions not provided by Spoonacular API", // Placeholder
       filters: [], // Add filters if needed
       createdAt: new Date()
@@ -109,8 +109,8 @@ app.post("/recipes", async (req, res) => {
       }
     }))
 
-    await recipesCollection.bulkWrite(bulkWriteRecipes);
-    
+    await recipesCollection.bulkWrite(bulkWriteRecipes)
+
     res.status(200).json(recipes)
   } catch (error) {
     console.error("Error fetching recipes:", error)
@@ -140,7 +140,7 @@ app.get("/recipe/:id", async (req, res) => {
       .status(500)
       .json({ error: "Error fetching recipe details from Spoonacular API" })
   }
-});
+})
 
 // Fetch saved recipes from MongoDB
 app.get("/saved-recipes", async (req, res) => {
