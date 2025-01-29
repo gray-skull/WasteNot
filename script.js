@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .join(",") // get the intolerances from the selection boxes for intolerances
       const resultLimit = event.target.elements.resultLimit.value // get the result limit from the form input
 
-      const backendUrl = `${window.location.origin.replace(/:\d+$/, ":8080")}` // Replace port with backend port & made the port dynamic
+      const backendUrl = `${window.location.origin.replace(/:\d+$/, ":8080")}` // Replace port with backend port
 
       try {
         // try to fetch the recipes from the server
