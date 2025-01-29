@@ -10,6 +10,7 @@
       <div class="search-content">
         <form id="search-form">
           <h4>Enter ingredients you have at home:</h4>
+          <section id="error-message"></section>
           <input type="text" name="ingredients" id="ingredients" placeholder="Enter ingredients, comma-separated">
           
           <div class="diet-checkbox-container">
@@ -116,7 +117,20 @@
             </div>
           </div>
 
-          <button  class="cabin-sketch-regular" type="submit" id="search-button">Find Recipes</button>
+          <div class="search-button-area">
+            <label for="resultLimit" id="resultLimitLabel"># of Results:
+              <select id="resultLimit" name="resultLimit">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+            </label>
+
+            <button  class="cabin-sketch-regular" type="submit" id="search-button">Find Recipes</button>
+            
+            <button  class="cabin-sketch-regular" type="button" id="clear-button" onclick="clearSearch()">Clear</button>
+          </div>
+
         </form>
       </div>
 

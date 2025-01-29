@@ -168,7 +168,7 @@ input[type="text"]::placeholder {
 .toggle-button {
     font-size: 0.8rem;
     font-weight: bold;
-    width: 100%;
+    width: 60%;
     height: auto;
     margin: 0.5rem 0rem;
     padding: 0.2rem;
@@ -227,14 +227,48 @@ input[type="checkbox"]:checked + label {
     box-shadow: var(--shadow-standard);
 }
 
+/* buttons */
+
+div.search-button-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0rem 0rem;
+    width: 100%;
+    height: auto;
+    margin: 1rem auto;
+    justify-items: center;
+    text-align: center;
+}
+
+label#resultLimitLabel {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin: 0rem;
+}
+
+select#resultLimit {
+    font-size: 0.8rem;
+    font-weight: bold;
+    width: 3rem;
+    height: auto;
+    margin: 0rem auto;
+    padding: 0.2rem;
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color-dark);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    text-justify: center;
+}
 
 button#search-button {
     font-size: 1.6rem;
     font-weight: bodler;
 
-    width: 100%;
+    width: 80%;
     height: auto;
-    margin: 1rem 0rem 0rem 0rem;
+    margin: 1rem auto;
     padding: 0.5rem;
 
     background-color: var(--tertiary-color);
@@ -248,6 +282,29 @@ button#search-button:hover {
     color: var(--tertiary-color-dark);
     text-shadow: var(--shadow-standard); /* Highlight color on hover */
 }
+
+button#clear-button {
+    font-size: 1rem;
+    font-weight: bold;
+
+    width: 40%;
+    height: auto;
+    margin: 0rem auto;
+    padding: 0.2rem;
+
+    background-color: var(--main-color);
+    border-radius: 20px;
+
+    cursor: pointer;
+}
+
+button#clear-button:hover {
+    color: var(--tertiary-color-dark);
+    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+}
+
+
+
 
 /* Search results section */
 

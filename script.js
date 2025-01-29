@@ -38,14 +38,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // check if the event target is the search form and the submit button was clicked
     if (event.target.id === "search-form" && event.submitter.id === "search-button") {
         event.preventDefault(); // prevent the default form submission behavior
+        const errorDiv = document.getElementById("error-message"); // get the error message div
 
         // TODO: add input validation here to ensure ingredients are a comma-separated list
-        // get the ingredients from the form input
-        const ingredients = event.target.elements.ingredients.value;
-        // get the diet from the select element
-        const diet = Array.from(event.target.elements.diet).filter(d => d.checked).map(d => d.value).join(",");
-        // get the intolerances from the selection boxes for intolerances
-        const intolerances = Array.from(event.target.elements.intolerances).filter(i => i.checked).map(i => i.value).join(",");
+        
+        var ingredients = event.target.elements.ingredients.value; // get the ingredients from the form input
+        // parse the ingredients to ensure it is a comma-separated list and doesn't contain any special characters or numbers
+        if (ingredients === "") {
+          errorDiv.textContent = "Please enter at least one ingredient"; // display an error message if no ingredients are entered
+          return;
+        }
+        if (!ingredients.match(/^[a-zA-Z, ]+$/)) {
+          errorDiv.textContent = "Please enter a valid list of ingredients"; // display an error message if the ingredients contain special characters or numbers
+          return;
+        }
+        if (ingredients.includes(",")) {
+          ingredients = ingredients.split(",").map(ing => ing.trim()).join(","); // split the ingredients by comma, trim whitespace, and join back with comma
+        }
+
+
+
+        const diet = Array.from(event.target.elements.diet).filter(d => d.checked).map(d => d.value).join(","); // get the diet from the select element
+        const intolerances = Array.from(event.target.elements.intolerances).filter(i => i.checked).map(i => i.value).join(","); // get the intolerances from the selection boxes for intolerances
+        const resultLimit = event.target.elements.resultLimit.value; // get the result limit from the form input
 
         try { // try to fetch the recipes from the server
           const response = await fetch("http://localhost:3000/recipes", {
@@ -54,58 +69,59 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Content-Type": "application/json"
             },
             // stringify the ingredients, diet, and intolerances and send them in the request body
-            body: JSON.stringify({ ingredients, diet, intolerances })
+            body: JSON.stringify({ ingredients, diet, intolerances, resultLimit })
           });
-
-          // if the response from the fetch is OK (status 200), parse the JSON and display the recipes
-          if (response.ok) {
-            // parse the JSON response from the server 
-            const recipes = await response.json();
-            // get the search results div
-            const searchResults = document.getElementById('search-results');
-            // add a divider and an empty <ul> element to the search results div
-            searchResults.innerHTML = `<div class="divider"></div>
-                                      <ul id="recipes-list"></ul>
-                                      `;
-            const recipesList = document.getElementById("recipes-list");
-            recipesList.innerHTML = "";
-
-            // if no recipes are found or response is "No recipes found", display a message
-            if(recipes.length === 0 || recipes === "No recipes found") {
+          
+          if (response.ok) { // if the response from the fetch is OK (status 200), parse the JSON and display the recipes
+            const recipes = await response.json(); // parse the JSON response from the server into an array of recipes
+            const searchResults = document.getElementById('search-results'); // get the search results div
+            
+            searchResults.innerHTML = `<div class="divider"></div>  
+                                       <ul id="recipes-list"></ul>
+                                      `; // add a divider and an empty <ul> element to the search results div
+            const recipesList = document.getElementById("recipes-list"); // get the <ul> element
+            recipesList.innerHTML = ""; // clear the <ul> element
+            
+            if(recipes.length === 0 || recipes === "No recipes found") { // if no recipes are found or response is "No recipes found", display a message
               recipesList.innerHTML = "<li><h3>Sorry, no recipes found</h3></li>";
             } else { // otherwise, display the recipes
-            recipes.forEach(recipe => {
-              // <li> links to recipe.html but still needs to connect to backend for details
-              // TODO: link <li> recipe description and prep time to results to backend
+            recipes.forEach(recipe => { // iterate over the recipes array and create an <li> element for each recipe
               const li = document.createElement("li");
               li.innerHTML = `
                 <a href="recipe.html?id=${recipe.id}">
                   <h3>${recipe.title}</h3>
-                  
+                  <img src="${recipe.image}" alt="${recipe.title}" />
                 </a>
-                <img src="${recipe.image}" alt="${recipe.title}" />
               `;
-              recipesList.appendChild(li);
+              recipesList.appendChild(li); // append the <li> element to the <ul> element
             });
+
+            // scroll to the first result
+            const firstResult = document.getElementById("recipes-list").firstElementChild; // get the first result
+            if (firstResult) {
+              firstResult.scrollIntoView({ behavior: "smooth", block: "start" }); // scroll to the first result
             }
 
+            }
+          } else if (response.status === 400) { // if the response status is 400, display an error message
+              const errorData = await response.json(); // parse the JSON response from the server
+              const searchResults = document.getElementById('search-results'); // get the search results div
+              if (errorData.message == "no ingredients given") { // if the error message is "no ingredients given", display a message
+                errorDiv.textContent = "Please enter at least one ingredient";
+              } else { // otherwise, display a generic error message
+                errorDiv.textContent = "An error occurred. Please try again.";
+              }
           } else { // if the response is not OK, throw an error with the status and parameter "error" from the response
-            throw new Error(`${response.status}: ${await response.text()}`);
+            throw new Error(`${response.status}: ${await response.text()}`);  
           }
       } catch (error) { // catch any errors and log them to the console
         console.error(error.message);
       }
-
-      // scroll to the first result
-      const firstResult = document.getElementById("recipes-list").firstElementChild;
-      if (firstResult) {
-        firstResult.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
     }
   });
 });
 
+// Function to toggle the display of the diet options
 function toggleDietCheckboxArea() {
   const dietCheckboxArea = document.getElementById("dietCheckboxArea");
   const button = document.getElementById("toggle-diet");
@@ -119,6 +135,7 @@ function toggleDietCheckboxArea() {
   }
 }
 
+// Function to toggle the display of the intolerances options
 function toggleIntoleranceCheckboxArea() {
   const intolerancesCheckboxArea = document.getElementById("intolerancesCheckboxArea");
   const button = document.getElementById("toggle-intolerances");
@@ -130,6 +147,12 @@ function toggleIntoleranceCheckboxArea() {
     intolerancesCheckboxArea.style.display = "none";
     button.textContent = "Show Intolerances Options";
   }
+}
+
+// Function to clear the search form
+function clearSearch() {
+  document.getElementById("search-form").reset();
+  document.getElementById("search-results").innerHTML = "";
 }
 
 
