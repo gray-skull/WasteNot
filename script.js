@@ -19,6 +19,27 @@ document.addEventListener("DOMContentLoaded", () => {
       // catch any page load errors and display an error message on the page
       content.innerHTML = `<h1>Error</h1><p>Could not load the page. ${error.message}</p>`
     }
+
+    if(page === "home") {
+      const errorDiv = document.getElementById("error-message") // get the error message div
+      errorDiv.textContent = "" // clear any previous error messages
+      errorDiv.style.display = "none" // hide the error message div
+      // get the current date
+      const date = new Date();
+      // get the current hour
+      const hour = date.getHours();
+      // get the greeting div
+      const greeting = document.getElementById("greeting");
+      // set the greeting based on the time of day
+      if (hour < 12) {
+        greeting.textContent = "Good Morning!";
+      } else if (hour < 18) {
+        greeting.textContent = "Good Afternoon!";
+      } else {
+        greeting.textContent = "Good Evening!";
+      }
+
+    }
   }
 
   // Set default page
@@ -44,16 +65,20 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
       event.preventDefault() // prevent the default form submission behavior
       const errorDiv = document.getElementById("error-message") // get the error message div
+      errorDiv.textContent = "" // clear any previous error messages
+      errorDiv.style.display = "none" // hide the error message div
 
       // TODO: add input validation here to ensure ingredients are a comma-separated list
 
       var ingredients = event.target.elements.ingredients.value // get the ingredients from the form input
       // parse the ingredients to ensure it is a comma-separated list and doesn't contain any special characters or numbers
       if (ingredients === "") {
-        errorDiv.textContent = "Please enter at least one ingredient" // display an error message if no ingredients are entered
+        errorDiv.style.display = "block" // display the error message div
+        errorDiv.textContent = "Please enter at least one ingredient!" // display an error message if no ingredients are entered
         return
       }
       if (!ingredients.match(/^[a-zA-Z, ]+$/)) {
+        errorDiv.style.display = "block" // display the error message div
         errorDiv.textContent = "Please enter a valid list of ingredients" // display an error message if the ingredients contain special characters or numbers
         return
       }
@@ -98,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const recipesList = document.getElementById("recipes-list") // get the <ul> element
           recipesList.innerHTML = "" // clear the <ul> element
 
-          if (recipes.length === 0 || recipes === "No recipes found") {
+          if (recipes.length === 0 || recipes === "Frontend: No recipes found") {
             // if no recipes are found or response is "No recipes found", display a message
             recipesList.innerHTML = "<li><h3>Sorry, no recipes found</h3></li>"
           } else {
@@ -125,10 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (response.status === 400) {
           // if the response status is 400, display an error message
           const errorData = await response.json() // parse the JSON response from the server
-          const searchResults = document.getElementById("search-results") // get the search results div
+          errorDiv.style.display = "block" // display the error message div
           if (errorData.message == "no ingredients given") {
             // if the error message is "no ingredients given", display a message
-            errorDiv.textContent = "Please enter at least one ingredient"
+            errorDiv.textContent = "Please enter at least one ingredient!"
           } else {
             // otherwise, display a generic error message
             errorDiv.textContent = "An error occurred. Please try again."

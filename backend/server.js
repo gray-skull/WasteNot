@@ -70,10 +70,10 @@ app.post("/recipes", async (req, res) => {
   let urlWithIngredients = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&includeIngredients=${ingredients}&sort=max-used-ingredients&number=${resultLimit}`
 
   // add diet and intolerances to the URL if provided
-  if (diet !== "All Diets") {
+  if (diet !== "") {
     urlWithIngredients += `&diet=${diet}`
   }
-  if (intolerances !== "None") {
+  if (intolerances !== "") {
     urlWithIngredients += `&intolerances=${intolerances}`
   }
 
@@ -82,7 +82,7 @@ app.post("/recipes", async (req, res) => {
     const response = await axios.get(urlWithIngredients)
 
     if (response.data.results.length === 0) {
-      console.log("No recipes found")
+      console.log("Backend: No recipes found")
       return res.status(200).json("No recipes found")
     }
 
@@ -115,7 +115,7 @@ app.post("/recipes", async (req, res) => {
   } catch (error) {
     console.error("Error fetching recipes:", error)
     res
-      .status(500)
+      .status(error.status || 500)
       .json({ error: "Error fetching recipes from Spoonacular API" })
   }
 })

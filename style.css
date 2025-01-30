@@ -15,32 +15,88 @@
 @media (min-width: 600px) {
     /* Adjust styles for screens larger than 600px */
     body {
-        font-size: 18px;
+        font-size: 16px;
     }
 
-    .container {
-        max-width: 1200px;
+    .rounded-card {
+        max-width: 600px;
         margin: 0 auto;
     }
 
-    .nav-menu {
+    .bottom-menu {
         display: flex;
         justify-content: space-between;
     }
 
-    .sidebar {
-        display: block;
-        width: 250px;
+    /* Any other styles you need for larger screens */
+}
+
+@media (max-width: 475px) {
+    /* Adjust styles for screens smaller than 450px */
+    * {
+        font-size: 20px;
     }
 
-    /* Any other styles you need for larger screens */
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
+    img#logo {
+        width: 50% !important;
+    }
+
+    .rounded-card {
+        width: 98% !important;
+        margin: 0.5rem auto !important;
+    }
+
+    .toggle-button {
+        width: 80% !important;
+    }
+
+    .bottom-menu {
+        flex-wrap: wrap !important;
+    }
+
+    .bottom-menu a {
+        padding: 1.5rem 0rem !important;
+        margin: 0rem !important;
+        height: auto !important;
+        width: 50% !important;
+    }
+
+    body {
+        margin: 0rem 0rem 4rem 0rem !important;
+    }
+
+    /* Any other styles you need for smaller screens */
 }
 
 /*global styles*/
 
 * {
     font-family: "Georgia", serif;
-    font-size: 18px;
+    font-size: 16px;
     box-sizing: border-box;
     margin: 0rem;
     padding: 0rem;
@@ -75,7 +131,7 @@
     padding: 0.5rem 0.5rem;
     margin: 0rem 0rem 0.5rem 0rem;
     box-shadow: var(--shadow-standard);
-    max-width: 400px;
+    max-width: 450px;
     margin: 1rem auto;
 }   
 
@@ -105,7 +161,6 @@ img.feature-icon {
 img#logo {
     width: 60%;
     height: auto;
-    max-width: 400px;
 }
 
 html {
@@ -130,12 +185,37 @@ body {
 
 header {
     margin: 0rem auto;
-    max-width: 400px;
+    max-width: 450px;
 }
 
 main {
-    max-width: 400px;
+    max-width: 450px;
     margin: 0.5rem auto 0rem auto;
+}
+
+section#error-message {
+    font-size: 1rem;
+    margin: 0rem auto;
+    width: 90%;
+    padding: 0.5rem;
+    border: 2px solid var(--tertiary-color-dark);
+    border-radius: 10px;
+    color: black;
+    background: var(--main-color);
+    font-style: italic;
+    animation: color-flash 2s ease-in-out;
+}
+
+@keyframes color-flash {
+    0% {
+        background: var(--main-color);
+    }
+    50% {
+        background: var(--tertiary-color);
+    }
+    100% {
+        background: var(--main-color);
+    }
 }
 
 form#search-form {
@@ -144,12 +224,12 @@ form#search-form {
 }
 
 input[type="text"] {
-    width: 100%;
+    width: 95%;
     height: auto;
     padding: 1rem;
-    margin: 1rem 0rem;
+    margin: 0rem auto 1rem auto;
     border: 2px solid var(--main-color-dark);
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: var(--main-color);
 }
 
@@ -166,11 +246,9 @@ input[type="text"]::placeholder {
 }
 
 .toggle-button {
-    font-size: 0.8rem;
-    font-weight: bold;
     width: 60%;
     height: auto;
-    margin: 0.5rem 0rem;
+    margin: 0rem 0rem 1rem 0rem;
     padding: 0.2rem;
     background-color: var(--secondary-color);
     border: 1px solid var(--tertiary-color-dark);
@@ -180,22 +258,22 @@ input[type="text"]::placeholder {
 
 div#dietCheckboxArea {
     display: none;
-    flex-wrap: wrap;
-    gap: 1rem 0rem; 
-    width: 100%;
-    height: auto;
-    margin: 1rem auto;
-    justify-items: start;
-    text-align: center;
 }
 
 div#intolerancesCheckboxArea {
     display: none;
+}
+
+.checkboxArea {
+    line-height: 2.1rem;
     flex-wrap: wrap;
-    gap: 1rem 0rem; 
+    background: var(--main-color);
+    border-radius: 20px;
+    padding: 0.5rem;
+    gap: 0rem; 
     width: 100%;
     height: auto;
-    margin: 1rem auto;
+    margin: 0rem auto 1rem auto;
     justify-items: start;
     text-align: center;
 }
@@ -208,6 +286,14 @@ div#dietCheckboxArea label, div#intolerancesCheckboxArea label {
     border: 1px solid var(--tertiary-color-dark);
     cursor: pointer;
     transition: color 0.3s ease;
+}
+
+.filter-instructions {
+    color: var(--secondary-color-dark);
+    
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin: 0rem;
 }
 
 input[type="checkbox"] {
@@ -272,6 +358,7 @@ button#search-button {
     padding: 0.5rem;
 
     background-color: var(--tertiary-color);
+    border: 2px solid var(--tertiary-color-dark);
     border-radius: 20px;
     box-shadow: var(--shadow-standard);
 
@@ -279,13 +366,14 @@ button#search-button {
 }
 
 button#search-button:hover {
-    color: var(--tertiary-color-dark);
+    color: white;
     text-shadow: var(--shadow-standard); /* Highlight color on hover */
 }
 
 button#clear-button {
     font-size: 1rem;
     font-weight: bold;
+    color: var(--tertiary-color-dark);
 
     width: 40%;
     height: auto;
@@ -299,12 +387,8 @@ button#clear-button {
 }
 
 button#clear-button:hover {
-    color: var(--tertiary-color-dark);
-    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+    color: var(--tertiary-color);
 }
-
-
-
 
 /* Search results section */
 
@@ -385,32 +469,40 @@ footer {
 /*bottom menu*/
 
 .bottom-menu {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+
     position:fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: auto;
-    border-radius: 35px;
-    display: flex;
-    justify-content: space-evenly;
+
+    width: 100%;
+    height: auto;
+
+    border-radius: 0px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-    margin: 6px;
+
+    margin: 6px auto;
     padding: 0px;
 }
 
 .bottom-menu a {
     color: black;
-    font-size: auto;
-    font-family: "Cabin Sketch", serif;
+    font-size: 1.2rem;
+    font-family: Georgia, serif;
     font-weight: 700;
     font-style: normal; 
     text-decoration: none;
     border: 1px solid var(--tertiary-color-dark);
-    background-color: #fa6a5dd0;
-    border-radius: 20px;
+    background-color: var(--tertiary-color);
+    border-radius: 10px;
     width: 100%;
     height: auto;
-    padding: 20px 0px;
+    padding: 1rem 0rem;
+    margin: 0px auto;
     text-align: center;
 }
 
@@ -490,7 +582,7 @@ footer {
 /*global tags*/
 
 h1, h2, h3, h4, h5 {
-    margin: 0.5rem 0rem;
+    margin: 0.4rem auto;
 }
 
 h1 {
@@ -514,8 +606,9 @@ h5 {
 }
 
 p {
-    line-height: 30px;
-    margin: 0.5rem 0.5rem;
+    font-size: 0.8rem;
+    line-height: 20px;
+    margin: 0rem 1rem;
 }
 
 
