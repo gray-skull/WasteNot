@@ -159,8 +159,7 @@ img.feature-icon {
 }
 
 img#logo {
-    width: 60%;
-    height: auto;
+    width: 50%;
 }
 
 html {
@@ -186,6 +185,12 @@ body {
 header {
     margin: 0rem auto;
     max-width: 450px;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin: 0rem auto;
+    padding: 0rem;
 }
 
 main {
@@ -220,14 +225,14 @@ section#error-message {
 
 form#search-form {
     width: 100%;
-    margin: 0rem 0rem 1rem 0rem;
+    height: auto;
 }
 
 input[type="text"] {
     width: 95%;
     height: auto;
     padding: 1rem;
-    margin: 0rem auto 1rem auto;
+    margin: 1rem auto;
     border: 2px solid var(--main-color-dark);
     border-radius: 10px;
     background-color: var(--main-color);
@@ -248,7 +253,7 @@ input[type="text"]::placeholder {
 .toggle-button {
     width: 60%;
     height: auto;
-    margin: 0rem 0rem 1rem 0rem;
+    margin: 1rem 0rem 0rem 0rem;
     padding: 0.2rem;
     background-color: var(--secondary-color);
     border: 1px solid var(--tertiary-color-dark);
@@ -319,12 +324,13 @@ div.search-button-area {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 0rem 0rem;
+    gap: 0.5rem 0rem;
     width: 100%;
     height: auto;
-    margin: 1rem auto;
+    margin: 0rem auto 1rem auto;
     justify-items: center;
     text-align: center;
+    line-height: 2rem;
 }
 
 label#resultLimitLabel {
@@ -354,7 +360,7 @@ button#search-button {
 
     width: 80%;
     height: auto;
-    margin: 1rem auto;
+    margin: 0rem auto;
     padding: 0.5rem;
 
     background-color: var(--tertiary-color);
@@ -377,7 +383,7 @@ button#clear-button {
 
     width: 40%;
     height: auto;
-    margin: 0rem auto;
+    margin: auto;
     padding: 0.2rem;
 
     background-color: var(--main-color);
@@ -497,7 +503,7 @@ footer {
     font-style: normal; 
     text-decoration: none;
     border: 1px solid var(--tertiary-color-dark);
-    background-color: var(--tertiary-color);
+    background-color: #ff6e61df;
     border-radius: 10px;
     width: 100%;
     height: auto;

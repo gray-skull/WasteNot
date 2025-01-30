@@ -1,7 +1,7 @@
 <header id="header">
     <div class="logo rounded-card">
       <img src="./content/images/logo.webp" id="logo" alt="WasteNot logo" />
-      <h1 class="cabin-sketch-regular"><br />Cook Smarter, Waste Less!</h1>
+      <h1 class="cabin-sketch-regular">Cook Smarter, Waste Less!</h1>
     </div>
   </header>
 
@@ -13,7 +13,21 @@
           <h4>Enter ingredients you have at home:</h4>
           
           <input type="text" name="ingredients" id="ingredients" placeholder="Enter ingredients, comma-separated">
+          
           <section id="error-message"></section>
+
+          <div class="search-button-area">
+            <button class="cabin-sketch-regular" type="submit" id="search-button">Find Recipes</button>
+            <label for="resultLimit" id="resultLimitLabel"># of Results:
+              <select id="resultLimit" name="resultLimit">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+            </label>
+            <button type="button" id="clear-button" onclick="clearSearch()">Clear</button>
+          </div>
+
           <div class="diet-checkbox-container">
             <h4>Filters:</h4>
             <button type="button" class="toggle-button" id="toggle-diet" onclick="toggleDietCheckboxArea()">Show Diet Options</button>
@@ -121,19 +135,7 @@
             </div>
           </div>
 
-          <div class="search-button-area">
-            <label for="resultLimit" id="resultLimitLabel"># of Results:
-              <select id="resultLimit" name="resultLimit">
-                <option value="2">2</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-              </select>
-            </label>
 
-            <button class="cabin-sketch-regular" type="submit" id="search-button">Find Recipes</button>
-            
-            <button type="button" id="clear-button" onclick="clearSearch()">Clear</button>
-          </div>
 
         </form>
       </div>
