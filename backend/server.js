@@ -4,17 +4,44 @@ const axios = require("axios")
 const cors = require("cors")
 const { MongoClient, ServerApiVersion } = require("mongodb")
 
+const authRoutes = require("./routes/authRoutes"); //Added for profile integration
+const jwt = require("jsonwebtoken");
+
 require("dotenv").config()
 
 const apiKey = process.env.SPOONACULAR_API_KEY
 const mongoURI = process.env.MONGO_URI
 const port = process.env.PORT || 8080
 
+const authMiddleware = require("./middleware/authMiddleware");
+
+app.get("/profile", authMiddleware, async (req, res) =>{
+  const user = await User.findById(req.user.userId).populate("savedRecipes");
+  res.json(user);
+});
+
 const app = express()
 
 // Middleware
 app.use(bodyParser.json())
 app.use(cors()) // Enable CORS for development
+
+app.use("/auth", authRoutes); //Added for profile integration
+const authMiddleware = (req, res, next) => {
+  const token = req.header("Authorization");
+
+  if (!token) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ error: "Invalid token" });
+  }
+};
+
+module.exports = authMiddleware;
 
 // Initialize MongoDB Client
 const client = new MongoClient(mongoURI, {

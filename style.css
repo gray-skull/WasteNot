@@ -33,6 +33,10 @@
         width: 250px;
     }
 
+    form {
+        width: 90%;
+    }
+
     /* Any other styles you need for larger screens */
 }
 
@@ -399,6 +403,75 @@ h5 {
 p {
     line-height: 30px;
     margin: 0.5rem 0.5rem;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: var(--tertiary-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.auth-buttons button:hover {
+    background-color: var(--tertiary-color-dark);
+}
+
+#welcome-user {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: bold;
+}
+
+#logout-btn {
+    background-color: var(--main-color-dark);
+}
+
+#logout-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+form {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--main-color);
+    border-radius: 10px;
+    box-shadow: var(--shadow-standard);
+}
+
+form input {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 2px solid var(--main-color-dark);
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+form button {
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: var(--tertiary-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+form button:hover {
+    background-color: var(--tertiary-color-dark);
 }
 
 

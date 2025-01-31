@@ -1,2 +1,21 @@
-<h1>Coming Soon!</h1>
-<p>Manage your personal details.</p>
+<h1>Welcome to your profile!</h1>
+<div id="user-info"></div>
+
+<script>
+    async function fetchProfile() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            window.location.hred = "login.html";
+            return;
+        }
+
+        const response = await fetch("http://localhost:8080/profile", {
+            headers: { Authorization: token },
+        });
+
+        const user = await response.json();
+        document.getElementById("user-info").innerHTML = `<h2>${user.username}</h2>`;
+    }
+
+    fetchProfile();
+</script>

@@ -94,6 +94,56 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+  //Handle user login
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const loginError = document.getElementById("login-error");
+
+      try {
+        const response = await fetch("http://localhost:8080/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          window.location.href = "profile.html";
+        } else {
+          loginError.textContent = data.error;
+        }
+      } catch (error) {
+        loginError.textContent = "Login failed. Please try again.";
+        console.error("Login error:", error);
+      }
+    });
+  }
+
+  // Check user auth status
+  function checkAuth(){
+    const token = localStorage.getItem("token");
+    if(!token) {
+      if (window.location.pathname.includes("profile.html")) {
+        window.location.href = "login.html";
+      }
+    }
+  }
+  checkAuth();
+
+  //Logout handling
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn){
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    });
+  }
 });
-
-

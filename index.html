@@ -16,7 +16,18 @@
         <script src="script.js"></script>
     </head>
 
+    <!--Added login, sign up, and log out-->
     <body>
+        <header>
+            <div class="auth-buttons">
+                <button id="login-btn">Login</button>
+                <button id="signup-btn">Sign Up</button>
+                <span id="welcome-user" style="display: none;"></span>
+                <button id="logout-btn" style="display: none;">Logout</button>
+            </div>
+        </header>
+
+
         <div id="content">
             <!--dynamic content gets inserted here by script.js-->
         </div>
@@ -36,5 +47,44 @@
         <a href="#" data-page="settings">SETTINGS</a>
     </nav>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginBtn = document.getElementById("login-btn");
+            const signupBtn = document.getElementById("signup-btn");
+            const logoutBtn = document.getElementById("logout-btn");
+            const welcomeUser = document.getElementById("welcome-user");
+
+            const user = localStorage.getItem("user"); //Retrieve user from storage
+
+            if (user) {
+                //If the user is logged in
+                loginBtn.style.display = "none";
+                signupBtn.style.display = "none";
+                welcomeUser.style.display = "inline";
+                welcomeUser.innerText = `Welcome, ${user}!`;
+                logoutBtn.style.display = "inline";
+            } else {
+                //If no user is logged in
+                loginBtn.style.display = "inline";
+                signupBtn.style.display = "inline";
+                welcomeUser.style.display = "none";
+                logoutBtn.style.display = "none";
+            }
+
+            loginBtn.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
+
+            signupBtn.addEventListener("click", () => {
+                window.location.href = "signup.html";
+            });
+
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                window.location.reload();
+            });
+        });
+    </script>
     
 </html>
