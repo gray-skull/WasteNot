@@ -624,18 +624,22 @@ p {
 
 .auth-buttons button {
     padding: 0.7rem 1.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: var(--tertiary-color);
-    border: none;
+    color: black;
+    font-size: 1.2rem;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-style: normal; 
+    text-decoration: none;
+    border: 1px solid var(--tertiary-color-dark);
+    background-color: #ff6e61df;
     border-radius: 10px;
     cursor: pointer;
     transition: background 0.3s ease-in-out;
 }
 
 .auth-buttons button:hover {
-    background-color: var(--tertiary-color-dark);
+    color: var(--tertiary-color-dark);
+    text-shadow: var(--shadow-standard);
 }
 
 #welcome-user {
