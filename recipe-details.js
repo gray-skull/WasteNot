@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const response = await fetch(`http://localhost:3000/recipe/${recipeId}`);
 
         if (!response.ok) {
-        throw new Error(`Failed to load recipe details`);
+            throw new Error(`Failed to load recipe details`);
         }
 
         const recipe = await response.json();
@@ -39,20 +39,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p><a href="${recipe.sourceUrl}">${recipe.sourceName}</a></p>
         `;
 
+        const instructionsList = document.getElementById("instructions");
+        instructions.forEach(step => {
+            const li = document.createElement("li");
+            li.textContent = step;
+            instructionsList.appendChild(li);
+        });
 
-    const instructionsList = document.getElementById("instructions");
-    instructions.forEach(step => {
-        const li = document.createElement("li");
-        li.textContent = step;
-        instructionsList.appendChild(li);
-    });
-
-    const ingredientsList = document.getElementById("ingredients");
-    ingredients.forEach(ing => {
-        const li = document.createElement("li");
-        li.textContent = ing;
-        ingredientsList.appendChild(li);
-    });
+        const ingredientsList = document.getElementById("ingredients");
+        ingredients.forEach(ing => {
+            const li = document.createElement("li");
+            li.textContent = ing;
+            ingredientsList.appendChild(li);
+        });
         
     } catch (error) {
         recipeDetails.innerHTML = `<h2>Error</h2><p>Could not load the recipe details. ${error.message}</p>`;

@@ -7,7 +7,7 @@
     --secondary-color-dark: #6d8f5f;
     --tertiary-color: #ff6f61;
     --tertiary-color-dark: #642b26;
-    --shadow-standard: 2px 2px 6px black;
+    --shadow-standard: 2px 2px 6px rgba(0, 0, 0, 0.646);
 }
 
 /*global media queries*/
@@ -15,36 +15,88 @@
 @media (min-width: 600px) {
     /* Adjust styles for screens larger than 600px */
     body {
-        font-size: 18px;
+        font-size: 16px;
     }
 
-    .container {
-        max-width: 1200px;
+    .rounded-card {
+        max-width: 600px;
         margin: 0 auto;
     }
 
-    .nav-menu {
+    .bottom-menu {
         display: flex;
         justify-content: space-between;
     }
 
-    .sidebar {
-        display: block;
-        width: 250px;
-    }
-
-    form {
-        width: 90%;
-    }
-
     /* Any other styles you need for larger screens */
+}
+
+@media (max-width: 475px) {
+    /* Adjust styles for screens smaller than 450px */
+    * {
+        font-size: 20px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
+    img#logo {
+        width: 50% !important;
+    }
+
+    .rounded-card {
+        width: 98% !important;
+        margin: 0.5rem auto !important;
+    }
+
+    .toggle-button {
+        width: 80% !important;
+    }
+
+    .bottom-menu {
+        flex-wrap: wrap !important;
+    }
+
+    .bottom-menu a {
+        padding: 1.5rem 0rem !important;
+        margin: 0rem !important;
+        height: auto !important;
+        width: 50% !important;
+    }
+
+    body {
+        margin: 0rem 0rem 4rem 0rem !important;
+    }
+
+    /* Any other styles you need for smaller screens */
 }
 
 /*global styles*/
 
 * {
     font-family: "Georgia", serif;
-    font-size: 18px;
+    font-size: 16px;
     box-sizing: border-box;
     margin: 0rem;
     padding: 0rem;
@@ -79,7 +131,7 @@
     padding: 0.5rem 0.5rem;
     margin: 0rem 0rem 0.5rem 0rem;
     box-shadow: var(--shadow-standard);
-    max-width: 400px;
+    max-width: 450px;
     margin: 1rem auto;
 }   
 
@@ -107,9 +159,7 @@ img.feature-icon {
 }
 
 img#logo {
-    width: 60%;
-    height: auto;
-    max-width: 400px;
+    width: 50%;
 }
 
 html {
@@ -129,43 +179,192 @@ html, body {
 body {
     background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--secondary-color-dark) 100%);
     ;
-    padding: 0rem 0rem 0rem 0rem;
+    padding: 0rem;
 }
 
 header {
     margin: 0rem auto;
-    max-width: 400px;
+    max-width: 450px;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin: 0rem auto;
+    padding: 0rem;
 }
 
 main {
-    max-width: 400px;
+    max-width: 450px;
     margin: 0.5rem auto 0rem auto;
+}
+
+section#error-message {
+    font-size: 1rem;
+    margin: 0rem auto;
+    width: 90%;
+    padding: 0.5rem;
+    border: 2px solid var(--tertiary-color-dark);
+    border-radius: 10px;
+    color: black;
+    background: var(--main-color);
+    font-style: italic;
+    animation: color-flash 2s ease-in-out;
+}
+
+@keyframes color-flash {
+    0% {
+        background: var(--main-color);
+    }
+    50% {
+        background: var(--tertiary-color);
+    }
+    100% {
+        background: var(--main-color);
+    }
 }
 
 form#search-form {
     width: 100%;
-    margin: 0rem 0rem 1rem 0rem;
+    height: auto;
 }
 
-input#ingredients {
-    appearance: none;
-    width: 100%;
+input[type="text"] {
+    width: 95%;
     height: auto;
     padding: 1rem;
-    margin: 1rem 0rem;
-    border: 2px solid black;
+    margin: 1rem auto;
+    border: 2px solid var(--main-color-dark);
+    border-radius: 10px;
+    background-color: var(--main-color);
+}
+
+input[type="text"]:focus {
+    background-color: var(--secondary-color); /* Slightly darker gray */
+    border-color: var(--tertiary-color-dark); /* Darker blue */
+    outline: none; /* Remove default outline */
+}
+
+input[type="text"]::placeholder {
+    font-size: 1rem;
+    color: #888888; /* Gray placeholder text */
+    opacity: 1; /* Ensure full opacity for placeholder text */
+}
+
+.toggle-button {
+    width: 60%;
+    height: auto;
+    margin: 1rem 0rem 0rem 0rem;
+    padding: 0.2rem;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--tertiary-color-dark);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+div#dietCheckboxArea {
+    display: none;
+}
+
+div#intolerancesCheckboxArea {
+    display: none;
+}
+
+.checkboxArea {
+    line-height: 2.1rem;
+    flex-wrap: wrap;
+    background: var(--main-color);
     border-radius: 20px;
+    padding: 0.5rem;
+    gap: 0rem; 
+    width: 100%;
+    height: auto;
+    margin: 0rem auto 1rem auto;
+    justify-items: start;
+    text-align: center;
+}
+
+div#dietCheckboxArea label, div#intolerancesCheckboxArea label {
+    font-size: 0.8rem;
+    margin: auto;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--tertiary-color-dark);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.filter-instructions {
+    color: var(--secondary-color-dark);
+    
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin: 0rem;
+}
+
+input[type="checkbox"] {
+    appearance: none; /* Remove default appearance */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+}
+
+input[type="checkbox"]:checked {
+    display: none; /* Hide the checked checkbox */
+}
+
+input[type="checkbox"]:checked + label {
+    color: var(--tertiary-color-dark);
+    font-weight: bold;
+    background-color: var(--secondary-color);
+    box-shadow: var(--shadow-standard);
+}
+
+/* buttons */
+
+div.search-button-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.5rem 0rem;
+    width: 100%;
+    height: auto;
+    margin: 0rem auto 1rem auto;
+    justify-items: center;
+    text-align: center;
+    line-height: 2rem;
+}
+
+label#resultLimitLabel {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin: 0rem;
+}
+
+select#resultLimit {
+    font-size: 0.8rem;
+    font-weight: bold;
+    width: 3rem;
+    height: auto;
+    margin: 0rem auto;
+    padding: 0.2rem;
+    background-color: var(--main-color);
+    border: 2px solid var(--main-color-dark);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    text-justify: center;
 }
 
 button#search-button {
     font-size: 1.6rem;
     font-weight: bodler;
 
-    width: 100%;
+    width: 80%;
     height: auto;
+    margin: 0rem auto;
     padding: 0.5rem;
 
     background-color: var(--tertiary-color);
+    border: 2px solid var(--tertiary-color-dark);
     border-radius: 20px;
     box-shadow: var(--shadow-standard);
 
@@ -173,33 +372,31 @@ button#search-button {
 }
 
 button#search-button:hover {
-    color: var(--tertiary-color-dark);
+    color: white;
     text-shadow: var(--shadow-standard); /* Highlight color on hover */
 }
 
-select#recipe-type {
-    font-family: "Cabin Sketch", serif;
-    font-weight: 700;
-    font-style: normal;
-    border-radius: 20px;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
+button#clear-button {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--tertiary-color-dark);
+
+    width: 40%;
     height: auto;
-    background-color: var(--tertiary-color);
-    box-shadow: var(--shadow-standard);
+    margin: auto;
+    padding: 0.2rem;
+
+    background-color: var(--main-color);
+    border-radius: 20px;
+
+    cursor: pointer;
 }
 
-select#recipe-type:hover {
-    color: var(--tertiary-color-dark);
-    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+button#clear-button:hover {
+    color: var(--tertiary-color);
 }
 
-option {
-    font-family: "Cabin Sketch", serif;
-    font-weight: 700;
-    font-style: normal;
-}
+/* Search results section */
 
 ul#recipes-list {
     display: flex;
@@ -212,7 +409,8 @@ ul#recipes-list {
 
 ul#recipes-list h3 {
     font-weight: 400;
-    text-shadow: 0px 0px 4px white;
+    color: var(--tertiary-color-dark);
+    text-shadow: 0px 0px 2px black;
 }
 
 ul#recipes-list li {
@@ -266,38 +464,51 @@ section.image-box img {
     transform: scale(1.1);
 }
 
+/*footer*/
+
 footer {
     margin: 0px auto 100px auto;
     max-width: 400px;
     position: static;
 }
 
+/*bottom menu*/
+
 .bottom-menu {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+
     position:fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 99.2%;
 
-    border-radius: 35px;
-    display: flex;
-    justify-content: space-evenly;
+    width: 100%;
+    height: auto;
+
+    border-radius: 0px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
-    margin: 0px auto;
+
+    margin: 6px auto;
+    padding: 0px;
 }
 
 .bottom-menu a {
     color: black;
-    font-size: 1.0rem;
-    font-family: "Cabin Sketch", serif;
+    font-size: 1.2rem;
+    font-family: Georgia, serif;
     font-weight: 700;
     font-style: normal; 
     text-decoration: none;
     border: 1px solid var(--tertiary-color-dark);
-    background-color: #fa6a5dd0;
-    border-radius: 20px;
+    background-color: #ff6e61df;
+    border-radius: 10px;
     width: 100%;
-    padding: 30px 0px;
+    height: auto;
+    padding: 1rem 0rem;
+    margin: 0px auto;
     text-align: center;
 }
 
@@ -377,7 +588,7 @@ footer {
 /*global tags*/
 
 h1, h2, h3, h4, h5 {
-    margin: 0.5rem 0rem;
+    margin: 0.4rem auto;
 }
 
 h1 {
@@ -401,8 +612,9 @@ h5 {
 }
 
 p {
-    line-height: 30px;
-    margin: 0.5rem 0.5rem;
+    font-size: 0.8rem;
+    line-height: 20px;
+    margin: 0rem 1rem;
 }
 
 .auth-buttons {
