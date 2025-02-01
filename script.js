@@ -1,54 +1,24 @@
 // dynamic content generation for the navigation menu
 document.addEventListener("DOMContentLoaded", () => {
-  // Get the content div
-  const content = document.getElementById("content")
+  let content = document.getElementById("content")
 
-  // Function to load content dynamically
-  async function loadPage(page) {
-    try {
-      // Fetch the page content
-      const response = await fetch(`pages/${page}.html`)
-      if (!response.ok) {
-        // if the response is not OK (status 200), throw an error
-        throw new Error(`Failed to load ${page}.html`)
-      }
-      // if the response is OK, set the content div to the response text
-      const html = await response.text()
-      content.innerHTML = html
-    } catch (error) {
-      // catch any page load errors and display an error message on the page
-      content.innerHTML = `<h1>Error</h1><p>Could not load the page. ${error.message}</p>`
-    }
-
-    if(page === "home") {
-      const errorDiv = document.getElementById("error-message") // get the error message div
-      errorDiv.textContent = "" // clear any previous error messages
-      errorDiv.style.display = "none" // hide the error message div
-      // get the current date
-      const date = new Date();
-      // get the current hour
-      const hour = date.getHours();
-      // get the greeting div
-      const greeting = document.getElementById("greeting");
-      // set the greeting based on the time of day
-      if (hour < 12) {
-        greeting.textContent = "Good Morning!";
-      } else if (hour < 18) {
-        greeting.textContent = "Good Afternoon!";
-      } else {
-        greeting.textContent = "Good Evening!";
-      }
-
-    }
-  }
-
-  // Set default page
+  // Set default page to home
   loadPage("home")
 
   // Add event listeners to menu links
   document.querySelectorAll(".bottom-menu a").forEach(link => {
     link.addEventListener("click", event => {
       event.preventDefault() // Prevent default anchor behavior
+      // Get the page name from the data-page attribute
+      const page = event.target.getAttribute("data-page")
+      // Load the page
+      loadPage(page)
+    })
+  })
+
+  document.querySelectorAll(".auth-buttons button").forEach(button => {
+    button.addEventListener("click", event => {
+      event.preventDefault() // Prevent default button behavior
       // Get the page name from the data-page attribute
       const page = event.target.getAttribute("data-page")
       // Load the page
@@ -169,6 +139,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 })
+
+// Function to load content dynamically
+async function loadPage(page) {
+  try {
+    // Fetch the page content
+    const response = await fetch(`../pages/${page}.html`)
+    if (!response.ok) {
+      // if the response is not OK (status 200), throw an error
+      throw new Error(`Failed to load ${page}.html`)
+    }
+    // if the response is OK, set the content div to the response text
+    //content = document.getElementById("content")
+    const html = await response.text()
+    content.innerHTML = html
+  } catch (error) {
+    // catch any page load errors and display an error message on the page
+    content.innerHTML = `<h1>Error</h1><p>Could not load the page. ${error.message}</p>`
+  }
+
+  if(page === "home") {
+    const errorDiv = document.getElementById("error-message") // get the error message div
+    errorDiv.textContent = "" // clear any previous error messages
+    errorDiv.style.display = "none" // hide the error message div
+    // get the current date
+    const date = new Date();
+    // get the current hour
+    const hour = date.getHours();
+    // get the greeting div
+    const greeting = document.getElementById("greeting");
+    // set the greeting based on the time of day
+    if (hour < 12) {
+      greeting.textContent = "Good Morning!";
+    } else if (hour < 18) {
+      greeting.textContent = "Good Afternoon!";
+    } else {
+      greeting.textContent = "Good Evening!";
+    }
+  }
+}
 
 // Function to toggle the display of the diet options
 function toggleDietCheckboxArea() {

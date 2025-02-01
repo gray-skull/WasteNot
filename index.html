@@ -20,8 +20,8 @@
     <body>
         <header>
             <div class="auth-buttons">
-                <button id="login-btn">Login</button>
-                <button id="signup-btn">Sign Up</button>
+                <button id="login-btn" data-page="login">Login</button>
+                <button id="signup-btn" data-page="signup">Sign Up</button>
                 <span id="welcome-user" style="display: none;"></span>
                 <button id="logout-btn" style="display: none;">Logout</button>
             </div>
@@ -73,6 +73,7 @@
                 logoutBtn.style.display = "none";
             }
 
+            /*
             loginBtn.addEventListener("click", () => {
                 window.location.href = "pages/login.html";
             });
@@ -80,6 +81,7 @@
             signupBtn.addEventListener("click", () => {
                 window.location.href = "pages/signup.html";
             });
+            */
 
             logoutBtn.addEventListener("click", () => {
                 localStorage.removeItem("user");

@@ -3,7 +3,7 @@ const User = require("../backend/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-require("donenv").config();
+require("dotenv").config();
 const router = express.Router();
 
 //Signup Route

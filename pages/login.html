@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - WasteNot</title>
-    <link rel="stylesheet" href="../style.css">
-</head>
 <body>
     <h2>Login to an existing account</h2>
     <section class="login-container">
@@ -15,9 +7,7 @@
             <button type="submit" id="login-btn">Login</button>
             <p id="login-error" class="error-message"></p>
         </form>
-        <p>Don't have an account? <a href="signup.html">Register here</a></p>
+        <!-- clicking "Register here" will use the loadPage function to load the signup page -->
+        <p>Don't have an account? <a href="#" onclick="loadPage(`signup`)">Register here</a></p>
     </section>
-
-    <script src="../script.js"></script>
 </body>
-</html>

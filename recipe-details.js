@@ -8,16 +8,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const recipeId = urlParams.get("id");
 
     try {
-        const response = await fetch(`http://localhost:3000/recipe/${recipeId}`);
+        const response = await fetch(`http://localhost:8080/recipe/${recipeId}`);
 
         if (!response.ok) {
-            throw new Error(`Failed to load recipe details`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const recipe = await response.json();
-        const instructions = recipe.analyzedInstructions[0].steps.map(step => step.step);
-        const ingredients = recipe.extendedIngredients.map(ing => ing.originalName);
-        const rating = recipe.spoonacularScore.toFixed(1);
+        console.log(recipe);
+        const instructions = recipe.analyzedInstructions.length > 0 ? recipe.analyzedInstructions[0].steps.map(step => step.step) : [];
+        const ingredients = recipe.extendedIngredients.length > 0 ? recipe.extendedIngredients.map(ing => ing.originalName) : [];
+        const rating = recipe.spoonacularScore.toFixed(1) || "N/A";
 
         recipeDetails.innerHTML = `
         <h1>${recipe.title}</h1>
@@ -40,18 +41,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
 
         const instructionsList = document.getElementById("instructions");
-        instructions.forEach(step => {
-            const li = document.createElement("li");
-            li.textContent = step;
-            instructionsList.appendChild(li);
-        });
+        if (instructions.length === 0 || instructions[0] === "") {
+            instructionsList.innerHTML = "<li>Instructions not provided by Spoonacular API</li>";
+        } else {
+            instructions.forEach(step => {
+                const li = document.createElement("li");
+                li.textContent = step;
+                instructionsList.appendChild(li);
+            });
+        }
 
         const ingredientsList = document.getElementById("ingredients");
+        if (ingredients.length === 0 || ingredients[0] === "") {
+            ingredientsList.innerHTML = "<li>Ingredients not provided by Spoonacular API</li>";
+        } else {
+        
         ingredients.forEach(ing => {
             const li = document.createElement("li");
             li.textContent = ing;
             ingredientsList.appendChild(li);
         });
+        }
         
     } catch (error) {
         recipeDetails.innerHTML = `<h2>Error</h2><p>Could not load the recipe details. ${error.message}</p>`;
