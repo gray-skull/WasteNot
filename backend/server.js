@@ -4,10 +4,11 @@ const axios = require("axios")
 const cors = require("cors")
 const { MongoClient, ServerApiVersion } = require("mongodb")
 
-const authRoutes = require("./authRoutes"); //Added for profile integration
-const jwt = require("jsonwebtoken");
+const authRoutes = require("./authRoutes") //Added for profile integration
+const jwt = require("jsonwebtoken")
 
 require("dotenv").config()
+// const bcrypt = require("bcryptjs")
 
 const apiKey = process.env.SPOONACULAR_API_KEY
 const mongoURI = process.env.MONGO_URI
@@ -16,36 +17,56 @@ const port = process.env.PORT || 8080
 const app = express()
 const path = require("path")
 
+// Added for profile integration
+const authMiddleware = require("../middleware/authMiddleware")
+const User = require("../models/User")
+
+// Serve static files like images, styles, and scripts
+app.use(express.static(path.join(__dirname, "../")))
+
+// Serve HTML pages from the "pages" folder
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/home.html"))
+)
+app.get("/home", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/home.html"))
+)
+app.get("/about", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/about.html"))
+)
+app.get("/settings", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/settings.html"))
+)
+app.get("/signup", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/signup.html"))
+)
+app.get("/login", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/login.html"))
+)
+
+// // Protect /profile route with authMiddleware
+// app.get("/profile", authMiddleware, (req, res) => {
+//   res.sendFile(path.join(__dirname, "../pages/profile.html"))
+// })
+
 // Middleware
 app.use(bodyParser.json())
 app.use(cors()) // Enable CORS for development
 
-/*
-const authMiddleware = require("./middleware/authMiddleware");
-const User = require("./User");
-
-app.get("/profile", authMiddleware, async (req, res) =>{
-  const user = await User.findById(req.user.userId).populate("savedRecipes");
-  res.json(user);
-});
-
-app.use("/auth", authRoutes); //Added for profile integration
-  const authMiddleware = (req, res, next) => {
-  const token = req.header("Authorization");
-
-  if (!token) return res.status(401).json({ error: "Unauthorized" });
-
+// Added for profile integration
+app.get("/profile", authMiddleware, async (req, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
+    const user = await User.findById(req.user.userId).populate("savedRecipes")
+    res.json(user)
   } catch (error) {
-    res.status(401).json({ error: "Invalid token" });
+    console.error("Error fetching user profile:", error)
+    res.status(500).json({ error: "Error fetching user profile" })
   }
-};
+  // const user = await User.findById(req.user.userId).populate("savedRecipes")
+  // res.json(user)
+})
 
-module.exports = authMiddleware;
-*/
+app.use("/auth", authRoutes) //Added for profile integration
 
 // Initialize MongoDB Client
 const client = new MongoClient(mongoURI, {
@@ -53,7 +74,9 @@ const client = new MongoClient(mongoURI, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true
-  }
+  },
+  connectTimeoutMS: 10000, // Increase timeout to 10 seconds
+  socketTimeoutMS: 45000 // Timeout for socket operations
 })
 
 // Connect to MongoDB and confirm connection
@@ -75,11 +98,11 @@ const database = client.db("wastenot")
 const recipesCollection = database.collection("recipes") // Collection for recipes
 
 // Routes
-// Serve static files from the WasteNot root directory
-app.get("/", (req, res) => {
-  app.use(express.static(path.join(__dirname, ".."))) // to ensure index.html is served
-  res.sendFile(path.join(__dirname, "..", "index.html"))
-})
+// // Serve static files from the WasteNot root directory
+// app.get("/", (req, res) => {
+//   app.use(express.static(path.join(__dirname, ".."))) // to ensure index.html is served
+//   res.sendFile(path.join(__dirname, "..", "index.html"))
+// })
 // Fetch recipes from Spoonacular API
 app.post("/recipes", async (req, res) => {
   // Get ingredients from the request body
@@ -180,6 +203,67 @@ app.get("/saved-recipes", async (req, res) => {
   } catch (error) {
     console.error("Error fetching saved recipes:", error)
     res.status(500).json({ error: "Error fetching saved recipes" })
+  }
+})
+
+//register route
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." })
+  }
+
+  try {
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ error: "An account with this email already exists." })
+    }
+
+    // Hash the password before saving
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    // Save the new user to the database
+    const newUser = new User({ email, password: hashedPassword })
+    await newUser.save()
+
+    res.status(201).json({ message: "User registered successfully" })
+  } catch (error) {
+    console.error("Registration Error:", error)
+    res.status(500).json({ error: "Server error. Please try again later." })
+  }
+})
+
+// login route
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body
+
+  try {
+    // Find user in the database
+    const user = await User.findOne({ email })
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" })
+    }
+
+    // Compare the hashed password
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" })
+    }
+
+    // Generate JWT
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h"
+    })
+
+    res.json({ token })
+  } catch (error) {
+    console.error("Login Error:", error)
+    res.status(500).json({ error: "Server error" })
   }
 })
 

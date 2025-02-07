@@ -2,20 +2,39 @@
 <div id="user-info"></div>
 
 <script>
-    async function fetchProfile() {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            window.location.hred = "login.html";
-            return;
-        }
+  async function fetchProfile() {
+    const token = localStorage.getItem("token")
+    console.log(token)
 
-        const response = await fetch("http://localhost:8080/profile", {
-            headers: { Authorization: token },
-        });
-
-        const user = await response.json();
-        document.getElementById("user-info").innerHTML = `<h2>${user.username}</h2>`;
+    // If no token, show login/register message
+    if (!token) {
+      document.getElementById("user-info").innerHTML = `
+                <p>You are not logged in. Please <a href="login.html">Sign in</a> or <a href="register.html">Register</a>.</p>
+            `
+      return
     }
 
-    fetchProfile();
+    try {
+      const response = await fetch("http://localhost:8080/profile", {
+        headers: { Authorization: token }
+      })
+
+      if (!response.ok) {
+        throw new Error("Unauthorized profile.html")
+      }
+
+      const user = await response.json()
+      document.getElementById(
+        "user-info"
+      ).innerHTML = `<h2>Welcome, ${user.username}!</h2>`
+    } catch (error) {
+      // If token is invalid or request fails, clear the token and prompt login
+      localStorage.removeItem("token")
+      document.getElementById("user-info").innerHTML = `
+                <p>Your session has expired. Please <a href="login.html">Sign in</a> again.</p>
+            `
+    }
+  }
+
+  fetchProfile()
 </script>

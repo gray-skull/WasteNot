@@ -1,79 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="WasteNot is a web application that helps users reduce food waste by providing recipes based on the ingredients they have at home.">
-        <meta name="keywords" content="food, waste, recipes, ingredients, home, cooking, kitchen, meals, leftovers, sustainability, eco-friendly, environment, green, planet, earth, save, reduce, reuse, recycle">
-        <meta name="author" content="WasteNot">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="WasteNot is a web application that helps users reduce food waste by providing recipes based on the ingredients they have at home."
+    />
+    <meta
+      name="keywords"
+      content="food, waste, recipes, ingredients, home, cooking, kitchen, meals, leftovers, sustainability, eco-friendly, environment, green, planet, earth, save, reduce, reuse, recycle"
+    />
+    <meta name="author" content="WasteNot" />
 
-        <title>WasteNot</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <link rel="icon" type="image/png" href="./content/images/favicon.png">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&display=swap" rel="stylesheet">
-        <script src="script.js"></script>
-    </head>
+    <title>WasteNot</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/png" href="./content/images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="script.js"></script>
+  </head>
 
-    <!--Added login, sign up, and log out-->
-    <body>
-        <header>
-            <div class="auth-buttons">
-                <button id="login-btn" data-page="login">Login</button>
-                <button id="signup-btn" data-page="signup">Sign Up</button>
-                <span id="welcome-user" style="display: none;"></span>
-                <button id="logout-btn" style="display: none;">Logout</button>
-            </div>
-        </header>
+  <!--Added login, sign up, and log out-->
+  <body>
+    <header>
+      <div class="auth-buttons">
+        <button id="login-btn" onclick="window.location.href='/login'">
+          Login
+        </button>
+        <button id="signup-btn" onclick="window.location.href='/signup'">
+          Sign Up
+        </button>
+        <span id="welcome-user" style="display: none"></span>
+        <button id="logout-btn" style="display: none">Logout</button>
+      </div>
+    </header>
 
+    <div id="content">
+      <!--dynamic content gets inserted here by script.js-->
+    </div>
 
-        <div id="content">
-            <!--dynamic content gets inserted here by script.js-->
-        </div>
+    <footer>
+      <div class="footer-content" id="footer">
+        <h2 class="cabin-sketch-regular">&copy; 2025 WasteNot</h2>
+      </div>
+    </footer>
 
-        <footer>
-            <div class="footer-content" id="footer">
-                <h2 class="cabin-sketch-regular">&copy; 2025 WasteNot</h2>
-            </div>
-        </footer>
+    <nav class="bottom-menu">
+      <a href="/">HOME</a>
+      <a href="/about">ABOUT</a>
+      <a href="/profile" id="profile-link">PROFILE</a>
+      <a href="/settings">SETTINGS</a>
+    </nav>
+  </body>
 
-        <nav class="bottom-menu">
-            <a href="#" data-page="home">HOME</a>
-            <a href="#" data-page="about">ABOUT</a>
-            <a href="#" data-page="profile">PROFILE</a>
-            <a href="#" data-page="settings">SETTINGS</a>
-        </nav>
-        
-    </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginBtn = document.getElementById("login-btn")
+      const signupBtn = document.getElementById("signup-btn")
+      const logoutBtn = document.getElementById("logout-btn")
+      const welcomeUser = document.getElementById("welcome-user")
 
+      const user = localStorage.getItem("user") //Retrieve user from storage
 
+      if (user) {
+        //If the user is logged in
+        loginBtn.style.display = "none"
+        signupBtn.style.display = "none"
+        welcomeUser.style.display = "inline"
+        welcomeUser.innerText = `Welcome, ${user}!`
+        logoutBtn.style.display = "inline"
+      } else {
+        //If no user is logged in
+        loginBtn.style.display = "inline"
+        signupBtn.style.display = "inline"
+        welcomeUser.style.display = "none"
+        logoutBtn.style.display = "none"
+      }
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const loginBtn = document.getElementById("login-btn");
-            const signupBtn = document.getElementById("signup-btn");
-            const logoutBtn = document.getElementById("logout-btn");
-            const welcomeUser = document.getElementById("welcome-user");
-
-            const user = localStorage.getItem("user"); //Retrieve user from storage
-
-            if (user) {
-                //If the user is logged in
-                loginBtn.style.display = "none";
-                signupBtn.style.display = "none";
-                welcomeUser.style.display = "inline";
-                welcomeUser.innerText = `Welcome, ${user}!`;
-                logoutBtn.style.display = "inline";
-            } else {
-                //If no user is logged in
-                loginBtn.style.display = "inline";
-                signupBtn.style.display = "inline";
-                welcomeUser.style.display = "none";
-                logoutBtn.style.display = "none";
-            }
-
-            /*
+      /*
             loginBtn.addEventListener("click", () => {
                 window.location.href = "pages/login.html";
             });
@@ -83,12 +92,11 @@
             });
             */
 
-            logoutBtn.addEventListener("click", () => {
-                localStorage.removeItem("user");
-                localStorage.removeItem("token");
-                window.location.reload();
-            });
-        });
-    </script>
-    
+      logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("user")
+        localStorage.removeItem("token")
+        window.location.reload()
+      })
+    })
+  </script>
 </html>

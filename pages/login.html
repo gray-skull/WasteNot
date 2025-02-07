@@ -1,13 +1,33 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
 <body>
-    <h2>Login to an existing account</h2>
-    <section class="login-container">
-        <form id="login-form">
-            <input type="email" id="email" placeholder="Email" required />
-            <input type="password" id="password" placeholder="Password" required />
-            <button type="submit" id="login-btn">Login</button>
-            <p id="login-error" class="error-message"></p>
-        </form>
-        <!-- clicking "Register here" will use the loadPage function to load the signup page -->
-        <p>Don't have an account? <a href="#" onclick="loadPage(`signup`)">Register here</a></p>
-    </section>
+  <h2>Login to an existing account</h2>
+  <section class="login-container">
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" id="login-btn">Login</button>
+      <p id="login-error" class="error-message"></p>
+    </form>
+    <!-- clicking "Register here" will use the loadPage function to load the signup page -->
+    <p>
+      Don't have an account?
+      <a href="/signup" onclick="loadPage(`signup`)">Register here</a>
+    </p>
+  </section>
+
+  <footer>
+    <div class="footer-content" id="footer">
+      <h2 class="cabin-sketch-regular">&copy; 2025 WasteNot</h2>
+    </div>
+  </footer>
+
+  <nav class="bottom-menu">
+    <a href="/">HOME</a>
+    <a href="/about">ABOUT</a>
+    <a href="/profile" id="profile-link">PROFILE</a>
+    <a href="/settings">SETTINGS</a>
+  </nav>
+  <script src="script.js"></script>
 </body>

@@ -8,17 +8,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add event listeners to menu links
   document.querySelectorAll(".bottom-menu a").forEach(link => {
     link.addEventListener("click", event => {
-      event.preventDefault() // Prevent default anchor behavior
-      // Get the page name from the data-page attribute
+      // Only prevent default for dynamically loaded pages
       const page = event.target.getAttribute("data-page")
-      // Load the page
-      loadPage(page)
+      if (["home", "about", "settings", "login", "signup"].includes(page)) {
+        event.preventDefault()
+        loadPage(page)
+      } else if (page === "profile") {
+        const token = localStorage.getItem("token")
+        if (token) {
+          // Let it navigate normally
+          return
+        } else {
+          event.preventDefault() // Stop only if not logged in
+          alert("You must be logged in to access your profile!")
+          loadPage("login")
+        }
+      }
     })
   })
 
   document.querySelectorAll(".auth-buttons button").forEach(button => {
     button.addEventListener("click", event => {
       event.preventDefault() // Prevent default button behavior
+
       // Get the page name from the data-page attribute
       const page = event.target.getAttribute("data-page")
       // Load the page
@@ -93,7 +105,10 @@ document.addEventListener("DOMContentLoaded", () => {
           const recipesList = document.getElementById("recipes-list") // get the <ul> element
           recipesList.innerHTML = "" // clear the <ul> element
 
-          if (recipes.length === 0 || recipes === "Frontend: No recipes found") {
+          if (
+            recipes.length === 0 ||
+            recipes === "Frontend: No recipes found"
+          ) {
             // if no recipes are found or response is "No recipes found", display a message
             recipesList.innerHTML = "<li><h3>Sorry, no recipes found</h3></li>"
           } else {
@@ -150,7 +165,7 @@ async function loadPage(page) {
       throw new Error(`Failed to load ${page}.html`)
     }
     // if the response is OK, set the content div to the response text
-    //content = document.getElementById("content")
+    content = document.getElementById("content")
     const html = await response.text()
     content.innerHTML = html
   } catch (error) {
@@ -158,23 +173,23 @@ async function loadPage(page) {
     content.innerHTML = `<h1>Error</h1><p>Could not load the page. ${error.message}</p>`
   }
 
-  if(page === "home") {
+  if (page === "home") {
     const errorDiv = document.getElementById("error-message") // get the error message div
     errorDiv.textContent = "" // clear any previous error messages
     errorDiv.style.display = "none" // hide the error message div
     // get the current date
-    const date = new Date();
+    const date = new Date()
     // get the current hour
-    const hour = date.getHours();
+    const hour = date.getHours()
     // get the greeting div
-    const greeting = document.getElementById("greeting");
+    const greeting = document.getElementById("greeting")
     // set the greeting based on the time of day
     if (hour < 12) {
-      greeting.textContent = "Good Morning!";
+      greeting.textContent = "Good Morning!"
     } else if (hour < 18) {
-      greeting.textContent = "Good Afternoon!";
+      greeting.textContent = "Good Afternoon!"
     } else {
-      greeting.textContent = "Good Evening!";
+      greeting.textContent = "Good Evening!"
     }
   }
 }
@@ -220,3 +235,52 @@ function clearSearch() {
   document.getElementById("search-form").reset()
   document.getElementById("search-results").innerHTML = ""
 }
+
+// function to handle login form submission
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("login-form")
+  const loginError = document.getElementById("login-error")
+
+  loginForm.addEventListener("submit", async event => {
+    event.preventDefault() // Prevent the default form submission behavior
+
+    const email = document.getElementById("email").value
+    const password = document.getElementById("password").value
+
+    try {
+      // Send a POST request to the login API
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password }) // Send login credentials
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        const token = data.token
+
+        if (token) {
+          // Save the token in localStorage
+          localStorage.setItem("token", token)
+
+          // Redirect to the home page
+          window.location.href = "/"
+        } else {
+          throw new Error("Token not received from server")
+        }
+      } else {
+        const errorData = await response.json()
+        loginError.textContent =
+          errorData.error || "Login failed. Please try again."
+      }
+    } catch (error) {
+      console.error("Error logging in:", error)
+      loginError.textContent =
+        "An unexpected error occurred. Please try again later."
+    }
+  })
+})
+
+
