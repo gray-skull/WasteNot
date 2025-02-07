@@ -96,6 +96,7 @@ connectToDatabase()
 // Reference to the database
 const database = client.db("wastenot")
 const recipesCollection = database.collection("recipes") // Collection for recipes
+const usersCollection = database.collection("users") // Collection for users
 
 // Routes
 // // Serve static files from the WasteNot root directory
@@ -216,7 +217,7 @@ app.post("/register", async (req, res) => {
 
   try {
     // Check if the user already exists
-    const existingUser = await User.findOne({ email })
+    const existingUser = await usersCollection.findOne({ email })
     if (existingUser) {
       return res
         .status(400)
@@ -229,6 +230,8 @@ app.post("/register", async (req, res) => {
 
     // Save the new user to the database
     const newUser = new User({ email, password: hashedPassword })
+    // Insert the new user into the database
+    await usersCollection.insertOne(newUser) 
     await newUser.save()
 
     res.status(201).json({ message: "User registered successfully" })
@@ -244,7 +247,7 @@ app.post("/login", async (req, res) => {
 
   try {
     // Find user in the database
-    const user = await User.findOne({ email })
+    const user = await usersCollection.findOne({ email })
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" })
     }
