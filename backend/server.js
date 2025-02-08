@@ -8,7 +8,7 @@ const authRoutes = require("./authRoutes") //Added for profile integration
 const jwt = require("jsonwebtoken")
 
 require("dotenv").config()
-// const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs")
 
 const apiKey = process.env.SPOONACULAR_API_KEY
 const mongoURI = process.env.MONGO_URI
@@ -209,37 +209,38 @@ app.get("/saved-recipes", async (req, res) => {
 
 //register route
 app.post("/register", async (req, res) => {
-  const { email, password } = req.body
+  const { username, email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required." })
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: "Username, email, and password are required." });
   }
 
   try {
     // Check if the user already exists
-    const existingUser = await usersCollection.findOne({ email })
+    const existingUser = await usersCollection.findOne({ email });
     if (existingUser) {
       return res
         .status(400)
-        .json({ error: "An account with this email already exists." })
+        .json({ error: "An account with this email already exists." });
     }
 
     // Hash the password before saving
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Save the new user to the database
-    const newUser = new User({ email, password: hashedPassword })
+    // Create new user object
+    const newUser = { username, email, password: hashedPassword };
+
     // Insert the new user into the database
-    await usersCollection.insertOne(newUser) 
-    await newUser.save()
+    await usersCollection.insertOne(newUser);
 
-    res.status(201).json({ message: "User registered successfully" })
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error("Registration Error:", error)
-    res.status(500).json({ error: "Server error. Please try again later." })
+    console.error("Registration Error:", error);
+    res.status(500).json({ error: "Server error. Please try again later." });
   }
-})
+});
+
 
 // login route
 app.post("/login", async (req, res) => {
