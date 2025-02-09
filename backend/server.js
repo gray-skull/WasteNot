@@ -159,6 +159,19 @@ app.get("/userProfile", authMiddleware, async (req, res) => {
       return res.status(404).json({ error: "User not found" })
     }
     console.log("/userProfile response:", user)
+
+    //Fetch saved recipes
+    // If the user has savedRecipes, fetch the full recipe details from the recipes collection
+    if (user.savedRecipes && user.savedRecipes.length > 0) {
+      const savedRecipes = await recipesCollection
+        .find({ _id: { $in: user.savedRecipes } })
+        .toArray();
+      // Replace the savedRecipes field with the full recipe objects
+      user.savedRecipes = savedRecipes;
+    } else {
+      user.savedRecipes = [];
+    }
+
     res.json(user)
   } catch (error) {
     console.error("Error fetching user profile:", error)
@@ -338,3 +351,40 @@ app.get("/saved-recipes", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`)
 })
+
+//Save recipe feature
+app.post("/save-recipe", authMiddleware, async (req, res) => {
+  const { recipeExternalId } = req.body; //The external ID from Spoonacular
+  if (!recipeExternalId) {
+    return res.status(400).json({ error: "Recipe external ID is required." });
+  }
+
+  try {
+    //Look up the recipe document by its external ID
+    const recipeDoc = await recipesCollection.findOne({ id: recipeExternalId });
+    if (!recipeDoc){
+      return res.status(400).json({ error: "Recipe not found." });
+    }
+
+    //Get the mongo _id for the recipe doc
+    const recipeObjectId = recipeDoc._id;
+
+    //Get the authenticated user's id from the token (authMiddleware)
+    const userId = req.user.userId;
+
+    //Update user's savedRecipes (used $addToSet to avoid duplicates)
+    const updatedUser = await usersCollection.findOneAndUpdate(
+      { _id: new ObjectId(userId) },
+      { $addToSet: { savedRecipes: recipeObjectId } },
+      { returnOriginal: false } //return updated doc
+    );
+
+    res.status(200).json({
+      message: "Recipe saved successfully.",
+      user: updatedUser.value
+    });
+  } catch (error) {
+    console.error("Error saving recipe:", error);
+    res.status(500).json({ error: "Error saving recipe" });
+  }
+});

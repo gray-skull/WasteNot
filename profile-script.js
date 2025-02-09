@@ -37,6 +37,26 @@ async function fetchProfile() {
         const id = document.getElementById("id")
         id.innerHTML = `ID: <p>${user._id}</p>`
 
+        //Render any saved recipes
+        const savedRecipesContainer = document.getElementById("saved-recipes");
+        if (user.savedRecipes && user.savedRecipes.length > 0) {
+            let recipesHtml = `<h3>Saved Recipes</h3><ul id="saved-recipes-list">`;
+            user.savedRecipes.forEach(recipe => {
+                recipesHtml += `
+                    <li>
+                        <a href="recipe.html?id=${recipe.id}">
+                            <h4>${recipe.title}</h4>
+                            <img src="${recipe.image}" alt="${recipe.title}" style="width:100px;"/>
+                        </a>
+                    </li>
+                `;
+            });
+            recipesHtml += `<ul>`;
+            savedRecipesContainer.innerHTML = recipesHtml;
+        } else {
+            savedRecipesContainer.innerHTML = `<p>You haven't saved any recipes yet.</p>`;
+        }
+
     } catch (error) {
         // If token is invalid or request fails, clear the token and prompt login
         alert("error:", error)
