@@ -40,6 +40,42 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p><a href="${recipe.sourceUrl}">${recipe.sourceName}</a></p>
         `;
 
+        //Added for recipe saving
+        const saveBtn = document.createElement("button");
+        saveBtn.textContent = "Save Recipe";
+        saveBtn.style.marginTop = "1rem";
+        saveBtn.addEventListener("click", async () => {
+            //Check for authentication
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Please log in to save recipes.");
+                window.location.href = "login";
+                return;
+            }
+            try {
+                //Send a POST request to the /save-recipe endpoint with the recipe external ID
+                const saveResponse = await fetch("http://localhost:8080/save-recipe", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ recipeExternalId: recipe.id })
+                });
+                if (saveResponse.ok) {
+                    const saveData = await saveResponse.json();
+                    alert(saveData.message || "Recipe saved successfully!");
+                } else {
+                    const errorData = await saveResponse.json();
+                    alert("Error saving recipe: " + (errorData.error || "Unknown error"));
+                }
+            } catch (saveError) {
+                console.error("Error saving recipe:", saveError);
+                alert("Error saving recipe. Please try again.");
+            }
+        });
+        recipeDetails.appendChild(saveBtn);
+
         const instructionsList = document.getElementById("instructions");
         if (instructions.length === 0 || instructions[0] === "") {
             instructionsList.innerHTML = "<li>Instructions not provided by Spoonacular API</li>";
