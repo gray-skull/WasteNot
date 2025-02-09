@@ -3,6 +3,7 @@
 </head>
 
 <body>
+  <div class="auth-buttons" id="auth-buttons"><!--dynamically inserted by script.js--></div>
   <h2>Create your account</h2>
 
   <form id="signup-form">
@@ -14,7 +15,7 @@
 
   <p>
     Already have an account?
-    <a href="/login" onclick="loadPage(`login`)">Login here</a>
+    <a href="/login">Login here</a>
   </p>
 
   <p id="signup-error" style="color: red"></p>
@@ -58,11 +59,7 @@
     </div>
   </footer>
 
-  <nav class="bottom-menu">
-    <a href="/">HOME</a>
-    <a href="/about">ABOUT</a>
-    <a href="/profile" id="profile-link">PROFILE</a>
-    <a href="/settings">SETTINGS</a>
-  </nav>
+  <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
+  <script src="script.js"></script>
   <script src="../signup_script.js"></script>
 </body>

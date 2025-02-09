@@ -1,62 +1,77 @@
-<head>
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <script src="script.js"></script>
-</head>
-<section class="about rounded-card">
-  <div class="about-content">
-    <h2 class="cabin-sketch-regular">About WasteNot</h2>
-    <p>
-      WasteNot is a web application that helps users reduce food waste by
-      providing recipes based on the ingredients they have at home. By using
-      WasteNot, you can save money, reduce your carbon footprint, and help the
-      environment.
-    </p>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta viewport="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="script.js"></script>
+    <title >WasteNot: About</title>
+  </head>
+  <body>
+    <header id="header">
+      <div class="auth-buttons" id="auth-buttons"><!--dynamically inserted by script.js--></div>
+      <div class="logo rounded-card">
+        <img src="./content/images/logo.webp" id="logo" alt="WasteNot logo" />
+        <h1 class="cabin-sketch-regular">Cook Smarter, Waste Less!</h1>
+      </div>
+    </header>
+    <main>
+      <div id="content">
+        <section class="about rounded-card">
+          <div class="about-content">
+            <h2 class="cabin-sketch-regular">About WasteNot</h2>
+            <p>
+              WasteNot is a web application that helps users reduce food waste by
+              providing recipes based on the ingredients they have at home. By using
+              WasteNot, you can save money, reduce your carbon footprint, and help the
+              environment.
+            </p>
+          </div>
+        </section>
 
-<section class="features rounded-card">
-  <div class="feature">
-    <img
-      src="./content/images/feature1.png"
-      class="feature-icon"
-      alt="Feature 1"
-    />
-    <h2 class="cabin-sketch-regular">Save money</h2>
-    <p>
-      Use up the ingredients you already have at home instead of buying new ones
-    </p>
-  </div>
-  <div class="feature">
-    <img
-      src="./content/images/feature2.png"
-      class="feature-icon"
-      alt="Feature 2"
-    />
-    <h2 class="cabin-sketch-regular">Reduce waste</h2>
-    <p>Prevent food from going bad and ending up in the trash</p>
-  </div>
-  <div class="feature">
-    <img
-      src="./content/images/feature3.png"
-      class="feature-icon"
-      alt="Feature 3"
-    />
-    <h2 class="cabin-sketch-regular">Help the environment</h2>
-    <p>
-      Reduce your carbon footprint and contribute to a more sustainable planet
-    </p>
-  </div>
-</section>
+        <section class="features rounded-card">
+          <div class="feature">
+            <img
+              src="./content/images/feature1.png"
+              class="feature-icon"
+              alt="Feature 1"
+            />
+            <h2 class="cabin-sketch-regular">Save money</h2>
+            <p>
+              Use up the ingredients you already have at home instead of buying new ones
+            </p>
+          </div>
+          <div class="feature">
+            <img
+              src="./content/images/feature2.png"
+              class="feature-icon"
+              alt="Feature 2"
+            />
+            <h2 class="cabin-sketch-regular">Reduce waste</h2>
+            <p>Prevent food from going bad and ending up in the trash</p>
+          </div>
+          <div class="feature">
+            <img
+              src="./content/images/feature3.png"
+              class="feature-icon"
+              alt="Feature 3"
+            />
+            <h2 class="cabin-sketch-regular">Help the environment</h2>
+            <p>
+              Reduce your carbon footprint and contribute to a more sustainable planet
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
 
-<footer>
-  <div class="footer-content" id="footer">
-    <h2 class="cabin-sketch-regular">&copy; 2025 WasteNot</h2>
-  </div>
-</footer>
 
-<nav class="bottom-menu">
-  <a href="/">HOME</a>
-  <a href="/about">ABOUT</a>
-  <a href="/profile" id="profile-link">PROFILE</a>
-  <a href="/settings">SETTINGS</a>
-</nav>
+    <footer>
+      <div class="footer-content" id="footer">
+        <h2 class="cabin-sketch-regular">&copy; 2025 WasteNot</h2>
+      </div>
+    </footer>
+
+    <nav class="bottom-menu" id="bottom-menu"> <!--Dynamically inserted by script.js--> </nav>
+  </body>
+</html>

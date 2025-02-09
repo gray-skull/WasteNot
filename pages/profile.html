@@ -1,40 +1,63 @@
-<h1>Welcome to your profile!</h1>
-<div id="user-info"></div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta viewport="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./content/images/favicon.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    
+  </head>
+  <body>
+    <header id="header">
+      <div class="auth-buttons" id="auth-buttons"><!--dynamically inserted by script.js--></div>
+    </header>
 
-<script>
-  async function fetchProfile() {
-    const token = localStorage.getItem("token")
-    console.log(token)
+    <main>
+      <h1>Profile</h1>
 
-    // If no token, show login/register message
-    if (!token) {
-      document.getElementById("user-info").innerHTML = `
-                <p>You are not logged in. Please <a href="login.html">Sign in</a> or <a href="register.html">Register</a>.</p>
-            `
-      return
-    }
+      <div id="user-info">
+        <h1 class="cabin-sketch-regular" id="welcome-message"></h1>
 
-    try {
-      const response = await fetch("http://localhost:8080/profile", {
-        headers: { Authorization: token }
-      })
+        <fieldset id="profileInfo">
+          <legend>Profile Information</legend>
+          <h3 id="username">Username: </h3>
+          <h3 id="email">Email: </h3>
+          <h3 id="id">ID: </h3>
+        </fieldset>
 
-      if (!response.ok) {
-        throw new Error("Unauthorized profile.html")
-      }
+        <fieldset id="updateProfile">
+          <legend>Update Profile</legend>
+          <form id="updateProfileForm">
+            <input type="text" id="newUsername" placeholder="New Username" autocomplete="username" />
+            <input type="email" id="newEmail" placeholder="New Email" autocomplete="email"/>
+            <button type="button" class="updateButton" id="updateProfileBtn">Update Profile</button>
+          </form>
+        </fieldset>
+        
+        <fieldset id="updatePassword">
+          <legend>Update Password</legend>
+          <form id="updatePasswordForm">
+            <input type="text" id="hiddenUsername" autocomplete="username" hidden/>
+            <input type="password" id="oldPassword" placeholder="Old Password" autocomplete="current-password" required/>
+            <input type="password" id="newPassword" placeholder="New Password" autocomplete="new-password" required/>
+            <button type="button" class="updateButton" id="updatePasswordBtn">Update Password</button>
+          </form>
+        </fieldset>
 
-      const user = await response.json()
-      document.getElementById(
-        "user-info"
-      ).innerHTML = `<h2>Welcome, ${user.username}!</h2>`
-    } catch (error) {
-      // If token is invalid or request fails, clear the token and prompt login
-      localStorage.removeItem("token")
-      document.getElementById("user-info").innerHTML = `
-                <p>Your session has expired. Please <a href="login.html">Sign in</a> again.</p>
-            `
-    }
-  }
+      </div>
+    </main>
 
-  fetchProfile()
-</script>
+    <footer>
+      <div class="footer-content" id="footer">
+        <h2 class="cabin-sketch-regular">&copy; 2025 WasteNot</h2>
+      </div>
+    </footer>
+
+    <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
+  </body>
+    <script>
+
+    </script>
+    <script src="script.js"></script>
+    <script src="profile-script.js"></script>
+</html>

@@ -1,19 +1,23 @@
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <meta charset="UTF-8" />
+    <meta viewport="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="script.js"></script>
 </head>
 <body>
+  <div class="auth-buttons" id="auth-buttons"><!--dynamically inserted by script.js--></div>
   <h2>Login to an existing account</h2>
   <section class="login-container">
     <form id="login-form">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
+      <input type="email" id="email" placeholder="Email" autocomplete="username" required />
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password" required />
       <button type="submit" id="login-btn">Login</button>
       <p id="login-error" class="error-message"></p>
     </form>
     <!-- clicking "Register here" will use the loadPage function to load the signup page -->
     <p>
       Don't have an account?
-      <a href="/signup" onclick="loadPage(`signup`)">Register here</a>
+      <a href="/signup">Register here</a>
     </p>
   </section>
 
@@ -23,11 +27,6 @@
     </div>
   </footer>
 
-  <nav class="bottom-menu">
-    <a href="/">HOME</a>
-    <a href="/about">ABOUT</a>
-    <a href="/profile" id="profile-link">PROFILE</a>
-    <a href="/settings">SETTINGS</a>
-  </nav>
+  <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
   <script src="script.js"></script>
 </body>

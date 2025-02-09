@@ -12,6 +12,11 @@
 
 /*global media queries*/
 
+@font-face {
+    font-family: "Cabin Sketch";
+    src: url(https://fonts.gstatic.com/s/cabinsketch/v21/QGYpz_kZZAGCONcK2A4bGOj8mNhN.woff2) format('woff2');
+}
+
 @media (min-width: 600px) {
     /* Adjust styles for screens larger than 600px */
     body {
@@ -325,6 +330,23 @@ div#dietCheckboxArea label, div#intolerancesCheckboxArea label {
 
 /* buttons */
 
+#start-btn {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--main-color);
+
+    width: 80%;
+    height: auto;
+    margin: 1rem auto;
+    padding: 0.5rem;
+
+    background-color: var(--tertiary-color);
+    border-radius: 20px;
+    box-shadow: var(--shadow-standard);
+
+    cursor: pointer;
+}
+
 div.search-button-area {
     display: flex;
     flex-direction: column;
@@ -588,6 +610,69 @@ footer {
 #recipe-details a:hover {
     color: var(--tertiary-color);
     text-shadow: var(--shadow-standard); /* Highlight color on hover */
+}
+
+/* profile page */
+
+.updateButton {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--main-color);
+
+    width: 40%;
+    height: auto;
+    margin: 1rem auto;
+    padding: 0.5rem;
+
+    background-color: var(--tertiary-color);
+    border-radius: 20px;
+    box-shadow: var(--shadow-standard);
+
+    cursor: pointer;
+}
+
+.updateButton:hover {
+    color: white;
+    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+}
+
+fieldset {
+    margin: 1rem auto;
+    padding: 1rem;
+    border: 2px solid var(--tertiary-color-dark);
+    border-radius: 10px;
+    background: var(--main-color);
+    text-align: left;
+    align-items: left;
+    align-content: first baseline;
+    width: 90%;
+}
+
+fieldset legend {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--tertiary-color-dark);
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    border: 2px solid var(--tertiary-color-dark);
+    border-radius: 10px;
+    background: var(--main-color);
+}
+
+fieldset input {
+    width: 95%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 2px solid var(--main-color-dark);
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: left;
+}
+
+fieldset input:focus {
+    background-color: var(--secondary-color); /* Slightly darker gray */
+    border-color: var(--tertiary-color-dark); /* Darker blue */
+    outline: none; /* Remove default outline */
 }
 
 /*global tags*/

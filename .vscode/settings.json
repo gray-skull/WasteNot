@@ -1,3 +1,4 @@
 {
-    "liveServer.settings.multiRootWorkspaceName": "WasteNot"
+    "liveServer.settings.multiRootWorkspaceName": "WasteNot",
+    "liveServer.settings.port": 5500
 }

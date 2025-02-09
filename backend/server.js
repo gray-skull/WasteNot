@@ -2,7 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const axios = require("axios")
 const cors = require("cors")
-const { MongoClient, ServerApiVersion } = require("mongodb")
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb")
 
 const authRoutes = require("./authRoutes") //Added for profile integration
 const jwt = require("jsonwebtoken")
@@ -20,6 +20,41 @@ const path = require("path")
 // Added for profile integration
 const authMiddleware = require("../middleware/authMiddleware")
 const User = require("../models/User")
+
+// Middleware
+app.use(bodyParser.json())
+app.use(cors()) // Enable CORS for development
+app.use("/auth", authRoutes) //Added for profile integration
+
+// Initialize MongoDB Client
+const client = new MongoClient(mongoURI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true
+  },
+  connectTimeoutMS: 5000, // Increase timeout to 5 seconds
+  socketTimeoutMS: 45000 // Timeout for socket operations
+})
+
+// Connect to MongoDB and confirm connection
+async function connectToDatabase() {
+  try {
+    await client.connect()
+    console.log("Successfully connected to MongoDB!")
+  } catch (err) {
+    console.error("Error connecting to MongoDB:", err)
+    process.exit(1) // Exit the application if the connection fails
+  }
+}
+
+// Call the connection function
+connectToDatabase()
+
+// Reference to the database
+const database = client.db("wastenot")
+const recipesCollection = database.collection("recipes") // Collection for recipes
+const usersCollection = database.collection("users") // Collection for users
 
 // Serve static files like images, styles, and scripts
 app.use(express.static(path.join(__dirname, "../")))
@@ -43,67 +78,159 @@ app.get("/signup", (req, res) =>
 app.get("/login", (req, res) =>
   res.sendFile(path.join(__dirname, "../pages/login.html"))
 )
+app.get("/profile", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/profile.html"))
+)
 
-// // Protect /profile route with authMiddleware
-// app.get("/profile", authMiddleware, (req, res) => {
-//   res.sendFile(path.join(__dirname, "../pages/profile.html"))
-// })
+//register route
+app.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
 
-// Middleware
-app.use(bodyParser.json())
-app.use(cors()) // Enable CORS for development
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: "Username, email, and password are required." });
+  }
+
+  try {
+    // Check if the user already exists
+    const existingUser = await usersCollection.findOne({ email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ error: "An account with this email already exists." });
+    }
+
+    // Hash the password before saving
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create new user object
+    const newUser = { username, email, password: hashedPassword };
+
+    // Insert the new user into the database
+    await usersCollection.insertOne(newUser);
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Registration Error:", error);
+    res.status(500).json({ error: "Server error. Please try again later." });
+  }
+});
+
+// login route
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body
+
+  try {
+    // Find user in the database
+    const user = await usersCollection.findOne({ email })
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" })
+    }
+
+    // Compare the hashed password
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" })
+    }
+
+    // Generate JWT
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+
+    })
+
+    res.json({token: token, user: { _id: user._id, username: user.username, email: user.email }})
+  } catch (error) {
+    console.error("Login Error:", error)
+    res.status(500).json({ error: "Server error" })
+  }
+})
 
 // Added for profile integration
-app.get("/profile", authMiddleware, async (req, res) => {
+app.get("/userProfile", authMiddleware, async (req, res) => {
+  console.log("/userProfile called")
   try {
-    const user = await User.findById(req.user.userId).populate("savedRecipes")
+    const authenticatedUserData = req.user
+    console.log("User ID:", authenticatedUserData.userId)
+
+    const user = await usersCollection.findOne(ObjectId.createFromHexString(authenticatedUserData.userId))
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+    console.log("/userProfile response:", user)
     res.json(user)
   } catch (error) {
     console.error("Error fetching user profile:", error)
     res.status(500).json({ error: "Error fetching user profile" })
   }
-  // const user = await User.findById(req.user.userId).populate("savedRecipes")
-  // res.json(user)
 })
 
-app.use("/auth", authRoutes) //Added for profile integration
+app.post("/updateProfile", authMiddleware, async (req, res) => {
+  console.log("/updateProfile called")
+  const authenticatedUserData = req.user
+  const userId = authenticatedUserData.userId
+  console.log(req.body)
 
-// Initialize MongoDB Client
-const client = new MongoClient(mongoURI, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true
-  },
-  connectTimeoutMS: 10000, // Increase timeout to 10 seconds
-  socketTimeoutMS: 45000 // Timeout for socket operations
-})
+  const { newUsername, newEmail } = req.body
 
-// Connect to MongoDB and confirm connection
-async function connectToDatabase() {
-  try {
-    await client.connect()
-    console.log("Successfully connected to MongoDB!")
-  } catch (err) {
-    console.error("Error connecting to MongoDB:", err)
-    process.exit(1) // Exit the application if the connection fails
+  if (newUsername === '' && newEmail === '') {
+    return res.status(400).json({ error: "At least one of username or email is required." })
   }
-}
 
-// Call the connection function
-connectToDatabase()
+  const updateFields = {}
+  if (newUsername) updateFields.username = newUsername
+  if (newEmail) updateFields.email = newEmail
 
-// Reference to the database
-const database = client.db("wastenot")
-const recipesCollection = database.collection("recipes") // Collection for recipes
-const usersCollection = database.collection("users") // Collection for users
+  try {
+    await usersCollection.updateOne(
+      { _id: ObjectId.createFromHexString(userId) },
+      { $set: updateFields }
+    )
+    // return updated user from the database
+    const updatedUser = await usersCollection.findOne(ObjectId.createFromHexString(userId))
+    console.log(updatedUser)
+    res.status(200).json({_id: updatedUser._id, username: updatedUser.username, email: updatedUser.email })
+  } catch (error) {
+    console.error('Error updating profile: #%s' , error)
+    res.status(500).json({ error: "Error updating profile" })
+  }
+})
 
-// Routes
-// // Serve static files from the WasteNot root directory
-// app.get("/", (req, res) => {
-//   app.use(express.static(path.join(__dirname, ".."))) // to ensure index.html is served
-//   res.sendFile(path.join(__dirname, "..", "index.html"))
-// })
+app.post("/updatePassword", authMiddleware, async (req, res) => {
+  const { userId } = req.user
+  const { currentPassword, newPassword } = req.body
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: "Current password and new password are required." })
+  }
+
+  try {
+    const user = await usersCollection.findOne(ObjectId.createFromHexString(userId))
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password)
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid current password" })
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(newPassword, salt)
+
+    await usersCollection.updateOne(
+      { _id: ObjectId.createFromHexString(userId) },
+      { $set: { password: hashedPassword } }
+    )
+
+    res.status(200).json({ message: "Password updated successfully" })
+  } catch (error) {
+    console.error("Error updating password:", error)
+    res.status(500).json({ error: "Error updating password" })
+  }
+})
+
 // Fetch recipes from Spoonacular API
 app.post("/recipes", async (req, res) => {
   // Get ingredients from the request body
@@ -204,70 +331,6 @@ app.get("/saved-recipes", async (req, res) => {
   } catch (error) {
     console.error("Error fetching saved recipes:", error)
     res.status(500).json({ error: "Error fetching saved recipes" })
-  }
-})
-
-//register route
-app.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
-
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: "Username, email, and password are required." });
-  }
-
-  try {
-    // Check if the user already exists
-    const existingUser = await usersCollection.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: "An account with this email already exists." });
-    }
-
-    // Hash the password before saving
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create new user object
-    const newUser = { username, email, password: hashedPassword };
-
-    // Insert the new user into the database
-    await usersCollection.insertOne(newUser);
-
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.error("Registration Error:", error);
-    res.status(500).json({ error: "Server error. Please try again later." });
-  }
-});
-
-
-// login route
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body
-
-  try {
-    // Find user in the database
-    const user = await usersCollection.findOne({ email })
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" })
-    }
-
-    // Compare the hashed password
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) {
-      return res.status(401).json({ error: "Invalid credentials" })
-    }
-
-    // Generate JWT
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h"
-    })
-
-    res.json({ token })
-  } catch (error) {
-    console.error("Login Error:", error)
-    res.status(500).json({ error: "Server error" })
   }
 })
 
