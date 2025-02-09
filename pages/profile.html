@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta viewport="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WasteNot: Profile</title>
     <link rel="icon" href="./content/images/favicon.png" type="image/png" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     
@@ -16,34 +17,35 @@
       <h1>Profile</h1>
 
       <div id="user-info">
-        <h1 class="cabin-sketch-regular" id="welcome-message"></h1>
+        <section class="rounded-card">
+          <h1 class="cabin-sketch-regular" id="welcome-message"></h1>
 
-        <fieldset id="profileInfo">
-          <legend>Profile Information</legend>
-          <h3 id="username">Username: </h3>
-          <h3 id="email">Email: </h3>
-          <h3 id="id">ID: </h3>
-        </fieldset>
+          <fieldset id="profileInfo">
+            <legend>Profile Information</legend>
+            <h3 id="username">Username: </h3>
+            <h3 id="email">Email: </h3>
+            <h3 id="id">ID: </h3>
+          </fieldset>
 
-        <fieldset id="updateProfile">
-          <legend>Update Profile</legend>
-          <form id="updateProfileForm">
-            <input type="text" id="newUsername" placeholder="New Username" autocomplete="username" />
-            <input type="email" id="newEmail" placeholder="New Email" autocomplete="email"/>
-            <button type="button" class="updateButton" id="updateProfileBtn">Update Profile</button>
-          </form>
-        </fieldset>
-        
-        <fieldset id="updatePassword">
-          <legend>Update Password</legend>
-          <form id="updatePasswordForm">
-            <input type="text" id="hiddenUsername" autocomplete="username" hidden/>
-            <input type="password" id="oldPassword" placeholder="Old Password" autocomplete="current-password" required/>
-            <input type="password" id="newPassword" placeholder="New Password" autocomplete="new-password" required/>
-            <button type="button" class="updateButton" id="updatePasswordBtn">Update Password</button>
-          </form>
-        </fieldset>
-
+          <fieldset id="updateProfile">
+            <legend>Update Profile</legend>
+            <form id="updateProfileForm">
+              <input type="text" id="newUsername" placeholder="New Username" autocomplete="username" />
+              <input type="email" id="newEmail" placeholder="New Email" autocomplete="email"/>
+              <button type="button" class="updateButton" id="updateProfileBtn">Update Profile</button>
+            </form>
+          </fieldset>
+          
+          <fieldset id="updatePassword">
+            <legend>Update Password</legend>
+            <form id="updatePasswordForm">
+              <input type="text" id="hiddenUsername" autocomplete="username" hidden/>
+              <input type="password" id="oldPassword" placeholder="Old Password" autocomplete="current-password" required/>
+              <input type="password" id="newPassword" placeholder="New Password" autocomplete="new-password" required/>
+              <button type="button" class="updateButton" id="updatePasswordBtn">Update Password</button>
+            </form>
+          </fieldset>
+        </section>
       </div>
     </main>
 

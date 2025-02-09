@@ -41,7 +41,7 @@ async function fetchProfile() {
         // If token is invalid or request fails, clear the token and prompt login
         alert("error:", error)
         console.error("Profile fetch error:", error)
-        /*
+        
         localStorage.removeItem("token")
         localStorage.removeItem("username")
         localStorage.removeItem("email")
@@ -49,7 +49,6 @@ async function fetchProfile() {
         document.getElementById("user-info").innerHTML = `
                 <p>Your session has expired. Please <a href="/login">Sign in</a> again.</p>
             `
-        */
     }
 }
 
