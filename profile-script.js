@@ -73,7 +73,7 @@ async function fetchProfile() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await fetchProfile();
+    await fetchProfile(); // Fetch profile on page load
 
     const updatePasswordBtn = document.getElementById("updatePasswordBtn")
     const updateProfileBtn = document.getElementById("updateProfileBtn")
@@ -108,7 +108,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 localStorage.setItem("username", updatedUsername);
                 localStorage.setItem("email", updatedEmail);
                 localStorage.setItem("_id", updated_id);
-                fetchProfile();
                 welcomeUser.innerHTML = `Welcome, ${localStorage.getItem(username)}!`; 
                 
                 
