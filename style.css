@@ -188,7 +188,8 @@ body {
     ;
     padding: 0rem;
     width: fit-content;
-    min-width: 350px;
+    width: 100%;
+    max-width: 450px;
     height: inherit;
 }
 
