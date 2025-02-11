@@ -12,12 +12,20 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&display=swap" rel="stylesheet"/>
     </head>
+    
+    <video autoplay muted loop id="video-background">
+        <source src="./content/video/background-video.mp4" type="video/mp4">
+        This browser does not support the video element.
+    </video>
 
     <body id="start-screen">
-        <h1 class="cabin-sketch-regular">Welcome to WasteNot!</h1>
-        <p>Find recipes based on the ingredients you have at home.</p>
-        <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
-        <button class="cabin-sketch-regular" id="start-btn" onclick="location.href='http://localhost:8080/home'">Get Started</button>
+        <div class="content">
+            <h1 class="cabin-sketch-regular">WasteNot</h1>
+            <p>Cook Smarter, Waste less!</p>
+            <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
+            <button class="cabin-sketch-regular" id="start-btn" onclick="location.href='http://localhost:8080/home'">Get Started</button>
+        </div>
+
+        <script href="script.js"></script>
     </body>
-    <script href="script.js"></script>
 </html>

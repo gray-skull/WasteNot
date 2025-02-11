@@ -66,6 +66,12 @@ async function fetchProfile() {
         localStorage.removeItem("username")
         localStorage.removeItem("email")
         localStorage.removeItem("_id")
+
+        document.getElementById(loginBtn).style.display = "inline"
+        document.getElementById(signupBtn).style.display = "inline"
+        document.getElementById(welcomeUser).style.display = "none"
+        document.getElementById( logoutBtn).style.display = "none"
+
         document.getElementById("user-info").innerHTML = `
                 <p>Your session has expired. Please <a href="/login">Sign in</a> again.</p>
             `
