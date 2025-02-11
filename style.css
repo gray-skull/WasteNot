@@ -785,4 +785,11 @@ form#signup-form button:hover, form#login-form button:hover {
     background-color: var(--tertiary-color-dark);
 }
 
+#start-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
