@@ -29,13 +29,13 @@ async function fetchProfile() {
         welcomeMessage.innerHTML = `Welcome, ${user.username}!`
 
         const username = document.getElementById("username")
-        username.innerHTML = `Username: <p>${user.username}</p>`
+        username.innerHTML = `${user.username}`
 
         const email = document.getElementById("email")
-        email.innerHTML = `Email: <p>${user.email}</p>`
+        email.innerHTML = `${user.email}`
 
         const id = document.getElementById("id")
-        id.innerHTML = `ID: <p>${user._id}</p>`
+        id.innerHTML = `${user._id}`
 
         //Render any saved recipes
         const savedRecipesContainer = document.getElementById("saved-recipes");
@@ -67,14 +67,15 @@ async function fetchProfile() {
         localStorage.removeItem("email")
         localStorage.removeItem("_id")
 
-        document.getElementById(loginBtn).style.display = "inline"
-        document.getElementById(signupBtn).style.display = "inline"
-        document.getElementById(welcomeUser).style.display = "none"
-        document.getElementById( logoutBtn).style.display = "none"
+        document.getElementById("login-btn").style.display = "inline"
+        document.getElementById("signup-btn").style.display = "inline"
+        document.getElementById("welcome-user").style.display = "none"
+        document.getElementById("logout-btn").style.display = "none"
 
         document.getElementById("user-info").innerHTML = `
                 <p>Your session has expired. Please <a href="/login">Sign in</a> again.</p>
             `
+        window.location.href = "http://localhost:8080/login"
     }
 }
 

@@ -2,7 +2,6 @@ require("dotenv").config()
 const jwt = require("jsonwebtoken")
 
 const authMiddleware = (req, res, next) => {
-  console.log(">> authMiddleware called <<")
   const authHeader = req.headers["authorization"]
   if (!authHeader) {
     return res.status(400).json({ error: "Unauthorized: No authorization header provided", headers: req.headers })
@@ -23,9 +22,7 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    console.log(`>> Decoded token: ${JSON.stringify(decoded)} <<`)
     req.user = decoded
-    console.log(`>> User authenticated <<`)
     next()
   } catch (error) {
     return res.status(401).json({ error: "Invalid token" })

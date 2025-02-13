@@ -199,10 +199,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // function to load the bottom-menu on each page, inserts the html into the bottom-menu div
   const bottomMenu = document.getElementById("bottom-menu")
   bottomMenu.innerHTML = `
-  <a href="http://localhost:8080/home">HOME</a>
-  <a href="http://localhost:8080/about">ABOUT</a>
-  <a href="http://localhost:8080/profile" id="profile-link">PROFILE</a>
-  <a href="http://localhost:8080/settings">SETTINGS</a>
+  <a href="http://localhost:8080/home">Home</a>
+  <a href="http://localhost:8080/about">About</a>
+  <a href="http://localhost:8080/profile" id="profile-link">Profile</a>
+  <a href="http://localhost:8080/settings">Settings</a>
+  `
+
+  // function to load the bottom-menu-select on each page, inserts the html into the bottom-menu-select div
+  const bottomMenuSelect = document.getElementById("bottom-menu-select")
+  bottomMenuSelect.innerHTML = `
+    <option value="" disabled selected>Navigate to...</option>
+    <option value="http://localhost:8080/home">Home</option>
+    <option value="http://localhost:8080/about">About</option>
+    <option value="http://localhost:8080/profile">Profile</option>
+    <option value="http://localhost:8080/settings">Settings</option>
   `
   
 
@@ -248,6 +258,16 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("email")
     localStorage.removeItem("_id")
     window.location.reload()
+  })
+
+  // function to handle the bottom menu select change event
+  const bottomMenuSelect = document.getElementById("bottom-menu-select")
+    
+  bottomMenuSelect.addEventListener("change", (event) => {
+    const selectedValue = event.target.value
+    if (selectedValue) {
+      window.location.href = selectedValue
+    }
   })
 })
 

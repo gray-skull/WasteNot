@@ -18,13 +18,13 @@
 
       <div id="user-info">
         <section class="rounded-card">
-          <h1 class="cabin-sketch-regular" id="welcome-message"></h1>
+          <h2 class="cabin-sketch-regular" id="welcome-message"></h2>
 
           <fieldset id="profileInfo">
             <legend>Profile Information</legend>
-            <h3 id="username">Username: </h3>
-            <h3 id="email">Email: </h3>
-            <h3 id="id">ID: </h3>
+            <h4>Username: </h4> <p id="username"></p>
+            <h4>Email: </h4> <p id="email"></p>
+            <h4>User ID: </h4> <p id="id"></p>
           </fieldset>
 
           <fieldset id="updateProfile">
@@ -45,12 +45,13 @@
               <button type="button" class="updateButton" id="updatePasswordBtn">Update Password</button>
             </form>
           </fieldset>
+          <fieldset id="savedRecipesFieldset">
+            <legend>Saved Recipes</legend>
+            <div id="saved-recipes"> </div>
+          </fieldset>
         </section>
       
-        <fieldset id="savedRecipesFieldset">
-          <legend>Saved Recipes</legend>
-          <div id="saved-recipes"> </div>
-        </fieldset>
+
       </div>
     </main>
 
@@ -61,6 +62,7 @@
     </footer>
 
     <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
+    <select id="bottom-menu-select" style="display: none"></select>
   </body>
     <script>
 

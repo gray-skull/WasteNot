@@ -148,17 +148,14 @@ app.post("/login", async (req, res) => {
 
 // Added for profile integration
 app.get("/userProfile", authMiddleware, async (req, res) => {
-  console.log("/userProfile called")
   try {
     const authenticatedUserData = req.user
-    console.log("User ID:", authenticatedUserData.userId)
 
     const user = await usersCollection.findOne(ObjectId.createFromHexString(authenticatedUserData.userId))
 
     if (!user) {
       return res.status(404).json({ error: "User not found" })
     }
-    console.log("/userProfile response:", user)
 
     //Fetch saved recipes
     // If the user has savedRecipes, fetch the full recipe details from the recipes collection
@@ -180,10 +177,8 @@ app.get("/userProfile", authMiddleware, async (req, res) => {
 })
 
 app.post("/updateProfile", authMiddleware, async (req, res) => {
-  console.log("/updateProfile called")
   const authenticatedUserData = req.user
   const userId = authenticatedUserData.userId
-  console.log(req.body)
 
   const { newUsername, newEmail } = req.body
 
@@ -202,7 +197,6 @@ app.post("/updateProfile", authMiddleware, async (req, res) => {
     )
     // return updated user from the database
     const updatedUser = await usersCollection.findOne(ObjectId.createFromHexString(userId))
-    console.log(updatedUser)
     res.status(200).json({_id: updatedUser._id, username: updatedUser.username, email: updatedUser.email })
   } catch (error) {
     console.error('Error updating profile: #%s' , error)
