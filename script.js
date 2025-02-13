@@ -15,11 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // set the greeting based on the time of day
     if (hour < 12) {
-      greeting.textContent = `"Good Morning, ${username}!`
+      greeting.textContent = `Good Morning, ${username}!`
     } else if (hour < 18) {
-      greeting.textContent = `"Good Afternoon, ${username}!`
+      greeting.textContent = `Good Afternoon, ${username}!`
     } else {
-      greeting.textContent = `"Good Evening, ${username}!`
+      greeting.textContent = `Good Evening, ${username}!`
     }
 
     // hide the error message div on page load and clear any previous error messages
