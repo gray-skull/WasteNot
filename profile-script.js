@@ -1,5 +1,4 @@
 async function fetchProfile() {
-    const userInfo = document.getElementById("user-info")
     const token = localStorage.getItem("token")
 
     // If no token, show login/register message
@@ -37,6 +36,7 @@ async function fetchProfile() {
         const id = document.getElementById("id")
         id.innerHTML = `${user._id}`
 
+
         //Render any saved recipes
         const savedRecipesContainer = document.getElementById("saved-recipes");
         if (user.savedRecipes && user.savedRecipes.length > 0) {
@@ -66,6 +66,9 @@ async function fetchProfile() {
         localStorage.removeItem("username")
         localStorage.removeItem("email")
         localStorage.removeItem("_id")
+        localStorage.removeItem("savedRecipes")
+        localStorage.removeItem("diet")
+        localStorage.removeItem("intolerances")
 
         document.getElementById("login-btn").style.display = "inline"
         document.getElementById("signup-btn").style.display = "inline"
@@ -84,7 +87,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const updatePasswordBtn = document.getElementById("updatePasswordBtn")
     const updateProfileBtn = document.getElementById("updateProfileBtn")
+    const updatePreferencesForm = document.getElementById("updatePreferencesForm")
+    const dietPreferenceCheckboxArea = document.getElementById("dietPreferenceCheckboxArea")
+    const intolerancePreferenceCheckboxArea = document.getElementById("intolerancePreferenceCheckboxArea")
     const token = localStorage.getItem("token")
+
+    // Toggle diet and intolerance checkboxes based on user preferences from local storage
+    
+    if (dietPreferenceCheckboxArea && intolerancePreferenceCheckboxArea) {
+        const diets = localStorage.getItem("diets") ? localStorage.getItem("diets") : []
+        const intolerances = localStorage.getItem("intolerances") ? localStorage.getItem("intolerances") : []
+        Array.from(dietPreferenceCheckboxArea.querySelectorAll('input')).forEach(d => {
+            if (diets.includes(d.value)) {
+                d.checked = true
+            }
+        })
+        Array.from(intolerancePreferenceCheckboxArea.querySelectorAll('input')).forEach(i => {
+            if (intolerances.includes(i.value)) {
+                i.checked = true
+            }
+        })
+    }
+
 
     // Update profile listener
     if(updateProfileBtn) {
@@ -148,6 +172,38 @@ document.addEventListener("DOMContentLoaded", async () => {
                     alert("Password updated!")
                 } else {
                     alert("Password update failed.")
+                }
+            } catch (error) {
+                console.error(error.message, error.stack.split("\n"))
+            }
+        })
+    }
+
+    // update preferences
+    if (updatePreferencesForm) {
+        updatePreferencesForm.addEventListener("submit", async (event) => {
+            event.preventDefault()
+            try {
+                const diets = Array.from(event.target.elements.diet)
+                    .filter(d => d.checked)
+                    .map(d => d.value)
+                const intolerances = Array.from(event.target.elements.intolerances)
+                    .filter(i => i.checked)
+                    .map(i => i.value)
+                const response = await fetch("http://localhost:8080/updatePreferences", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ diets, intolerances }),
+                })
+                if (response.ok) {
+                    localStorage.setItem("diets", diets)
+                    localStorage.setItem("intolerances", intolerances)
+                    alert("Preferences updated!")
+                } else {
+                    alert("Preferences update failed.")
                 }
             } catch (error) {
                 console.error(error.message, error.stack.split("\n"))

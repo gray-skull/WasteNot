@@ -7,19 +7,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const hour = date.getHours()
     // get the greeting div
     const greeting = document.getElementById("greeting")
+    let username;
+    if(localStorage.getItem("token")) {
+      username = localStorage.getItem("username")
+    } else {
+      username = "Guest"
+    }
     // set the greeting based on the time of day
     if (hour < 12) {
-      greeting.textContent = "Good Morning!"
+      greeting.textContent = `"Good Morning, ${username}!`
     } else if (hour < 18) {
-      greeting.textContent = "Good Afternoon!"
+      greeting.textContent = `"Good Afternoon, ${username}!`
     } else {
-      greeting.textContent = "Good Evening!"
+      greeting.textContent = `"Good Evening, ${username}!`
     }
 
     // hide the error message div on page load and clear any previous error messages
     const errorDiv = document.getElementById("error-message") // get the error message div
     errorDiv.textContent = "" // clear any previous error messages
     errorDiv.style.display = "none" // hide the error message div
+
+    // if the user is logged in, toggle the diet and intolerance options from the user preferences
+    const dietPreferenceCheckboxArea = document.getElementById("dietCheckboxArea") // get the diet checkbox area
+    const intolerancePreferenceCheckboxArea = document.getElementById("intolerancesCheckboxArea") // get the intolerance checkbox area
+    const diets = localStorage.getItem("diets") ? localStorage.getItem("diets").split(",") : [] // get the diets from local storage
+    const intolerances = localStorage.getItem("intolerances") ? localStorage.getItem("intolerances").split(",") : [] // get the intolerances from local storage
+
+    // iterate over the diet checkboxes and check the ones that match the user preferences
+    Array.from(dietPreferenceCheckboxArea.querySelectorAll("input")).forEach(d => {
+      if (diets.includes(d.value)) {
+        d.checked = true
+      }
+    })
+
+    // iterate over the intolerance checkboxes and check the ones that match the user preferences
+    Array.from(intolerancePreferenceCheckboxArea.querySelectorAll("input")).forEach(i => {
+      if (intolerances.includes(i.value)) {
+        i.checked = true
+      }
+    })
+
 
      // add an event listener to the content div to handle search form submissions
     document.addEventListener("submit", async event => {
@@ -171,12 +198,14 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("username", user.username)
             localStorage.setItem("email", user.email)
             localStorage.setItem("_id", user._id)
+            localStorage.setItem("diets", user.diets || "")
+            localStorage.setItem("intolerances", user.intolerances || "")
 
             loginError.style.display = "block" // display the error message div 
             loginError.textContent = message // display the success message
 
             // Redirect to the home page
-            window.location.href = "/profile"
+            window.location.href = "/home"
           } else {
             loginError.style.display = "block" // display the error message div
             loginError.textContent = "Login failed. Please try again." // display an error message
@@ -241,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginBtn.style.display = "none"
     signupBtn.style.display = "none"
     welcomeUser.style.display = "inline"
-    welcomeUser.innerText = `Welcome, ${username}!`
+    welcomeUser.innerHTML = `Logged in: <a href="http://localhost:8080/profile">${username}</a>`
     logoutBtn.style.display = "inline"
   } else {
     //If no user is logged in
@@ -257,6 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem("token")
     localStorage.removeItem("email")
     localStorage.removeItem("_id")
+    localStorage.removeItem("diet")
+    localStorage.removeItem("intolerances")
     window.location.reload()
   })
 

@@ -54,11 +54,14 @@
               <button type="button" id="clear-button" onclick="clearSearch()">Clear</button>
             </div>
 
+            
             <div class="diet-checkbox-container">
               <h4>Filters:</h4>
+              <p>Tip: You can save the below options by logging in!</p>
               <button type="button" class="toggle-button" id="toggle-diet" onclick="toggleDietCheckboxArea()">Show Diet Options</button>
+              
               <div class="checkboxArea" id="dietCheckboxArea" name="diet">
-                <p class="filter-instructions">Select any diets you would like the recipe to cater to. Multiple selections are allowed.</p>
+                <p class="filter-instructions">Select as many diets as you would like the recipe to cater to.</p><br>
                 <div>
                   <input class="filter-checkbox" type="checkbox" id="Gluten Free" name="diet" value="Gluten Free">
                   <label for="Gluten Free">Gluten Free</label>
@@ -109,7 +112,7 @@
             <div class="intolerances-checkbox-container">
               <button type="button" class="toggle-button" id="toggle-intolerances" onclick="toggleIntoleranceCheckboxArea()">Show Intolerances Options</button>
               <div class="checkboxArea" id="intolerancesCheckboxArea" name="intolerances">
-                <p class="filter-instructions">Select any intolerances/allergies you would like the recipe to cater to. Multiple selections are allowed.</p>
+                <p class="filter-instructions">Select as many intolerances/allergies as you would like the recipe to cater to.</p>
                 <div>
                   <input class="filter-checkbox" type="checkbox" id="Dairy" name="intolerances" value="Dairy">
                   <label for="Dairy">Dairy</label>

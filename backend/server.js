@@ -139,7 +139,18 @@ app.post("/login", async (req, res) => {
 
     })
 
-    res.json({token: token, user: { _id: user._id, username: user.username, email: user.email }})
+    res.json(
+      {
+        token: token, 
+        user: { 
+          _id: user._id, 
+          username: user.username, 
+          email: user.email,
+          diets: user.diets,
+          intolerances: user.intolerances 
+        }
+      }
+    )
   } catch (error) {
     console.error("Login Error:", error)
     res.status(500).json({ error: "Server error" })
@@ -167,6 +178,24 @@ app.get("/userProfile", authMiddleware, async (req, res) => {
       user.savedRecipes = savedRecipes;
     } else {
       user.savedRecipes = [];
+    }
+
+    if (user.savedDiets && user.savedDiets.length > 0) {
+      const savedDiets = await usersCollection
+        .find({ _id: { $in: user.savedDiets } })
+        .toArray();
+      user.savedDiets = savedDiets;
+    } else {
+      user.savedDiets = [];
+    }
+
+    if (user.savedIntolerances && user.savedIntolerances.length > 0) {
+      const savedIntolerances = await usersCollection
+        .find({ _id: { $in: user.savedIntolerances } })
+        .toArray();
+      user.savedIntolerances = savedIntolerances;
+    } else {
+      user.savedIntolerances = [];
     }
 
     res.json(user)
@@ -238,11 +267,27 @@ app.post("/updatePassword", authMiddleware, async (req, res) => {
   }
 })
 
+app.post("/updatePreferences", authMiddleware, async (req, res) => {
+  const { userId } = req.user
+  const { diets, intolerances } = req.body
+
+  try {
+    await usersCollection.updateOne(
+      { _id: ObjectId.createFromHexString(userId) },
+      { $set: { diets, intolerances } }
+    )
+    res.status(200).json({ message: "Preferences updated successfully" })
+  } catch (error) {
+    console.error("Error updating preferences:", error)
+    res.status(500).json({ error: "Error updating preferences" })
+  }
+})
+
 // Fetch recipes from Spoonacular API
 app.post("/recipes", async (req, res) => {
   // Get ingredients from the request body
   const { ingredients } = req.body
-  const { diet } = req.body
+  const { diets } = req.body
   const { intolerances } = req.body
   const { resultLimit } = req.body
 
@@ -258,8 +303,8 @@ app.post("/recipes", async (req, res) => {
   let urlWithIngredients = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&includeIngredients=${ingredients}&sort=max-used-ingredients&number=${resultLimit}`
 
   // add diet and intolerances to the URL if provided
-  if (diet !== "") {
-    urlWithIngredients += `&diet=${diet}`
+  if (diets !== "") {
+    urlWithIngredients += `&diet=${diets}`
   }
   if (intolerances !== "") {
     urlWithIngredients += `&intolerances=${intolerances}`
