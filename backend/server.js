@@ -2,7 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const axios = require("axios")
 const cors = require("cors")
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb")
+const { MongoClient, ServerApiVersion, ObjectId, Timestamp } = require("mongodb")
 
 const authRoutes = require("./authRoutes") //Added for profile integration
 const jwt = require("jsonwebtoken")
@@ -147,7 +147,8 @@ app.post("/login", async (req, res) => {
           username: user.username, 
           email: user.email,
           diets: user.diets,
-          intolerances: user.intolerances 
+          intolerances: user.intolerances,
+          lastUpdate: user.lastUpdate 
         }
       }
     )
@@ -218,6 +219,7 @@ app.post("/updateProfile", authMiddleware, async (req, res) => {
   const updateFields = {}
   if (newUsername) updateFields.username = newUsername
   if (newEmail) updateFields.email = newEmail
+  updateFields.lastUpdate = new Date()
 
   try {
     await usersCollection.updateOne(
@@ -226,7 +228,7 @@ app.post("/updateProfile", authMiddleware, async (req, res) => {
     )
     // return updated user from the database
     const updatedUser = await usersCollection.findOne(ObjectId.createFromHexString(userId))
-    res.status(200).json({_id: updatedUser._id, username: updatedUser.username, email: updatedUser.email })
+    res.status(200).json({_id: updatedUser._id, username: updatedUser.username, email: updatedUser.email, lastUpdate: updatedUser.lastUpdate})
   } catch (error) {
     console.error('Error updating profile: #%s' , error)
     res.status(500).json({ error: "Error updating profile" })
@@ -257,7 +259,7 @@ app.post("/updatePassword", authMiddleware, async (req, res) => {
 
     await usersCollection.updateOne(
       { _id: ObjectId.createFromHexString(userId) },
-      { $set: { password: hashedPassword } }
+      { $set: { password: hashedPassword }, lastUpdate: new Date() }
     )
 
     res.status(200).json({ message: "Password updated successfully" })
@@ -274,7 +276,7 @@ app.post("/updatePreferences", authMiddleware, async (req, res) => {
   try {
     await usersCollection.updateOne(
       { _id: ObjectId.createFromHexString(userId) },
-      { $set: { diets, intolerances } }
+      { $set: { diets, intolerances }, lastUpdate: new Date() }
     )
     res.status(200).json({ message: "Preferences updated successfully" })
   } catch (error) {
@@ -413,8 +415,8 @@ app.post("/save-recipe", authMiddleware, async (req, res) => {
 
     //Update user's savedRecipes (used $addToSet to avoid duplicates)
     const updatedUser = await usersCollection.findOneAndUpdate(
-      { _id: new ObjectId(userId) },
-      { $addToSet: { savedRecipes: recipeObjectId } },
+      { _id: ObjectId.createFromHexString(userId) },
+      { $addToSet: { savedRecipes: recipeObjectId }, $set: { lastUpdate: new Date() } },
       { returnOriginal: false } //return updated doc
     );
 

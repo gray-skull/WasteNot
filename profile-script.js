@@ -36,6 +36,18 @@ async function fetchProfile() {
         const id = document.getElementById("id")
         id.innerHTML = `${user._id}`
 
+        const lastUpdated = document.getElementById("lastUpdated")
+        const formattedDate = new Date(user.lastUpdate).toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+        lastUpdated.innerHTML = `${formattedDate}`;
+
 
         //Render any saved recipes
         const savedRecipesContainer = document.getElementById("saved-recipes");
@@ -59,7 +71,7 @@ async function fetchProfile() {
 
     } catch (error) {
         // If token is invalid or request fails, clear the token and prompt login
-        alert("error:", error)
+        alert(error.message, error.stack.split("\n"))
         console.error("Profile fetch error:", error)
         
         localStorage.removeItem("token")
@@ -67,8 +79,10 @@ async function fetchProfile() {
         localStorage.removeItem("email")
         localStorage.removeItem("_id")
         localStorage.removeItem("savedRecipes")
-        localStorage.removeItem("diet")
+        localStorage.removeItem("diets")
         localStorage.removeItem("intolerances")
+        localStorage.removeItem("lastUpdated")
+
 
         document.getElementById("login-btn").style.display = "inline"
         document.getElementById("signup-btn").style.display = "inline"
@@ -82,6 +96,7 @@ async function fetchProfile() {
     }
 }
 
+// Event listeners for profile page buttons and forms
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchProfile();
 
@@ -133,12 +148,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const updatedUsername = updatedUser.username;
                 const updatedEmail = updatedUser.email;
                 const updated_id = updatedUser._id;
+                const updatedLastUpdated = updatedUser.lastUpdate;
 
                 const welcomeUser = document.getElementById("welcome-user");
 
                 localStorage.setItem("username", updatedUsername);
                 localStorage.setItem("email", updatedEmail);
                 localStorage.setItem("_id", updated_id);
+                localStorage.setItem("lastUpdated", updatedLastUpdated);
                 fetchProfile();
                 welcomeUser.innerHTML = `Welcome, ${localStorage.getItem(username)}!`; 
                 

@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("_id", user._id)
             localStorage.setItem("diets", user.diets || "")
             localStorage.setItem("intolerances", user.intolerances || "")
+            localStorage.setItem("lastUpdated", user.lastUpdate || "")
 
             loginError.style.display = "block" // display the error message div 
             loginError.textContent = message // display the success message

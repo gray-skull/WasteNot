@@ -36,15 +36,30 @@
         width: 80% !important;
     }
 
+    #auth-buttons {
+        padding: 0.3rem 1.5rem !important;
+        font-size: 1.2rem !important;
+    }
+
     #auth-buttons button {
-        padding: 0rem 1.5rem !important;
+        padding: 0.7em 1.5rem !important;
         font-size: 1rem !important;
     }
 
-    .welcome-user, .welcome-user a {
+    #logout-btn {
+        font-size: 1rem !important;
+        padding: 0.5rem 1.5rem !important;
+    }
+
+    .welcome-user {
         font-size: 1rem !important;
         padding: 1rem 1rem !important;
         margin: 0rem !important;
+    }
+
+    .welcome-user a {
+        padding: 1rem 1rem !important;
+        height: 100% !important;
     }
 
     .bottom-menu {
@@ -80,10 +95,7 @@
         font-size: 2.5rem !important;
     }
 
-    #logout-btn {
-        font-size: 1.5rem !important;
-        padding: 1rem 1rem !important;
-    }
+
 }
 
 @media (max-width: 600px) {
