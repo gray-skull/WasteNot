@@ -1177,3 +1177,36 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
 
 
 }
+
+/* Dark Mode Styles */
+.dark-mode {
+    --main-color: #1e1e1e;
+    --main-color-dark: #121212;
+
+    --secondary-color: #4c6c40;
+    --secondary-color-dark: #85bd6f;
+
+    --tertiary-color: #512f2c;
+    --tertiary-color-dark: #d3736a;
+
+    background: linear-gradient(to top, var(--secondary-color) 0%, var(--main-color) 100%);
+    color: white;
+}
+
+.dark-mode a {
+    color: var(--tertiary-color);
+}
+
+.dark-mode a:hover {
+    color: var(--secondary-color-dark);
+}
+
+.dark-mode .rounded-card {
+    background: linear-gradient(to top left, var(--main-color-dark) 0%, var(--main-color) 150%);
+    border: 1px solid var(--tertiary-color);
+}
+
+.dark-mode button {
+    background-color: var(--tertiary-color-dark);
+    color: white;
+}

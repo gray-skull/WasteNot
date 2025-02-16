@@ -1,14 +1,14 @@
 // dynamic content generation for the navigation menu
 document.addEventListener("DOMContentLoaded", () => {
-  if(window.location.pathname.includes("/home")) {
+  if (window.location.pathname.includes("/home")) {
     // get the current date
     const date = new Date()
     // get the current hour
     const hour = date.getHours()
     // get the greeting div
     const greeting = document.getElementById("greeting")
-    let username;
-    if(localStorage.getItem("token")) {
+    let username
+    if (localStorage.getItem("token")) {
       username = localStorage.getItem("username")
     } else {
       username = "Guest"
@@ -28,27 +28,37 @@ document.addEventListener("DOMContentLoaded", () => {
     errorDiv.style.display = "none" // hide the error message div
 
     // if the user is logged in, toggle the diet and intolerance options from the user preferences
-    const dietPreferenceCheckboxArea = document.getElementById("dietCheckboxArea") // get the diet checkbox area
-    const intolerancePreferenceCheckboxArea = document.getElementById("intolerancesCheckboxArea") // get the intolerance checkbox area
-    const diets = localStorage.getItem("diets") ? localStorage.getItem("diets").split(",") : [] // get the diets from local storage
-    const intolerances = localStorage.getItem("intolerances") ? localStorage.getItem("intolerances").split(",") : [] // get the intolerances from local storage
+    const dietPreferenceCheckboxArea =
+      document.getElementById("dietCheckboxArea") // get the diet checkbox area
+    const intolerancePreferenceCheckboxArea = document.getElementById(
+      "intolerancesCheckboxArea"
+    ) // get the intolerance checkbox area
+    const diets = localStorage.getItem("diets")
+      ? localStorage.getItem("diets").split(",")
+      : [] // get the diets from local storage
+    const intolerances = localStorage.getItem("intolerances")
+      ? localStorage.getItem("intolerances").split(",")
+      : [] // get the intolerances from local storage
 
     // iterate over the diet checkboxes and check the ones that match the user preferences
-    Array.from(dietPreferenceCheckboxArea.querySelectorAll("input")).forEach(d => {
-      if (diets.includes(d.value)) {
-        d.checked = true
+    Array.from(dietPreferenceCheckboxArea.querySelectorAll("input")).forEach(
+      d => {
+        if (diets.includes(d.value)) {
+          d.checked = true
+        }
       }
-    })
+    )
 
     // iterate over the intolerance checkboxes and check the ones that match the user preferences
-    Array.from(intolerancePreferenceCheckboxArea.querySelectorAll("input")).forEach(i => {
+    Array.from(
+      intolerancePreferenceCheckboxArea.querySelectorAll("input")
+    ).forEach(i => {
       if (intolerances.includes(i.value)) {
         i.checked = true
       }
     })
 
-
-     // add an event listener to the content div to handle search form submissions
+    // add an event listener to the content div to handle search form submissions
     document.addEventListener("submit", async event => {
       // check if the event target is the search form and the submit button was clicked
       if (
@@ -98,7 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
               "Content-Type": "application/json"
             },
             // stringify the ingredients, diet, and intolerances and send them in the request body
-            body: JSON.stringify({ ingredients, diet, intolerances, resultLimit })
+            body: JSON.stringify({
+              ingredients,
+              diet,
+              intolerances,
+              resultLimit
+            })
           })
 
           // add a loading spinner to the search results div
@@ -120,7 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
               recipes === "Frontend: No recipes found"
             ) {
               // if no recipes are found or response is "No recipes found", display a message
-              recipesList.innerHTML = "<li><h3>Sorry, no recipes found</h3></li>"
+              recipesList.innerHTML =
+                "<li><h3>Sorry, no recipes found</h3></li>"
             } else {
               // otherwise, display the recipes
               recipes.forEach(recipe => {
@@ -142,7 +158,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("recipes-list").firstElementChild // get the first result
               if (firstResult) {
                 // scroll until the first result is at the top of the viewport
-                firstResult.scrollIntoView({ behavior: "smooth", block: "start" })
+                firstResult.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start"
+                })
               }
             }
           } else if (response.status === 400) {
@@ -166,11 +185,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     })
-
   } // end of home page specific code
 
   // code specific to the login page
-  if(window.location.pathname.includes("/login")) {
+  if (window.location.pathname.includes("/login")) {
     // function to handle login form submission
     const loginForm = document.getElementById("login-form")
     const loginError = document.getElementById("login-error")
@@ -193,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (response.ok) {
           // If the response is OK, get the token from the response
-          
+
           const data = await response.json()
           const token = data.token
           const user = data.user
@@ -209,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("intolerances", user.intolerances || "")
             localStorage.setItem("lastUpdated", user.lastUpdate || "")
 
-            loginError.style.display = "block" // display the error message div 
+            loginError.style.display = "block" // display the error message div
             loginError.textContent = message // display the success message
 
             // Redirect to the home page
@@ -218,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
             loginError.style.display = "block" // display the error message div
             loginError.textContent = "Login failed. Please try again." // display an error message
             throw new Error("Token not received from server")
-
           }
         } else {
           const errorData = await response.json()
@@ -252,7 +269,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <option value="/profile">Profile</option>
     <option value="/settings">Settings</option>
   `
-  
 
   // function to load the signup and login buttons on each page, inserts the html into the auth-buttons div
   const authButtons = document.getElementById("auth-buttons")
@@ -262,7 +278,6 @@ document.addEventListener("DOMContentLoaded", () => {
   <span id="welcome-user" style="display: none"></span>
   <button id="logout-btn" style="display: none">Logout</button>
   `
-  
 })
 
 // code for handling login, signup, and logout buttons
@@ -289,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
     welcomeUser.style.display = "none"
     logoutBtn.style.display = "none"
   }
-  
+
   logoutBtn.addEventListener("click", () => {
     localStorage.clear()
     localStorage.removeItem("username")
@@ -303,8 +318,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // function to handle the bottom menu select change event
   const bottomMenuSelect = document.getElementById("bottom-menu-select")
-    
-  bottomMenuSelect.addEventListener("change", (event) => {
+
+  bottomMenuSelect.addEventListener("change", event => {
     const selectedValue = event.target.value
     if (selectedValue) {
       window.location.href = selectedValue
@@ -353,7 +368,9 @@ function toggleIntoleranceCheckboxArea() {
 function clearSearch() {
   document.getElementById("search-form").reset()
   document.getElementById("search-results").innerHTML = ""
-  const intolerancesCheckboxArea = document.getElementById("intolerancesCheckboxArea")
+  const intolerancesCheckboxArea = document.getElementById(
+    "intolerancesCheckboxArea"
+  )
   const dietCheckboxArea = document.getElementById("dietCheckboxArea")
   const resultLimit = document.getElementById("resultLimit")
   intolerancesCheckboxArea.style.display = "none"
@@ -361,6 +378,29 @@ function clearSearch() {
   resultLimit.value = "2"
 }
 
+// dark and light theme toggle
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggleBtn = document.createElement("button")
+  themeToggleBtn.textContent = "Toggle Theme"
+  themeToggleBtn.classList.add("toggle-button")
+  document.body.appendChild(themeToggleBtn)
 
+  // Check saved theme preference
+  let currentTheme = localStorage.getItem("theme") || "light"
 
+  if (currentTheme === "dark") {
+    document.body.classList.add("dark-mode")
+  }
 
+  themeToggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode")
+
+    if (document.body.classList.contains("dark-mode")) {
+      localStorage.setItem("theme", "dark")
+      themeToggleBtn.textContent = "Light Mode"
+    } else {
+      localStorage.setItem("theme", "light")
+      themeToggleBtn.textContent = "Dark Mode"
+    }
+  })
+})
