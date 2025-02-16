@@ -58,7 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault() // prevent the default form submission behavior
 
         var ingredients = event.target.elements.ingredients.value // get the ingredients from the form input
-      
+        const searchResults = document.getElementById("search-results") // get the search results div
+
         // parse the ingredients to ensure it is a comma-separated list and doesn't contain any special characters or numbers
         if (ingredients === "") {
           errorDiv.style.display = "block" // display the error message div
@@ -100,11 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify({ ingredients, diet, intolerances, resultLimit })
           })
 
+          // add a loading spinner to the search results div
+          searchResults.innerHTML = `<div class="spinner-border text-primary" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                      </div>` // add a loading spinner to the search results div
+
           if (response.ok) {
             // if the response from the fetch is OK (status 200), parse the JSON and display the recipes
             const recipes = await response.json() // parse the JSON response from the server into an array of recipes
-            const searchResults = document.getElementById("search-results") // get the search results div
-
             searchResults.innerHTML = `<div class="divider"></div>  
                                         <ul id="recipes-list"></ul>
                                         ` // add a divider and an empty <ul> element to the search results div
@@ -125,7 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 li.innerHTML = `
                   <a href="recipe.html?id=${recipe.id}">
                     <h3>${recipe.title}</h3>
+                    <section class="image-box">
                     <img src="${recipe.image}" alt="${recipe.title}" />
+                    </section>
                   </a>
                 `
                 recipesList.appendChild(li) // append the <li> element to the <ul> element
@@ -163,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   } // end of home page specific code
 
+  // code specific to the login page
   if(window.location.pathname.includes("/login")) {
     // function to handle login form submission
     const loginForm = document.getElementById("login-form")
@@ -176,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         // Send a POST request to the login API
-        const response = await fetch("http://localhost:8080/login", {
+        const response = await fetch("/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -227,22 +234,23 @@ document.addEventListener("DOMContentLoaded", () => {
   } // end of login page specific code
 
   // function to load the bottom-menu on each page, inserts the html into the bottom-menu div
+  // the links send a GET request to the corresponding page
   const bottomMenu = document.getElementById("bottom-menu")
   bottomMenu.innerHTML = `
-  <a href="http://localhost:8080/home">Home</a>
-  <a href="http://localhost:8080/about">About</a>
-  <a href="http://localhost:8080/profile" id="profile-link">Profile</a>
-  <a href="http://localhost:8080/settings">Settings</a>
+  <a href='#' id="home" onclick="window.location.href='/home'">Home</a>
+  <a href='#' id="about" onclick="window.location.href='/about'">About</a>
+  <a href='#' id="profile" onclick="window.location.href='/profile'">Profile</a>
+  <a href='#' id="settings" onclick="window.location.href='/settings'">Settings</a>
   `
 
   // function to load the bottom-menu-select on each page, inserts the html into the bottom-menu-select div
   const bottomMenuSelect = document.getElementById("bottom-menu-select")
   bottomMenuSelect.innerHTML = `
     <option value="" disabled selected>Navigate to...</option>
-    <option value="http://localhost:8080/home">Home</option>
-    <option value="http://localhost:8080/about">About</option>
-    <option value="http://localhost:8080/profile">Profile</option>
-    <option value="http://localhost:8080/settings">Settings</option>
+    <option value="/home">Home</option>
+    <option value="/about">About</option>
+    <option value="/profile">Profile</option>
+    <option value="/settings">Settings</option>
   `
   
 
@@ -257,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
 })
 
+// code for handling login, signup, and logout buttons
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("login-btn")
   const signupBtn = document.getElementById("signup-btn")
@@ -271,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginBtn.style.display = "none"
     signupBtn.style.display = "none"
     welcomeUser.style.display = "inline"
-    welcomeUser.innerHTML = `Logged in: <a href="http://localhost:8080/profile">${username}</a>`
+    welcomeUser.innerHTML = `Logged in: <a href="/profile">${username}</a>`
     logoutBtn.style.display = "inline"
   } else {
     //If no user is logged in

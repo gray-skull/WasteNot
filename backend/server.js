@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const express = require("express")
 const bodyParser = require("body-parser")
 const axios = require("axios")
@@ -6,13 +8,12 @@ const { MongoClient, ServerApiVersion, ObjectId, Timestamp } = require("mongodb"
 
 const authRoutes = require("./authRoutes") //Added for profile integration
 const jwt = require("jsonwebtoken")
-
-require("dotenv").config()
 const bcrypt = require("bcryptjs")
 
 const apiKey = process.env.SPOONACULAR_API_KEY
 const mongoURI = process.env.MONGO_URI
 const port = process.env.PORT || 8080
+const jwtSecret = process.env.JWT_SECRET
 
 const app = express()
 const path = require("path")
@@ -55,6 +56,7 @@ connectToDatabase()
 const database = client.db("wastenot")
 const recipesCollection = database.collection("recipes") // Collection for recipes
 const usersCollection = database.collection("users") // Collection for users
+
 
 // Serve static files like images, styles, and scripts
 app.use(express.static(path.join(__dirname, "../")))
@@ -134,7 +136,7 @@ app.post("/login", async (req, res) => {
     }
 
     // Generate JWT
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, jwtSecret, {
       expiresIn: "1h",
 
     })
@@ -259,7 +261,7 @@ app.post("/updatePassword", authMiddleware, async (req, res) => {
 
     await usersCollection.updateOne(
       { _id: ObjectId.createFromHexString(userId) },
-      { $set: { password: hashedPassword }, lastUpdate: new Date() }
+      { $set: { password: hashedPassword, lastUpdate: new Date() } }
     )
 
     res.status(200).json({ message: "Password updated successfully" })
@@ -276,7 +278,8 @@ app.post("/updatePreferences", authMiddleware, async (req, res) => {
   try {
     await usersCollection.updateOne(
       { _id: ObjectId.createFromHexString(userId) },
-      { $set: { diets, intolerances }, lastUpdate: new Date() }
+      { $set: { diets, intolerances, lastUpdate: new Date() } },
+      { upsert: true }
     )
     res.status(200).json({ message: "Preferences updated successfully" })
   } catch (error) {
@@ -417,7 +420,7 @@ app.post("/save-recipe", authMiddleware, async (req, res) => {
     const updatedUser = await usersCollection.findOneAndUpdate(
       { _id: ObjectId.createFromHexString(userId) },
       { $addToSet: { savedRecipes: recipeObjectId }, $set: { lastUpdate: new Date() } },
-      { returnOriginal: false } //return updated doc
+      { returnDocument: 'after' } //return updated doc
     );
 
     res.status(200).json({

@@ -9,10 +9,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const username = document.getElementById("username").value
     const email = document.getElementById("email").value
     const password = document.getElementById("password").value
+    const confirmPassword = document.getElementById("confirm-password").value
+
+    // Validate the form input
+    if (!username || !email || !password || !confirmPassword) {
+      signupError.textContent = "All fields are required."
+      return
+    }
+    // Validate the password
+    if (password !== confirmPassword) {
+      signupError.textContent = "Passwords do not match."
+      return
+    }
+
+    // Clear any previous error message and display a loading spinner
+    signupError.textContent = ""
+    const spinner = document.createElement("span")
+    spinner.classList.add("spinner-border", "spinner-border-sm")
+    signupError.appendChild(spinner)
+
 
     try {
       // Send a POST request to the /register route
-      const response = await fetch("http://localhost:8080/register", {
+      const response = await fetch("/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
