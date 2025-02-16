@@ -19,7 +19,9 @@ async function fetchProfile() {
         });
 
         if (!response.ok) {
-            window.location.href = "/login"
+            document.getElementById("user-info").innerHTML = `
+                <p>Your session has expired. Please <a href="/login">Sign in</a> again.</p>
+            `;
             throw new Error("Your session has expired. Please Log in again.")
             
         }
@@ -27,13 +29,19 @@ async function fetchProfile() {
         const user = await response.json()
 
         const username = document.getElementById("username")
-        username.innerHTML = `${user.username}`
+        if (username) {
+            username.innerHTML = `${user.username}`
+        }
 
         const email = document.getElementById("email")
-        email.innerHTML = `${user.email}`
+        if (email) {
+            email.innerHTML = `${user.email}`
+        }
 
         const id = document.getElementById("id")
-        id.innerHTML = `${user._id}`
+        if (id) {
+            id.innerHTML = `${user._id}`
+        }
 
         const lastUpdated = document.getElementById("lastUpdated")
         const formattedDate = new Date(user.lastUpdate).toLocaleString('en-US', {
@@ -56,8 +64,10 @@ async function fetchProfile() {
                 recipesHtml += `
                     <li>
                         <a href="recipe.html?id=${recipe.id}">
-                            <h4>${recipe.title}</h4>
-                            <img src="${recipe.image}" alt="${recipe.title}" style="width:100px;"/>
+                        <h3>${recipe.title}</h3>
+                        <section class="image-box" style="width: 200px; margin: 0 auto;">
+                            <img src="${recipe.image}" alt="${recipe.title}" />
+                        </section>
                         </a>
                     </li>
                 `;
@@ -154,8 +164,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             try {
                 const newUsernameElement = document.getElementById("newUsername");
                 const newEmailElement = document.getElementById("newEmail");
-                const newUsername = newUsernameElement.value;
-                const newEmail = newEmailElement.value;
+                const newUsername = newUsernameElement ? newUsernameElement.value : "";
+                const newEmail = newEmailElement ? newEmailElement.value : "";
 
                 if (!newUsername && !newEmail) {
                     showError("updateProfileError", "Both fields cannot be empty.");

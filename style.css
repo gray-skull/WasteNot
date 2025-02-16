@@ -87,10 +87,10 @@ html, body {
 }
 
 body {
-    margin: 3rem 1rem 0rem 1rem;
+    margin: 3rem 1rem 2rem 1rem;
     background: linear-gradient(to top, var(--secondary-color) 0%, var(--main-color) 100%);
     animation: background-move 5s ease infinite;
-    padding: 0rem;
+    padding: 0rem 0rem 2rem 0rem;
     width: 100%;
     height: inherit;
 }
@@ -564,9 +564,40 @@ section.image-box img {
 /*recipe details page*/
 
 #recipe-details {
-    margin: 0rem auto;
+    margin: 1rem auto 0rem auto;
     max-width: 600px;
     padding: 1rem;
+}
+
+button#back-button {
+    margin: 0.5rem auto;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    background: var(--main-color);
+    box-shadow: var(--shadow-standard);
+}
+
+button#back-button:hover {
+    color: white;
+    background-color: var(--tertiary-color-dark);
+    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+    cursor: pointer;
+}
+
+button#save-recipe-btn {
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.4rem;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+}
+
+button#save-recipe-btn:hover {
+    color: white;
+    background-color: var(--tertiary-color-dark);
+    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+    cursor: pointer;
 }
 
 #recipe-details img {
@@ -705,6 +736,23 @@ fieldset#profileInfo h4 {
 fieldset#profileInfo p {
     font-size: 1rem;
     margin: 0rem;
+}
+
+#saved-recipes-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    margin: 1rem auto;
+    list-style: none;
+}
+
+@media (max-width: 600px) {
+    #saved-recipes-list {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Authentication */
@@ -1089,7 +1137,7 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
 
 
     body {
-        margin: 3rem auto 0rem auto !important;
+        margin: 3rem auto 2rem auto !important;
         padding: 0rem 0rem 2rem 0rem !important;
     }
 
@@ -1194,11 +1242,14 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
 }
 
 .dark-mode a {
-    color: var(--tertiary-color);
+    color: var(--tertiary-color-dark);
 }
 
 .dark-mode a:hover {
-    color: var(--secondary-color-dark);
+    color: var(--main-color-dark);
+    background-color: var(--tertiary-color-dark);
+    text-shadow: 0px 0px 1px black;
+    border-radius: 10px;
 }
 
 .dark-mode .rounded-card {
@@ -1206,10 +1257,89 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     border: 1px solid var(--tertiary-color);
 }
 
-.dark-mode button {
-    background-color: var(--tertiary-color-dark);
+.dark mode input[type="text"] {
+    background-color: var(--main-color-dark);
     color: white;
 }
+
+.dark-mode input[type="text"]:focus {
+    color: white;
+    background-color: var(--main-color); 
+    border-color: var(--tertiary-color-dark); 
+    outline: none;
+}
+
+.dark-mode button {
+    background-color: var(--tertiary-color);
+    color: white;
+}
+
+.dark-mode button:hover {
+    background-color: var(--tertiary-color-dark);
+    text-shadow: 0px 0px 6px black;
+}
+
+.dark-mode button#search-button {
+    color: white;
+}
+
+.dark-mode button#search-button:hover {
+    background-color: var(--tertiary-color-dark);
+}
+
+.dark-mode button#clear-button {
+    color: white;
+}
+
+.dark-mode button#clear-button:hover {
+    color: var(--tertiary-color-dark);
+}
+
+.dark-mode #welcome-user {
+    color: white;
+}
+
+.dark-mode select {
+    background-color: var(--main-color-dark);
+    color: white;
+}
+
+.dark-mode fieldset#profileInfo h4 {
+    color: var(--tertiary-color-dark);
+}
+
+.dark-mode fieldset form input[type="text"], fieldset form input[type="password"], #updateProfileForm form input {
+    background-color: var(--main-color-dark);
+    color: white;
+}
+
+.dark-mode fieldset form input[type="text"]:focus, fieldset form input[type="password"]:focus, #updateProfileForm form input:focus {
+    background-color: var(--main-color); 
+    border-color: var(--tertiary-color-dark); 
+    outline: none;
+}
+
+.dark-mode div#dietPreferenceCheckboxArea label, div#intolerancePreferenceCheckboxArea label {
+    color: grey;
+    background-color: var(--main-color-dark);
+    border: none;
+}
+
+.dark-mode div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxArea label:hover {
+    color: white;
+    background-color: var(--tertiary-color-dark);
+    text-shadow: var(--shadow-standard);
+}
+
+.dark-mode .preference-checkbox-diet:checked + label, .preference-checkbox-intolerance:checked + label {
+    color: black !important;
+    font-weight: bold;
+    background-color: var(--tertiary-color-dark) !important;
+    box-shadow: var(--shadow-standard);
+    border: 1px solid black !important;
+
+}
+
 
 /* dark theme button */
 .darkTheme-button {
@@ -1217,7 +1347,7 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     font-size: 14px;
     cursor: pointer;
     border: none;
-    background: var(--secondary-color);
+    background: var(--secondary-color-dark);
     color: white;
     border-radius: 5px;
     width: auto; /* Makes the width fit the text */
@@ -1225,3 +1355,8 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     text-align: center;
     display: inline-block; /* Prevents full-width behavior */
 }
+
+.darkTheme-button:hover {
+    background: var(--tertiary-color-dark);
+}
+
