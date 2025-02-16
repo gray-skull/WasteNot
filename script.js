@@ -382,7 +382,7 @@ function clearSearch() {
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggleBtn = document.createElement("button")
   themeToggleBtn.textContent = "Toggle Theme"
-  themeToggleBtn.classList.add("toggle-button")
+  themeToggleBtn.classList.add("darkTheme-button")
   document.body.appendChild(themeToggleBtn)
 
   // Check saved theme preference
