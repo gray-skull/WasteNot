@@ -122,13 +122,26 @@ document.addEventListener("DOMContentLoaded", () => {
                                       </div>` // add a loading spinner to the search results div
 
           if (response.ok) {
-            // if the response from the fetch is OK (status 200), parse the JSON and display the recipes
-            const recipes = await response.json() // parse the JSON response from the server into an array of recipes
+            const responseJson = await response.json() // parse the JSON response from the server
+            const recipes = responseJson.data ? responseJson.data.results : [] // get the recipes from the response
+            console.log(responseJson.headers)
+            const quotaRequest = responseJson.headers["x-api-quota-request"] // get the quota request from the response headers
+            const quotaUsed = responseJson.headers["x-api-quota-used"] // get the quota used from the response headers
+            const quotaLeft = responseJson.headers["x-api-quota-left"] // get the quota left from the response headers
+
             searchResults.innerHTML = `<div class="divider"></div>  
                                         <ul id="recipes-list"></ul>
                                         ` // add a divider and an empty <ul> element to the search results div
             const recipesList = document.getElementById("recipes-list") // get the <ul> element
             recipesList.innerHTML = "" // clear the <ul> element
+            
+            if (document.getElementById("quota-message")) {
+              document.getElementById("quota-message").remove()
+            }
+            const quotaMessage = document.createElement("p")
+            quotaMessage.id = "quota-message"
+            quotaMessage.textContent = `DEV ONLY -> API Points used: ${quotaRequest} | Points left: ${quotaLeft} | Total points used today: ${quotaUsed}`
+            document.getElementById("search-form").appendChild(quotaMessage)
 
             if (
               recipes.length === 0 ||

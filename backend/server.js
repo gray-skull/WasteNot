@@ -324,6 +324,7 @@ app.post("/recipes", async (req, res) => {
       return res.status(200).json("No recipes found")
     }
     
+    /*
     // Transform data and prepare for MongoDB
     const recipes = response.data.results.map(recipe => ({
       id: recipe.id,
@@ -340,8 +341,14 @@ app.post("/recipes", async (req, res) => {
       sourceName: recipe.sourceName,
       createdAt: new Date()
     }))
-      
-    res.status(200).json(recipes)
+      */
+    const responseData = response.data
+    const responseHeaders = {
+      'x-api-quota-request': response.headers['x-api-quota-request'],
+      'x-api-quota-used': response.headers['x-api-quota-used'],
+      'x-api-quota-left': response.headers['x-api-quota-left']
+    }
+    res.status(200).json({ data: responseData, headers: responseHeaders })
   } catch (error) {
     console.error("Error fetching recipes:", error)
     res
