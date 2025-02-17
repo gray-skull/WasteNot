@@ -1308,30 +1308,30 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     color: var(--tertiary-color-dark);
 }
 
-.dark-mode fieldset form input[type="text"], fieldset form input[type="password"], #updateProfileForm form input {
+.dark-mode fieldset form input[type="text"], .dark-mode fieldset form input[type="password"], .dark-mode #updateProfileForm form input {
     background-color: var(--main-color-dark);
     color: white;
 }
 
-.dark-mode fieldset form input[type="text"]:focus, fieldset form input[type="password"]:focus, #updateProfileForm form input:focus {
+.dark-mode fieldset form input[type="text"]:focus,  .dark-mode fieldset form input[type="password"]:focus, .dark-mode #updateProfileForm form input:focus {
     background-color: var(--main-color); 
     border-color: var(--tertiary-color-dark); 
     outline: none;
 }
 
-.dark-mode div#dietPreferenceCheckboxArea label, div#intolerancePreferenceCheckboxArea label {
+.dark-mode div#dietPreferenceCheckboxArea label, .dark-mode div#intolerancePreferenceCheckboxArea label {
     color: grey;
     background-color: var(--main-color-dark);
     border: none;
 }
 
-.dark-mode div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxArea label:hover {
+.dark-mode div#dietPreferenceCheckboxArea label:hover, .dark-mode div#intolerancePreferenceCheckboxArea label:hover {
     color: white;
     background-color: var(--tertiary-color-dark);
     text-shadow: var(--shadow-standard);
 }
 
-.dark-mode .preference-checkbox-diet:checked + label, .preference-checkbox-intolerance:checked + label {
+.dark-mode .preference-checkbox-diet:checked + label, .dark-mode .preference-checkbox-intolerance:checked + label {
     color: black !important;
     font-weight: bold;
     background-color: var(--tertiary-color-dark) !important;

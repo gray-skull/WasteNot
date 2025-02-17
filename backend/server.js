@@ -323,32 +323,24 @@ app.post("/recipes", async (req, res) => {
       console.log("Backend: No recipes found")
       return res.status(200).json("No recipes found")
     }
-
+    
     // Transform data and prepare for MongoDB
     const recipes = response.data.results.map(recipe => ({
       id: recipe.id,
       title: recipe.title,
+      spoonacularScore: recipe.spoonacularScore,
       image: recipe.image,
-      ingredients: recipe.missedIngredients
-        ? recipe.missedIngredients.map(ing => ing.name)
-        : "Ingredients not provided by Spoonacular API", // Placeholder
-      instructions: "Instructions not provided by Spoonacular API", // Placeholder
-      filters: [], // Add filters if needed
+      extendedIngredients: recipe.extendedIngredients,
+      servings: recipe.servings,
+      readyInMinutes: recipe.readyInMinutes,
+      diets: recipe.diets,
+      summary: recipe.summary,
+      analyzedInstructions: recipe.analyzedInstructions,
+      sourceUrl: recipe.sourceUrl,
+      sourceName: recipe.sourceName,
       createdAt: new Date()
     }))
-
-    // Update MongoDB with the recipes and update existing recipes using recipe.id as the unique identifier
-    // Upsert is set to true to insert new recipes and update existing ones, preventing duplicates in the database
-    const bulkWriteRecipes = recipes.map(recipe => ({
-      updateOne: {
-        filter: { id: recipe.id },
-        update: { $set: recipe },
-        upsert: true
-      }
-    }))
-
-    await recipesCollection.bulkWrite(bulkWriteRecipes)
-
+      
     res.status(200).json(recipes)
   } catch (error) {
     console.error("Error fetching recipes:", error)
@@ -365,12 +357,48 @@ app.get("/recipe/:id", async (req, res) => {
     return res.status(400).json({ error: "Recipe ID parameter is required." })
   }
 
-  const urlWithId = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`
-
   try {
-    const response = await axios.get(urlWithId)
-    const recipe = response.data
+    // Check if the recipe is already in the database
+    let recipe = await recipesCollection.findOne({ id: parseInt(id) })
+    if(recipe) {
+      console.log("Recipe fetched from MongoDB")
+    }
 
+    if (!recipe) {
+      // If not, fetch from Spoonacular API
+      const urlWithId = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`
+      const response = await axios.get(urlWithId)
+      recipe = response.data
+
+      // Transform data and prepare for MongoDB
+      const recipeData = {
+        id: recipe.id,
+        title: recipe.title,
+        spoonacularScore: recipe.spoonacularScore,
+        image: recipe.image,
+        extendedIngredients: recipe.extendedIngredients,
+        servings: recipe.servings,
+        readyInMinutes: recipe.readyInMinutes,
+        diets: recipe.diets,
+        summary: recipe.summary,
+        analyzedInstructions: recipe.analyzedInstructions,
+        sourceUrl: recipe.sourceUrl,
+        sourceName: recipe.sourceName,
+        createdAt: new Date()
+      }
+
+      // Insert the recipe into the database
+      await recipesCollection.updateOne(
+        { id: recipe.id },
+        { $set: recipeData },
+        { upsert: true }
+      )
+
+      // Return the newly fetched recipe
+      recipe = recipeData
+      console.log("Recipe fetched from Spoonacular API")
+    }
+    
     res.status(200).json(recipe)
   } catch (error) {
     console.error("Error fetching recipe details:", error)
@@ -404,29 +432,51 @@ app.post("/save-recipe", authMiddleware, async (req, res) => {
   }
 
   try {
-    //Look up the recipe document by its external ID
+    // Look up the recipe document by its external ID
     const recipeDoc = await recipesCollection.findOne({ id: recipeExternalId });
-    if (!recipeDoc){
+    if (!recipeDoc) {
       return res.status(400).json({ error: "Recipe not found." });
     }
 
-    //Get the mongo _id for the recipe doc
+    // Get the mongo _id for the recipe doc
     const recipeObjectId = recipeDoc._id;
 
-    //Get the authenticated user's id from the token (authMiddleware)
+    // Get the authenticated user's id from the token (authMiddleware)
     const userId = req.user.userId;
 
-    //Update user's savedRecipes (used $addToSet to avoid duplicates)
-    const updatedUser = await usersCollection.findOneAndUpdate(
-      { _id: ObjectId.createFromHexString(userId) },
-      { $addToSet: { savedRecipes: recipeObjectId }, $set: { lastUpdate: new Date() } },
-      { returnDocument: 'after' } //return updated doc
-    );
+    // Check if the user already has the recipe saved
+    const user = await usersCollection.findOne({ _id: ObjectId.createFromHexString(userId) });
+    const savedRecipe = user.savedRecipes.find(recipeId => recipeId.equals(recipeObjectId));
 
-    res.status(200).json({
-      message: "Recipe saved successfully.",
-      user: updatedUser.value
-    });
+    if (savedRecipe) {
+      // Check if it's been longer than 24 hours since the recipe was saved
+      const lastUpdate = user.lastUpdate || new Date(0);
+      const timeDifference = new Date() - new Date(lastUpdate);
+      const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+      if (hoursDifference > 24) {
+        // Update the saved recipe
+        await usersCollection.updateOne(
+          { _id: ObjectId.createFromHexString(userId), "savedRecipes": recipeObjectId },
+          { $set: { "savedRecipes.$": recipeObjectId, lastUpdate: new Date() } }
+        );
+        return res.status(200).json({ message: "Saved recipe updated." });
+      } else {
+        return res.status(200).json({ message: "Recipe already saved." });
+      }
+    } else {
+      // Save the recipe to the user's savedRecipes
+      const updatedUser = await usersCollection.findOneAndUpdate(
+        { _id: ObjectId.createFromHexString(userId) },
+        { $addToSet: { savedRecipes: recipeObjectId }, $set: { lastUpdate: new Date() } },
+        { returnDocument: 'after' } // return updated doc
+      );
+
+      res.status(200).json({
+        message: "Recipe saved successfully.",
+        user: updatedUser.value
+      });
+    }
   } catch (error) {
     console.error("Error saving recipe:", error);
     res.status(500).json({ error: "Error saving recipe" });

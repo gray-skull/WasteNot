@@ -201,13 +201,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         // Send a POST request to the login API
-        const response = await fetch("/login", {
+        const backendUrl = `${window.location.origin.replace(/:\d+$/, ":8080")}/login`
+        const response = await fetch(backendUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({ email, password }) // Send login credentials
         })
+
+        if(response.status === 401) {
+          loginError.style.display = "block" // display the error message div
+          loginError.style.color = "red" // set the color of the error message to red
+          loginError.style.textAlign = "center" // center the error message
+          loginError.textContent = "Invalid email or password" // display an error message
+          return
+        }
 
         if (response.ok) {
           // If the response is OK, get the token from the response
