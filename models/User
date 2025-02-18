@@ -8,7 +8,12 @@ const UserSchema = new mongoose.Schema({
   savedRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
   diets: { type: Array, default: [] },
   intolerances : { type: Array, default: [] },
-  lastUpdate: { type: Date, default: Date.now }
+  lastUpdate: { type: Date, default: Date.now },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
+  
+
+
 })
 
 //Hash the password

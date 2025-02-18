@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WasteNot: Profile</title>
     <link rel="icon" href="./content/images/favicon.png" type="image/png" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="../style.css" />
     
   </head>
   <body>
@@ -24,7 +24,8 @@
             <h4>Email: </h4> <p id="email"></p>
             <h4>User ID: </h4> <p id="id"></p>
             <h4>Last Updated: </h4> <p id="lastUpdated"></p>
-            <p id="profileInfoError" class="error-message" style="color: red; display: none;"></p>
+            <button type="button" class="updateButton" id="deleteProfileBtn" style="grid-column: 1 / -1;">Delete Profile</button>
+            <p id="profileInfoError" class="error-message" style="color: red; display: none; grid-column: 1 / -1;"></p>
           </fieldset>
 
           <fieldset id="updateProfile">
@@ -55,7 +56,7 @@
             <legend>Update Search Preferences</legend>
             <form id="updatePreferencesForm">
 
-              <label for="dietPreferenceCheckboxArea">Diet Preferences:</label>
+              <h3 id="dietPreferenceCheckboxAreaLabel">Diet Preferences:</h3>
               <div class="dietPreferenceCheckboxArea" id="dietPreferenceCheckboxArea" name="dietPreferences">
               <div>
                 <input class="preference-checkbox-diet" type="checkbox" id="Gluten Free" name="diet" value="Gluten Free">
@@ -103,7 +104,7 @@
               </div>
               </div>
 
-              <label for="intolerancePreferenceCheckboxArea">Intolerance Preferences:</label>
+              <h3 id="intolerancePreferenceCheckboxAreaLabel">Intolerance Preferences:</h3>
               <div class="intolerancePreferenceCheckboxArea" id="intolerancePreferenceCheckboxArea" name="intolerancePreferences">
               <div>
                 <input class="preference-checkbox-intolerance" type="checkbox" id="Dairy" name="intolerances" value="Dairy">

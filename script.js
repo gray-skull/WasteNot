@@ -327,15 +327,13 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.style.display = "none"
   }
 
+  
+
   logoutBtn.addEventListener("click", () => {
+    const currentTheme = localStorage.getItem("theme") || "light"
     localStorage.clear()
-    localStorage.removeItem("username")
-    localStorage.removeItem("token")
-    localStorage.removeItem("email")
-    localStorage.removeItem("_id")
-    localStorage.removeItem("diet")
-    localStorage.removeItem("intolerances")
     window.location.reload()
+    localStorage.setItem("theme", currentTheme)
   })
 
   // function to handle the bottom menu select change event
