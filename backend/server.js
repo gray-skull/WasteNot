@@ -5,10 +5,49 @@ const bodyParser = require("body-parser")
 const axios = require("axios")
 const cors = require("cors")
 const { MongoClient, ServerApiVersion, ObjectId, Timestamp } = require("mongodb")
+const nodemailer = require("nodemailer")
+const { google } = require("googleapis")
 
 const authRoutes = require("./authRoutes") //Added for profile integration
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
+
+const OAuth2 = google.auth.OAuth2
+
+const oauth2Client = new OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  "https://developers.google.com/oauthplayground"
+);
+
+oauth2Client.setCredentials({
+  refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+});
+
+async function getAccessToken() {
+  try {
+    const { token } = await oauth2Client.getAccessToken()
+    return token;
+  } catch (error) {
+    console.error("Error getting access token:", error)
+    throw new Error("Error getting access token");
+  }
+}
+
+// const accessToken = oauth2Client.getAccessToken();
+
+// set up nodemailer transport
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: process.env.EMAIL_USER,
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+    accessToken: getAccessToken()
+  }
+});
 
 const apiKey = process.env.SPOONACULAR_API_KEY
 const mongoURI = process.env.MONGO_URI
@@ -26,6 +65,7 @@ const User = require("../models/User")
 app.use(bodyParser.json())
 app.use(cors()) // Enable CORS for development
 app.use("/auth", authRoutes) //Added for profile integration
+
 
 // Initialize MongoDB Client
 const client = new MongoClient(mongoURI, {
@@ -57,7 +97,6 @@ const database = client.db("wastenot")
 const recipesCollection = database.collection("recipes") // Collection for recipes
 const usersCollection = database.collection("users") // Collection for users
 
-
 // Serve static files like images, styles, and scripts
 app.use(express.static(path.join(__dirname, "../")))
 
@@ -83,8 +122,14 @@ app.get("/login", (req, res) =>
 app.get("/profile", (req, res) =>
   res.sendFile(path.join(__dirname, "../pages/profile.html"))
 )
+app.get("/forgot-password", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/forgot-password.html"))
+)
+app.get("/reset-password/:token", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/reset-password.html"))
+)
 
-//register route
+// register route
 app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -160,6 +205,111 @@ app.post("/login", async (req, res) => {
   }
 })
 
+// Forgot password route
+app.post("/forgot-password", async (req, res) => {
+  const { email } = req.body
+  if (!email) {
+    return res.status(400).json({ error: "Email is required." })
+  }
+
+  // Check if the user exists in the database
+  const user = await usersCollection.findOne({ email })
+  if (!user) {
+    return res.status(404).json({ error: "No account associated with that email." })
+  }
+
+  // create token valid for 1 hour
+  const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: "1h" })
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+  await usersCollection.updateOne(
+    { email }, 
+    { $set: { 
+      resetPasswordToken: token, 
+      resetPasswordExpires: user.resetPasswordExpires
+      } 
+    }
+  )
+
+  // construct reset URL
+  const resetUrl = `${req.protocol}://${req.get("host")}/reset-password/${token}`
+
+  // email message
+  const mailOptions = {
+    to: email,
+    from: process.env.EMAIL_USER,
+    subject: "WasteNot Password Reset",
+    text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
+    `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
+    resetUrl + `\n\n` +
+    `If you did not request this, please ignore this email and your password will remain unchanged.\n\n` +
+    `This link is valid for 1 hour.\n\n` +
+    `Thank you,\n` +
+    `WasteNot Team`
+  }
+
+  // send email
+  transporter.sendMail(mailOptions, (err) => {
+    if (err) {
+      console.error("Error sending email:", err)
+      return res.status(500).json({
+        error: "Error sending email. Please try again later.",
+        success: false
+      })
+    }
+    res.status(200).json({
+      message: "Email sent. Please check your email for a link to reset your email.",
+      success: true
+    })
+  })
+})
+
+// Reset password route
+app.post("/reset-password/:token", async (req, res) => {
+  const { token } = req.params
+  const { newPassword } = req.body
+
+  if (!newPassword) {
+    return res.status(400).json({ error: "New password is required." })
+  }
+
+  try {
+    // Find user by token
+    const user = await usersCollection.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    })
+    if (!user) {
+      return res.status(400).json({ error: "Password reset token is invalid or has expired." })
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(newPassword, salt)
+    user.password = hashedPassword
+    user.resetPasswordToken = undefined
+    user.resetPasswordExpires = undefined
+    await usersCollection.updateOne( 
+      { 
+        email: user.email 
+      }, 
+      { 
+        $set: { 
+          password: hashedPassword, 
+          resetPasswordToken: undefined, 
+          resetPasswordExpires: undefined,
+          lastUpdate: new Date() 
+        }
+      }
+    )
+
+    res.status(200).json({ message: "Password reset successful" })
+  } catch (error) {
+    console.error("Error resetting password:", error)
+    res.status(500).json({ error: "Error resetting password" })
+  }
+})
+
 // Added for profile integration
 app.get("/userProfile", authMiddleware, async (req, res) => {
   try {
@@ -205,6 +355,20 @@ app.get("/userProfile", authMiddleware, async (req, res) => {
   } catch (error) {
     console.error("Error fetching user profile:", error)
     res.status(500).json({ error: "Error fetching user profile" })
+  }
+})
+
+// endoint for profile deletion
+app.delete("/deleteProfile", authMiddleware, async (req, res) => {
+  const authenticatedUserData = req.user
+  const userId = authenticatedUserData.userId
+
+  try {
+    await usersCollection.deleteOne({ _id: ObjectId.createFromHexString(userId) })
+    res.status(200).json({ message: "Profile deleted successfully" })
+  } catch (error) {
+    console.error("Error deleting profile:", error)
+    res.status(500).json({ error: "Error deleting profile" })
   }
 })
 

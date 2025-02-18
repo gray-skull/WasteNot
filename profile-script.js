@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // Get all the elements we need to add event listeners to
+    const deleteProfileBtn = document.getElementById("deleteProfileBtn");
     const updatePasswordBtn = document.getElementById("updatePasswordBtn");
     const updateProfileBtn = document.getElementById("updateProfileBtn");
     const updatePreferencesForm = document.getElementById("updatePreferencesForm");
@@ -154,6 +155,40 @@ document.addEventListener("DOMContentLoaded", async () => {
         Array.from(intolerancePreferenceCheckboxArea.querySelectorAll('input')).forEach(i => {
             if (intolerances.includes(i.value)) {
                 i.checked = true;
+            }
+        });
+    }
+
+    // Delete profile listener
+    if (deleteProfileBtn) {
+        deleteProfileBtn.addEventListener("click", async () => {
+            const userConfirm = confirm("Are you sure you want to delete your profile? This action cannot be undone.");
+            if (!userConfirm) {
+                return;
+            }
+            else {
+                try {
+                    const response = await fetch("/deleteProfile", {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+                    if (response.ok) {
+                        localStorage.clear();
+                        showError("profileInfoError", "Your profile has been deleted. Redirecting to login..."); 
+                        setTimeout(() => {
+                            window.location.href = "/login";
+                        }, 5000);
+                    } else {
+                        showError("deleteProfileError", "Profile deletion failed. Please try again later.");
+                        console.error("Profile deletion failed.");
+                    }
+                } catch (error) {
+                    showError("deleteProfileError", error.message);
+                    console.error(error.message, error.stack.split("\n"));
+                }
             }
         });
     }

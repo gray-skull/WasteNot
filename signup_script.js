@@ -16,18 +16,24 @@ document.addEventListener("DOMContentLoaded", () => {
       signupError.textContent = "All fields are required."
       return
     }
-    // Validate the password
-    if (password !== confirmPassword) {
-      signupError.textContent = "Passwords do not match."
-      return
+
+    const errors = [
+      { condition: password === "" || confirmPassword === "", message: "Please enter and confirm your new password." },
+      { condition: password !== confirmPassword, message: "Password and confirm password do not match." },
+      { condition: password.length < 6, message: "Password must be at least 6 characters long." },
+      { condition: password.length > 20, message: "Password must be at most 20 characters long." },
+      { condition: !/^[\x20-\x7E]*$/.test(password), message: "Password can only contain letters, numbers, and common symbols. Allowed symbols: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" },
+    ];
+
+    for (const error of errors) {
+        if (error.condition) {
+            signupError.textContent = error.message;
+            return;
+        }
     }
 
-    // Clear any previous error message and display a loading spinner
+    // Clear any previous error message
     signupError.textContent = ""
-    const spinner = document.createElement("span")
-    spinner.classList.add("spinner-border", "spinner-border-sm")
-    signupError.appendChild(spinner)
-
 
     try {
       // Send a POST request to the /register route
@@ -43,8 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         // Success: Notify the user and redirect to login
-        alert("Account created successfully! You can now log in.")
-        window.location.href = "/login"
+        signupError.textContent = "Signup successful. Redirecting to login..."
+        setTimeout(() => {
+          window.location.href = "/login"
+        }, 5000)
       } else {
         // Display the error message from the server
         signupError.textContent =
