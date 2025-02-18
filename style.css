@@ -1420,3 +1420,15 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     background: var(--tertiary-color-dark);
 }
 
+.howItWorks-content ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    line-height: 1.5rem;
+
+}
+
+.howItWorks-content ul li {
+    margin: 0.5rem 0.5rem;
+    text-align: left;
+    
+}

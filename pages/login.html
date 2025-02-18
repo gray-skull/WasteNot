@@ -1,25 +1,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="./content/images/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="../style.css" />
-    <title>WasteNot: Login</title>
+  <link rel="icon" type="image/png" href="./content/images/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="../style.css" />
+  <title>WasteNot: Login</title>
 </head>
 <header>
-  <div class="auth-buttons" id="auth-buttons"><!--dynamically inserted by script.js--></div>
+  <div class="auth-buttons" id="auth-buttons">
+    <!--dynamically inserted by script.js-->
+  </div>
 </header>
 
 <body>
   <main>
     <h2>Login</h2>
     <section class="rounded-card">
-      <p style="text-align: center; margin: 0rem auto 0.5rem;">Log in to access your profile and saved recipes!</p>
+      <p style="text-align: center; margin: 0rem auto 0.5rem">
+        Log in to access your profile and saved recipes!
+      </p>
       <form id="login-form">
         <label for="email">Email:</label>
-        <input type="email" id="email" placeholder="yourname@yourdomain.com" autocomplete="username" required />
+        <input
+          type="email"
+          id="email"
+          placeholder="yourname@yourdomain.com"
+          autocomplete="username"
+          required
+        />
         <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required />
-        <p id="login-error" class="error-message" style="display: none;"></p>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        />
+        <p id="login-error" class="error-message" style="display: none"></p>
         <button type="submit" id="login-btn">Login</button>
       </form>
 
@@ -40,7 +56,9 @@
     </div>
   </footer>
 
-  <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
+  <nav class="bottom-menu" id="bottom-menu">
+    <!-- Dynamically inserted by script.js -->
+  </nav>
   <select id="bottom-menu-select" style="display: none"></select>
   <script src="script.js"></script>
 </body>

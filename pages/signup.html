@@ -6,22 +6,49 @@
 </head>
 
 <header>
-  <div class="auth-buttons" id="auth-buttons"><!--dynamically inserted by script.js--></div>
+  <div class="auth-buttons" id="auth-buttons">
+    <!--dynamically inserted by script.js-->
+  </div>
 </header>
 
 <body>
-
-  
   <main>
     <h2>Create an account</h2>
     <section class="rounded-card">
-      <p>Creating an account allows you to save your dietary and allergy preferences, and save your favorite recipes for quick reference later!</p>
+      <p>
+        Creating an account allows you to save your dietary and allergy
+        preferences, and save your favorite recipes for quick reference later!
+      </p>
       <form id="signup-form" class="rounded-card">
         <p id="signup-error" style="color: red"></p>
-        <input type="text" id="username" placeholder="Enter a username" autocomplete="username" required />
-        <input type="email" id="email" placeholder="Enter your Email" autocomplete="email" required />
-        <input type="password" id="password" placeholder="Create a Password" autocomplete="new-password" required />
-        <input type="password" id="confirm-password" placeholder="Confirm your Password" autocomplete="new-password" required />
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter a username"
+          autocomplete="username"
+          required
+        />
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your Email"
+          autocomplete="email"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          placeholder="Create a Password"
+          autocomplete="new-password"
+          required
+        />
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm your Password"
+          autocomplete="new-password"
+          required
+        />
         <button type="submit">Sign Up</button>
       </form>
 
@@ -29,7 +56,6 @@
         Already have an account?
         <a href="/login">Login here</a>
       </p>
-
     </section>
   </main>
 
@@ -39,7 +65,9 @@
     </div>
   </footer>
 
-  <nav class="bottom-menu" id="bottom-menu"><!-- Dynamically inserted by script.js --></nav>
+  <nav class="bottom-menu" id="bottom-menu">
+    <!-- Dynamically inserted by script.js -->
+  </nav>
   <select id="bottom-menu-select" style="display: none"></select>
   <script src="script.js"></script>
   <script src="../signup_script.js"></script>

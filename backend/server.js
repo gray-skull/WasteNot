@@ -1,29 +1,35 @@
-require("dotenv").config()
+require("dotenv").config() // Added for environment variables
 
-const express = require("express")
-const bodyParser = require("body-parser")
-const axios = require("axios")
-const cors = require("cors")
-const { MongoClient, ServerApiVersion, ObjectId, Timestamp } = require("mongodb")
-const nodemailer = require("nodemailer")
-const { google } = require("googleapis")
+const express = require("express") // Added for API integration
+const bodyParser = require("body-parser") // Added for API integration
+const axios = require("axios") // Added for API integration
+const cors = require("cors") // Enable CORS for security purposes
+const { MongoClient, ServerApiVersion, ObjectId, Timestamp } = require("mongodb") // Added for database integration
+const nodemailer = require("nodemailer") // Added for password reset
+const { google } = require("googleapis") // Added for password reset
 
 const authRoutes = require("./authRoutes") //Added for profile integration
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 
+// Sets up the OAuth2 client from Google for nodemailer transport configuration 
 const OAuth2 = google.auth.OAuth2
 
+// OAuth2 client for nodemailer transport configuration to send emails from the server using Gmail
 const oauth2Client = new OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
   "https://developers.google.com/oauthplayground"
 );
 
+// set the refresh token for the OAuth2 client from the environment variable
+// this token is used to get the access token for nodemailer transport
 oauth2Client.setCredentials({
   refresh_token: process.env.GOOGLE_REFRESH_TOKEN
 });
 
+// function to get the access token for nodemailer transport from OAuth2 client
+// this function is called in the nodemailer transport configuration
 async function getAccessToken() {
   try {
     const { token } = await oauth2Client.getAccessToken()
@@ -34,9 +40,8 @@ async function getAccessToken() {
   }
 }
 
-// const accessToken = oauth2Client.getAccessToken();
-
-// set up nodemailer transport
+// nodemailer transport configuration using OAuth2 client and access token
+// this transport is used to send emails from the server
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -49,20 +54,20 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const apiKey = process.env.SPOONACULAR_API_KEY
-const mongoURI = process.env.MONGO_URI
-const port = process.env.PORT || 8080
-const jwtSecret = process.env.JWT_SECRET
+const apiKey = process.env.SPOONACULAR_API_KEY // Added for API integration
+const mongoURI = process.env.MONGO_URI // Added for database integration
+const port = process.env.PORT || 8080 // Added for API integration
+const jwtSecret = process.env.JWT_SECRET // Added for profile integration
 
-const app = express()
-const path = require("path")
+const app = express() // Added for API integration
+const path = require("path") // Added for serving static files
 
 // Added for profile integration
-const authMiddleware = require("../middleware/authMiddleware")
-const User = require("../models/User")
+const authMiddleware = require("../middleware/authMiddleware") // handles JWT verification
+const User = require("../models/User") // User model for mongoose schema validation
 
 // Middleware
-app.use(bodyParser.json())
+app.use(bodyParser.json()) // Added for API integration
 app.use(cors()) // Enable CORS for development
 app.use("/auth", authRoutes) //Added for profile integration
 
@@ -70,7 +75,7 @@ app.use("/auth", authRoutes) //Added for profile integration
 // Initialize MongoDB Client
 const client = new MongoClient(mongoURI, {
   serverApi: {
-    version: ServerApiVersion.v1,
+    version: ServerApiVersion.v1, 
     strict: true,
     deprecationErrors: true
   },
