@@ -252,9 +252,15 @@ app.post("/forgot-password", async (req, res) => {
   transporter.sendMail(mailOptions, (err) => {
     if (err) {
       console.error("Error sending email:", err)
-      return res.status(500).json({ error: "Error sending email" })
+      return res.status(500).json({
+        error: "Error sending email. Please try again later.",
+        success: false
+      })
     }
-    res.status(200).json({ message: "Email sent" })
+    res.status(200).json({
+      message: "Email sent. Please check your email for a link to reset your email.",
+      success: true
+    })
   })
 })
 

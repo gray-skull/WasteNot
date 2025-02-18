@@ -1,5 +1,98 @@
 // dynamic content generation for the navigation menu
 document.addEventListener("DOMContentLoaded", () => {
+  // Add a dark mode toggle button to the page
+  const themeToggleBtn = document.createElement("button")
+  themeToggleBtn.textContent = "Toggle Theme"
+  themeToggleBtn.classList.add("darkTheme-button")
+  document.body.appendChild(themeToggleBtn)
+
+  // Check saved theme preference
+  let currentTheme = localStorage.getItem("theme") || "light"
+
+  if (currentTheme === "dark") {
+    document.body.classList.add("dark-mode")
+  }
+
+  themeToggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode")
+
+    if (document.body.classList.contains("dark-mode")) {
+      localStorage.setItem("theme", "dark")
+      themeToggleBtn.textContent = "Light Mode"
+    } else {
+      localStorage.setItem("theme", "light")
+      themeToggleBtn.textContent = "Dark Mode"
+    }
+  })
+
+  // load the bottom-menu on each page, inserts the html into the bottom-menu div
+  const bottomMenu = document.getElementById("bottom-menu")
+  bottomMenu.innerHTML = `
+  <a href='#' id="home" onclick="window.location.href='/home'">Home</a>
+  <a href='#' id="about" onclick="window.location.href='/about'">About</a>
+  <a href='#' id="profile" onclick="window.location.href='/profile'">Profile</a>
+  <a href='#' id="settings" onclick="window.location.href='/settings'">Settings</a>
+  `
+
+  // load the bottom-menu-select on each page, inserts the html into the bottom-menu-select div
+  const bottomMenuSelect = document.getElementById("bottom-menu-select")
+  bottomMenuSelect.innerHTML = `
+    <option value="" disabled selected>Navigate to...</option>
+    <option value="/home">Home</option>
+    <option value="/about">About</option>
+    <option value="/profile">Profile</option>
+    <option value="/settings">Settings</option>
+  `
+  bottomMenuSelect.addEventListener("change", event => {
+    const selectedValue = event.target.value
+    if (selectedValue) {
+      window.location.href = selectedValue
+    }
+  })
+
+  // load the signup and login buttons on each page, inserts the html into the auth-buttons div
+  const authButtons = document.getElementById("auth-buttons")
+  authButtons.innerHTML = `
+  <button id="login-btn" onclick="window.location.href='/login'">Login</button>
+  <button id="signup-btn" onclick="window.location.href='/signup'">Sign Up</button>
+  <span id="welcome-user" style="display: none"></span>
+  <button id="logout-btn" style="display: none">Logout</button>
+  `
+
+  // code for handling login, signup, and logout buttons
+  // Get the login, signup, logout, and welcome user elements
+  const loginBtn = document.getElementById("login-btn")
+  const signupBtn = document.getElementById("signup-btn")
+  const logoutBtn = document.getElementById("logout-btn")
+  const welcomeUser = document.getElementById("welcome-user")
+
+  const token = localStorage.getItem("token") //Retrieve token from storage
+  const username = localStorage.getItem("username") //Retrieve user from storage
+
+  if (token) {
+    //If the user is logged in
+    loginBtn.style.display = "none"
+    signupBtn.style.display = "none"
+    welcomeUser.style.display = "inline"
+    welcomeUser.innerHTML = `Logged in: <a href="/profile">${username}</a>`
+    logoutBtn.style.display = "inline"
+  } else {
+    //If no user is logged in
+    loginBtn.style.display = "inline"
+    signupBtn.style.display = "inline"
+    welcomeUser.style.display = "none"
+    logoutBtn.style.display = "none"
+  }
+
+  // function to handle the logout button click event
+  logoutBtn.addEventListener("click", () => {
+    const currentTheme = localStorage.getItem("theme") || "light"
+    localStorage.clear()
+    window.location.reload()
+    localStorage.setItem("theme", currentTheme)
+  })
+
+  // >>>>>>>>>> HOME: code specific to the home page <<<<<<<<<<
   if (window.location.pathname.includes("/home")) {
     // get the current date
     const date = new Date()
@@ -116,11 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
             })
           })
 
-          // add a loading spinner to the search results div
-          searchResults.innerHTML = `<div class="spinner-border text-primary" role="status">
-                                      <span class="visually-hidden">Loading...</span>
-                                      </div>` // add a loading spinner to the search results div
-
           if (response.ok) {
             const responseJson = await response.json() // parse the JSON response from the server
             const recipes = responseJson.data ? responseJson.data.results : [] // get the recipes from the response
@@ -198,9 +286,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     })
-  } // end of home page specific code
+  } // >>>>>>>>>> end of home page specific code <<<<<<<<<<
 
-  // code specific to the login page
+  // >>>>>>>>>> LOGIN: code specific to the login page <<<<<<<<<<
   if (window.location.pathname.includes("/login")) {
     // function to handle login form submission
     const loginForm = document.getElementById("login-form")
@@ -270,82 +358,8 @@ document.addEventListener("DOMContentLoaded", () => {
           "An unexpected error occurred. Please try again later."
       }
     })
-  } // end of login page specific code
-
-  // function to load the bottom-menu on each page, inserts the html into the bottom-menu div
-  // the links send a GET request to the corresponding page
-  const bottomMenu = document.getElementById("bottom-menu")
-  bottomMenu.innerHTML = `
-  <a href='#' id="home" onclick="window.location.href='/home'">Home</a>
-  <a href='#' id="about" onclick="window.location.href='/about'">About</a>
-  <a href='#' id="profile" onclick="window.location.href='/profile'">Profile</a>
-  <a href='#' id="settings" onclick="window.location.href='/settings'">Settings</a>
-  `
-
-  // function to load the bottom-menu-select on each page, inserts the html into the bottom-menu-select div
-  const bottomMenuSelect = document.getElementById("bottom-menu-select")
-  bottomMenuSelect.innerHTML = `
-    <option value="" disabled selected>Navigate to...</option>
-    <option value="/home">Home</option>
-    <option value="/about">About</option>
-    <option value="/profile">Profile</option>
-    <option value="/settings">Settings</option>
-  `
-
-  // function to load the signup and login buttons on each page, inserts the html into the auth-buttons div
-  const authButtons = document.getElementById("auth-buttons")
-  authButtons.innerHTML = `
-  <button id="login-btn" onclick="window.location.href='/login'">Login</button>
-  <button id="signup-btn" onclick="window.location.href='/signup'">Sign Up</button>
-  <span id="welcome-user" style="display: none"></span>
-  <button id="logout-btn" style="display: none">Logout</button>
-  `
-})
-
-// code for handling login, signup, and logout buttons
-document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("login-btn")
-  const signupBtn = document.getElementById("signup-btn")
-  const logoutBtn = document.getElementById("logout-btn")
-  const welcomeUser = document.getElementById("welcome-user")
-
-  const token = localStorage.getItem("token") //Retrieve token from storage
-  const username = localStorage.getItem("username") //Retrieve user from storage
-
-  if (token) {
-    //If the user is logged in
-    loginBtn.style.display = "none"
-    signupBtn.style.display = "none"
-    welcomeUser.style.display = "inline"
-    welcomeUser.innerHTML = `Logged in: <a href="/profile">${username}</a>`
-    logoutBtn.style.display = "inline"
-  } else {
-    //If no user is logged in
-    loginBtn.style.display = "inline"
-    signupBtn.style.display = "inline"
-    welcomeUser.style.display = "none"
-    logoutBtn.style.display = "none"
-  }
-
-  
-
-  logoutBtn.addEventListener("click", () => {
-    const currentTheme = localStorage.getItem("theme") || "light"
-    localStorage.clear()
-    window.location.reload()
-    localStorage.setItem("theme", currentTheme)
-  })
-
-  // function to handle the bottom menu select change event
-  const bottomMenuSelect = document.getElementById("bottom-menu-select")
-
-  bottomMenuSelect.addEventListener("change", event => {
-    const selectedValue = event.target.value
-    if (selectedValue) {
-      window.location.href = selectedValue
-    }
-  })
-})
+  } // >>>>>>>>>> end of login page specific code <<<<<<<<<<
+}) // end of DOMContentLoaded event listener
 
 // global code for all pages
 // Function to toggle the display of the diet options
@@ -397,30 +411,3 @@ function clearSearch() {
   dietCheckboxArea.style.display = "none"
   resultLimit.value = "2"
 }
-
-// dark and light theme toggle
-document.addEventListener("DOMContentLoaded", () => {
-  const themeToggleBtn = document.createElement("button")
-  themeToggleBtn.textContent = "Toggle Theme"
-  themeToggleBtn.classList.add("darkTheme-button")
-  document.body.appendChild(themeToggleBtn)
-
-  // Check saved theme preference
-  let currentTheme = localStorage.getItem("theme") || "light"
-
-  if (currentTheme === "dark") {
-    document.body.classList.add("dark-mode")
-  }
-
-  themeToggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode")
-
-    if (document.body.classList.contains("dark-mode")) {
-      localStorage.setItem("theme", "dark")
-      themeToggleBtn.textContent = "Light Mode"
-    } else {
-      localStorage.setItem("theme", "light")
-      themeToggleBtn.textContent = "Dark Mode"
-    }
-  })
-})

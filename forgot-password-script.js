@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (email === '') {
             errorElement.textContent = 'Please enter your email address';
+            errorElement.style.display = 'block';
         } else {
             const forgotPasswordData = { email: email };
             
@@ -21,9 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 errorElement.textContent = data.message;
+                errorElement.style.color = data.success ? 'green' : 'red';
+                errorElement.style.display = 'block';
             })
             .catch(error => {
                 errorElement.textContent = 'An error occurred. Please try again.';
+                errorElement.style.display = 'block';
                 console.log(error);
             });
         }
