@@ -40,21 +40,29 @@
 } 
 
 ::-webkit-scrollbar {
-    width: 10px;
-    background: linear-gradient(to bottom, var(--main-color-dark) 0%, var(--main-color) 100%);
+    width: 5px;
+    background: linear-gradient(to bottom, var(--main-color) 0%, var(--secondary-color) 100%);
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--tertiary-color);
-    border-radius: 5px;
+    border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+}
+
+.page-wrap {
+    max-height: 100vh;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .rounded-card {
     background: linear-gradient(to top left, var(--main-color) 0%, var(--main-color-dark) 150%);
     background-blend-mode: overlay;
     border: 1px solid var(--tertiary-color-dark);
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 0.5rem;
     margin: 0.5rem auto;
     box-shadow: var(--shadow-standard);
@@ -74,25 +82,29 @@
 
 html {
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-content: center;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
+    align-content: center;
+
+
 }
 
 html, body {
     overflow-x: hidden;
-    
+
 }
 
 body {
-    margin: 3rem 1rem 2rem 1rem;
+    margin: 0rem 0rem 0rem 0rem;
     background: linear-gradient(to top, var(--secondary-color) 0%, var(--main-color) 100%);
     animation: background-move 5s ease infinite;
-    padding: 0rem 0rem 2rem 0rem;
+    padding: 3rem 0rem 3rem 0rem;
     width: 100%;
     height: inherit;
+
 }
 
 @keyframes background-move {
@@ -108,15 +120,15 @@ body {
 }
 
 header {
-    margin: 0.5rem auto 0rem auto;
+    margin: 0rem auto 0rem auto;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 main {
-    margin: 0.5rem auto 0rem auto;
+    margin: 0rem auto 1rem auto;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
 }
 
 /*global tags*/
@@ -177,7 +189,7 @@ img.feature-icon {
 }
 
 img#logo {
-    width: 50%;
+    width: 30%;
 }
 
 
@@ -217,7 +229,30 @@ form#search-form {
     box-shadow: none;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"], input[type="email"] {
+    width: 95%;
+    height: auto;
+    padding: 0.5rem;
+    margin: 0.5rem 0rem;
+    border: 2px solid var(--main-color-dark);
+    border-radius: 10px;
+    background-color: var(--main-color);
+    text-align: left;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+    background-color: var(--secondary-color); /* Slightly darker gray */
+    border-color: var(--tertiary-color-dark); /* Darker blue */
+    outline: none; /* Remove default outline */
+}
+
+input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder {
+    font-size: 1rem;
+    color: #888888; /* Gray placeholder text */
+    opacity: 1; /* Ensure full opacity for placeholder text */
+}
+
+#ingredients {
     width: 95%;
     height: auto;
     padding: 1rem;
@@ -225,15 +260,16 @@ input[type="text"] {
     border: 2px solid var(--main-color-dark);
     border-radius: 10px;
     background-color: var(--main-color);
+    text-align: left;
 }
 
-input[type="text"]:focus {
+#ingredients:focus {
     background-color: var(--secondary-color); /* Slightly darker gray */
     border-color: var(--tertiary-color-dark); /* Darker blue */
     outline: none; /* Remove default outline */
 }
 
-input[type="text"]::placeholder {
+#ingredients::placeholder {
     font-size: 1rem;
     color: #888888; /* Gray placeholder text */
     opacity: 1; /* Ensure full opacity for placeholder text */
@@ -262,7 +298,7 @@ div#intolerancesCheckboxArea {
     line-height: 2.1rem;
     flex-wrap: wrap;
     background: var(--main-color);
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 0.5rem;
     gap: 0rem; 
     width: 100%;
@@ -326,7 +362,7 @@ div#dietCheckboxArea label:hover, div#intolerancesCheckboxArea label:hover {
     padding: 0.5rem;
 
     background-color: var(--tertiary-color);
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: var(--shadow-standard);
 
     cursor: pointer;
@@ -375,9 +411,9 @@ button#search-button {
     margin: 0rem auto;
     padding: 0.5rem;
 
-    background-color: var(--tertiary-color);
+    background: linear-gradient(to right, var(--tertiary-color), var(--tertiary-color-dark));
     border: 2px solid var(--tertiary-color-dark);
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: var(--shadow-standard);
 
     cursor: pointer;
@@ -400,7 +436,7 @@ button#clear-button {
 
     background-color: var(--main-color);
     box-shadow: var(--shadow-standard);
-    border-radius: 20px;
+    border-radius: 10px;
     border: none;
 
     cursor: pointer;
@@ -432,7 +468,7 @@ ul#recipes-list li {
     
     margin: 0.5rem 0rem;
     padding: 0.5rem;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 90%;
     transition: animation color-fade;
 }
@@ -466,7 +502,7 @@ ul#recipes-list li a {
 section.image-box {
     width: 100%;
     height: auto;
-    border-radius: 20px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -481,14 +517,29 @@ section.image-box img {
 /*footer*/
 
 #footer {
-    margin: 0px auto 100px auto;
-    position: relative;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
+    display: block;
+    margin: 0rem auto 0.5rem auto;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
+    padding: 0rem;
+    text-align: center;
+    background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    
+}
+
+#footer p {
+    
+    margin: 0;
+    padding: 0rem;
+    font-size: 0.8rem;
+
+}
+
+#login-logo {
+    width: 30%;
+    margin: 0rem auto;
 }
 
 /*bottom menu*/
@@ -507,7 +558,7 @@ section.image-box img {
     width: 100%;
     height: auto;
     background: radial-gradient(circle, var(--main-color) 0%, var(--main-color-dark) 100%);
-    border-top: 2px solid var(--tertiary-color-dark);
+    border-top: 1px solid var(--tertiary-color-dark);
     border-radius: 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.9);
 
@@ -516,7 +567,7 @@ section.image-box img {
 
 .bottom-menu a {
     color: black;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-family: Georgia, serif;
     font-weight: 700;
     font-style: normal; 
@@ -524,8 +575,8 @@ section.image-box img {
     background: none;
     border-radius: 0px;
     width: 100%;
-    max-width: 200px;
-    height: auto;
+    max-width: 150px;
+    height: 3rem;
     padding: 1rem;
     margin: 0px 0rem;
     text-align: center;
@@ -565,7 +616,7 @@ section.image-box img {
 
 #recipe-details {
     margin: 1rem auto 0rem auto;
-    max-width: 600px;
+    max-width: 500px;
     padding: 1rem;
 }
 
@@ -604,7 +655,7 @@ button#save-recipe-btn:hover {
     width: 100%;
     height: auto;
     margin: 0rem auto;
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: var(--shadow-standard);
 }
 
@@ -668,7 +719,7 @@ button#save-recipe-btn:hover {
     padding: 0.5rem;
 
     background-color: var(--tertiary-color);
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: var(--shadow-standard);
 
     cursor: pointer;
@@ -770,7 +821,7 @@ fieldset#profileInfo p {
     align-items: center;
     background: radial-gradient(circle, var(--main-color) 0%, var(--main-color-dark) 200%);
     padding: 0.2rem 1rem;
-    border-bottom: 2px solid var(--tertiary-color-dark);
+    border-bottom: 1px solid var(--tertiary-color-dark);
 }
 
 .auth-buttons button {
@@ -845,19 +896,47 @@ form#signup-form, form#login-form {
     margin: 1rem auto;
     padding: 1rem;
     background: var(--main-color);
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: var(--shadow-standard);
 }
 
-form#signup-form input, form#login-form input {
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: center;
     width: 100%;
-    padding: 0.5rem;
+    height: auto;
     margin: 0.5rem auto;
-    text-align: left;
-    background-color: white;
-    border: 2px solid var(--main-color-dark);
-    border-radius: 10px;
-    font-size: 1rem;
+    padding: 0rem;
+}
+
+
+
+@keyframes border-color {
+    0% {
+        border-color: var(--main-color-dark);
+    }
+    50% {
+        border-color: var(--tertiary-color-dark);
+    }
+    100% {
+        border-color: var(--main-color-dark);
+    }
+    
+}
+
+@keyframes box-shadow {
+    0% {
+        box-shadow: inset 0 1px 2px rgba(203,203,210,0.4);
+    }
+    50% {
+        box-shadow: inset 0 1px 2px rgba(203,203,210,0.4);
+    }
+    100% {
+        box-shadow: inset 0 1px 2px rgba(203,203,210,0.4);
+    }
 }
 
 form#signup-form input:focus, form#login-form input:focus {
@@ -1006,7 +1085,7 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     margin: 1rem auto;
     padding: 1rem;
     background: var(--main-color);
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: var(--shadow-standard);
 }
 
@@ -1063,7 +1142,7 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     }
 
     img#logo {
-        width: 50% !important;
+        width: 30% !important;
     }
 
     .rounded-card {
@@ -1168,7 +1247,7 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     }
 
     img#logo {
-        width: 50% !important;
+        width: 30% !important;
     }
 
     .rounded-card {
@@ -1197,8 +1276,8 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
 
 
     body {
-        margin: 3rem auto 2rem auto !important;
-        padding: 0rem 0rem 2rem 0rem !important;
+        margin: 0rem auto !important;
+        padding: 3rem 0rem 3.5rem 0rem !important;
     }
 
     #start-screen-content h1 {
@@ -1317,14 +1396,15 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
     border: 1px solid var(--tertiary-color);
 }
 
-.dark mode input[type="text"] {
-    background-color: var(--main-color-dark);
+.dark-mode input[type="text"], .dark-mode input[type="password"], .dark-mode input[type="email"] {
+    background-color: var(--main-color-dark) !important;
+    border-color: var(--main-color);
     color: white;
 }
 
-.dark-mode input[type="text"]:focus {
+.dark-mode input[type="text"]:focus, .dark-mode input[type="password"]:focus, .dark-mode input[type="email"]:focus {
     color: white;
-    background-color: var(--main-color); 
+    background-color: var(--main-color) !important; 
     border-color: var(--tertiary-color-dark); 
     outline: none;
 }
@@ -1403,13 +1483,14 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
 
 /* dark theme button */
 .darkTheme-button {
-    padding: 8px 15px;
+    padding: 1rem 1rem;
+    margin: 0.5rem auto;
     font-size: 14px;
     cursor: pointer;
     border: none;
     background: var(--secondary-color-dark);
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     width: auto; /* Makes the width fit the text */
     min-width: 100px; /* Ensures it's not too small */
     text-align: center;

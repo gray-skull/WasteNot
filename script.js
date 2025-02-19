@@ -2,9 +2,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Add a dark mode toggle button to the page
   const themeToggleBtn = document.createElement("button")
+  const footer = document.getElementById("footer")
   themeToggleBtn.textContent = "Toggle Theme"
   themeToggleBtn.classList.add("darkTheme-button")
-  document.body.appendChild(themeToggleBtn)
+  footer.insertBefore(themeToggleBtn, footer.firstChild)
 
   // Check saved theme preference
   let currentTheme = localStorage.getItem("theme") || "light"

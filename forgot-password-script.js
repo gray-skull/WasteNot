@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                errorElement.textContent = data.message;
+                errorElement.textContent = data.message || data.error || 'An error occurred. Please try again.';
                 errorElement.style.color = data.success ? 'green' : 'red';
                 errorElement.style.display = 'block';
             })

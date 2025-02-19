@@ -9,6 +9,7 @@
     <script src="script.js"></script>
     <script src="profile-script.js"></script>
   </head>
+ 
   <body>
     <header id="header">
       <div class="auth-buttons" id="auth-buttons">
@@ -16,382 +17,383 @@
       </div>
     </header>
 
-    <main>
-      <h1>Profile</h1>
+    <div class="page-wrap">
+      <main>
+        <h1>Profile</h1>
 
-      <div id="user-info">
-        <section class="rounded-card">
-          <fieldset id="profileInfo">
-            <legend>Profile Information</legend>
-            <h4>Username:</h4>
-            <p id="username"></p>
-            <h4>Email:</h4>
-            <p id="email"></p>
-            <h4>User ID:</h4>
-            <p id="id"></p>
-            <h4>Last Updated:</h4>
-            <p id="lastUpdated"></p>
-            <button
-              type="button"
-              class="updateButton"
-              id="deleteProfileBtn"
-              style="grid-column: 1 / -1"
-            >
-              Delete Profile
-            </button>
-            <p
-              id="profileInfoError"
-              class="error-message"
-              style="color: red; display: none; grid-column: 1 / -1"
-            ></p>
-          </fieldset>
-
-          <fieldset id="updateProfile">
-            <legend>Update Profile</legend>
-            <form id="updateProfileForm">
-              <input
-                type="text"
-                id="newUsername"
-                placeholder="New Username"
-                autocomplete="username"
-              />
-              <input
-                type="text"
-                id="newEmail"
-                placeholder="New Email"
-                autocomplete="email"
-              />
-              <button type="button" class="updateButton" id="updateProfileBtn">
-                Update Profile
-              </button>
-              <p
-                id="updateProfileError"
-                class="error-message"
-                style="color: red; display: none"
-              ></p>
-            </form>
-          </fieldset>
-
-          <fieldset id="updatePassword">
-            <legend>Update Password</legend>
-            <form id="updatePasswordForm">
-              <input
-                type="text"
-                id="hiddenUsername"
-                autocomplete="username"
-                hidden
-              />
-              <input
-                type="password"
-                id="currentPassword"
-                placeholder="Current Password"
-                autocomplete="current-password"
-                required
-              />
-              <input
-                type="password"
-                id="newPassword"
-                placeholder="New Password"
-                autocomplete="new-password"
-                required
-              />
-              <input
-                type="password"
-                id="confirmNewPassword"
-                placeholder="Confirm New Password"
-                autocomplete="new-password"
-                required
-              />
-              <button type="button" class="updateButton" id="updatePasswordBtn">
-                Update Password
-              </button>
-              <p
-                id="updatePasswordError"
-                class="error-message"
-                style="color: red; display: none"
-              ></p>
-            </form>
-          </fieldset>
-
-          <fieldset id="Preferences">
-            <legend>Update Search Preferences</legend>
-            <form id="updatePreferencesForm">
-              <h3 id="dietPreferenceCheckboxAreaLabel">Diet Preferences:</h3>
-              <div
-                class="dietPreferenceCheckboxArea"
-                id="dietPreferenceCheckboxArea"
-                name="dietPreferences"
-              >
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Gluten Free"
-                    name="diet"
-                    value="Gluten Free"
-                  />
-                  <label for="Gluten Free">Gluten Free</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Ketogenic"
-                    name="diet"
-                    value="Ketogenic"
-                  />
-                  <label for="Ketogenic">Ketogenic</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Vegetarian"
-                    name="diet"
-                    value="Vegetarian"
-                  />
-                  <label for="Vegetarian">Vegetarian</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Lacto-Vegetarian"
-                    name="diet"
-                    value="Lacto-Vegetarian"
-                  />
-                  <label for="Lacto-Vegetarian">Lacto-Vegetarian</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Ovo-Vegetarian"
-                    name="diet"
-                    value="Ovo-Vegetarian"
-                  />
-                  <label for="Ovo-Vegetarian">Ovo-Vegetarian</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Vegan"
-                    name="diet"
-                    value="Vegan"
-                  />
-                  <label for="Vegan">Vegan</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Pescetarian"
-                    name="diet"
-                    value="Pescetarian"
-                  />
-                  <label for="Pescetarian">Pescetarian</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Paleo"
-                    name="diet"
-                    value="Paleo"
-                  />
-                  <label for="Paleo">Paleo</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Primal"
-                    name="diet"
-                    value="Primal"
-                  />
-                  <label for="Primal">Primal</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Low FODMAP"
-                    name="diet"
-                    value="Low FODMAP"
-                  />
-                  <label for="Low FODMAP">Low FODMAP</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-diet"
-                    type="checkbox"
-                    id="Whole30"
-                    name="diet"
-                    value="Whole30"
-                  />
-                  <label for="Whole30">Whole30</label>
-                </div>
-              </div>
-
-              <h3 id="intolerancePreferenceCheckboxAreaLabel">
-                Intolerance Preferences:
-              </h3>
-              <div
-                class="intolerancePreferenceCheckboxArea"
-                id="intolerancePreferenceCheckboxArea"
-                name="intolerancePreferences"
-              >
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Dairy"
-                    name="intolerances"
-                    value="Dairy"
-                  />
-                  <label for="Dairy">Dairy</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Egg"
-                    name="intolerances"
-                    value="Egg"
-                  />
-                  <label for="Egg">Egg</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Gluten"
-                    name="intolerances"
-                    value="Gluten"
-                  />
-                  <label for="Gluten">Gluten</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Grain"
-                    name="intolerances"
-                    value="Grain"
-                  />
-                  <label for="Grain">Grain</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Peanut"
-                    name="intolerances"
-                    value="Peanut"
-                  />
-                  <label for="Peanut">Peanut</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Seafood"
-                    name="intolerances"
-                    value="Seafood"
-                  />
-                  <label for="Seafood">Seafood</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Sesame"
-                    name="intolerances"
-                    value="Sesame"
-                  />
-                  <label for="Sesame">Sesame</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Shellfish"
-                    name="intolerances"
-                    value="Shellfish"
-                  />
-                  <label for="Shellfish">Shellfish</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Soy"
-                    name="intolerances"
-                    value="Soy"
-                  />
-                  <label for="Soy">Soy</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Sulfite"
-                    name="intolerances"
-                    value="Sulfite"
-                  />
-                  <label for="Sulfite">Sulfite</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Tree Nut"
-                    name="intolerances"
-                    value="Tree Nut"
-                  />
-                  <label for="Tree Nut">Tree Nut</label>
-                </div>
-                <div>
-                  <input
-                    class="preference-checkbox-intolerance"
-                    type="checkbox"
-                    id="Wheat"
-                    name="intolerances"
-                    value="Wheat"
-                  />
-                  <label for="Wheat">Wheat</label>
-                </div>
-              </div>
+        <div id="user-info">
+          <section class="rounded-card">
+            <fieldset id="profileInfo">
+              <legend>Profile Information</legend>
+              <h4>Username:</h4>
+              <p id="username"></p>
+              <h4>Email:</h4>
+              <p id="email"></p>
+              <h4>User ID:</h4>
+              <p id="id"></p>
+              <h4>Last Updated:</h4>
+              <p id="lastUpdated"></p>
               <button
-                type="submit"
+                type="button"
                 class="updateButton"
-                id="updatePreferenceBtn"
+                id="deleteProfileBtn"
+                style="grid-column: 1 / -1"
               >
-                Update Preferences
+                Delete Profile
               </button>
               <p
-                id="updatePreferencesError"
+                id="profileInfoError"
                 class="error-message"
-                style="color: red; display: none"
+                style="color: red; display: none; grid-column: 1 / -1"
               ></p>
-            </form>
-          </fieldset>
+            </fieldset>
 
-          <fieldset id="savedRecipesFieldset">
-            <legend>Saved Recipes</legend>
-            <div id="saved-recipes"></div>
-          </fieldset>
-        </section>
-      </div>
-    </main>
+            <fieldset id="updateProfile">
+              <legend>Update Profile</legend>
+              <form id="updateProfileForm">
+                <input
+                  type="text"
+                  id="newUsername"
+                  placeholder="New Username"
+                  autocomplete="username"
+                />
+                <input
+                  type="text"
+                  id="newEmail"
+                  placeholder="New Email"
+                  autocomplete="email"
+                />
+                <button type="button" class="updateButton" id="updateProfileBtn">
+                  Update Profile
+                </button>
+                <p
+                  id="updateProfileError"
+                  class="error-message"
+                  style="color: red; display: none"
+                ></p>
+              </form>
+            </fieldset>
 
-    <footer>
-      <div class="footer-content" id="footer">
-        <h2 class="cabin-sketch-regular">&copy; 2025 WasteNot</h2>
-      </div>
-    </footer>
+            <fieldset id="updatePassword">
+              <legend>Update Password</legend>
+              <form id="updatePasswordForm">
+                <input
+                  type="text"
+                  id="hiddenUsername"
+                  autocomplete="username"
+                  hidden
+                />
+                <input
+                  type="password"
+                  id="currentPassword"
+                  placeholder="Current Password"
+                  autocomplete="current-password"
+                  required
+                />
+                <input
+                  type="password"
+                  id="newPassword"
+                  placeholder="New Password"
+                  autocomplete="new-password"
+                  required
+                />
+                <input
+                  type="password"
+                  id="confirmNewPassword"
+                  placeholder="Confirm New Password"
+                  autocomplete="new-password"
+                  required
+                />
+                <button type="button" class="updateButton" id="updatePasswordBtn">
+                  Update Password
+                </button>
+                <p
+                  id="updatePasswordError"
+                  class="error-message"
+                  style="color: red; display: none"
+                ></p>
+              </form>
+            </fieldset>
 
+            <fieldset id="Preferences">
+              <legend>Update Search Preferences</legend>
+              <form id="updatePreferencesForm">
+                <h3 id="dietPreferenceCheckboxAreaLabel">Diet Preferences:</h3>
+                <div
+                  class="dietPreferenceCheckboxArea"
+                  id="dietPreferenceCheckboxArea"
+                  name="dietPreferences"
+                >
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Gluten Free"
+                      name="diet"
+                      value="Gluten Free"
+                    />
+                    <label for="Gluten Free">Gluten Free</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Ketogenic"
+                      name="diet"
+                      value="Ketogenic"
+                    />
+                    <label for="Ketogenic">Ketogenic</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Vegetarian"
+                      name="diet"
+                      value="Vegetarian"
+                    />
+                    <label for="Vegetarian">Vegetarian</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Lacto-Vegetarian"
+                      name="diet"
+                      value="Lacto-Vegetarian"
+                    />
+                    <label for="Lacto-Vegetarian">Lacto-Vegetarian</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Ovo-Vegetarian"
+                      name="diet"
+                      value="Ovo-Vegetarian"
+                    />
+                    <label for="Ovo-Vegetarian">Ovo-Vegetarian</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Vegan"
+                      name="diet"
+                      value="Vegan"
+                    />
+                    <label for="Vegan">Vegan</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Pescetarian"
+                      name="diet"
+                      value="Pescetarian"
+                    />
+                    <label for="Pescetarian">Pescetarian</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Paleo"
+                      name="diet"
+                      value="Paleo"
+                    />
+                    <label for="Paleo">Paleo</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Primal"
+                      name="diet"
+                      value="Primal"
+                    />
+                    <label for="Primal">Primal</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Low FODMAP"
+                      name="diet"
+                      value="Low FODMAP"
+                    />
+                    <label for="Low FODMAP">Low FODMAP</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-diet"
+                      type="checkbox"
+                      id="Whole30"
+                      name="diet"
+                      value="Whole30"
+                    />
+                    <label for="Whole30">Whole30</label>
+                  </div>
+                </div>
+
+                <h3 id="intolerancePreferenceCheckboxAreaLabel">
+                  Intolerance Preferences:
+                </h3>
+                <div
+                  class="intolerancePreferenceCheckboxArea"
+                  id="intolerancePreferenceCheckboxArea"
+                  name="intolerancePreferences"
+                >
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Dairy"
+                      name="intolerances"
+                      value="Dairy"
+                    />
+                    <label for="Dairy">Dairy</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Egg"
+                      name="intolerances"
+                      value="Egg"
+                    />
+                    <label for="Egg">Egg</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Gluten"
+                      name="intolerances"
+                      value="Gluten"
+                    />
+                    <label for="Gluten">Gluten</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Grain"
+                      name="intolerances"
+                      value="Grain"
+                    />
+                    <label for="Grain">Grain</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Peanut"
+                      name="intolerances"
+                      value="Peanut"
+                    />
+                    <label for="Peanut">Peanut</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Seafood"
+                      name="intolerances"
+                      value="Seafood"
+                    />
+                    <label for="Seafood">Seafood</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Sesame"
+                      name="intolerances"
+                      value="Sesame"
+                    />
+                    <label for="Sesame">Sesame</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Shellfish"
+                      name="intolerances"
+                      value="Shellfish"
+                    />
+                    <label for="Shellfish">Shellfish</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Soy"
+                      name="intolerances"
+                      value="Soy"
+                    />
+                    <label for="Soy">Soy</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Sulfite"
+                      name="intolerances"
+                      value="Sulfite"
+                    />
+                    <label for="Sulfite">Sulfite</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Tree Nut"
+                      name="intolerances"
+                      value="Tree Nut"
+                    />
+                    <label for="Tree Nut">Tree Nut</label>
+                  </div>
+                  <div>
+                    <input
+                      class="preference-checkbox-intolerance"
+                      type="checkbox"
+                      id="Wheat"
+                      name="intolerances"
+                      value="Wheat"
+                    />
+                    <label for="Wheat">Wheat</label>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="updateButton"
+                  id="updatePreferenceBtn"
+                >
+                  Update Preferences
+                </button>
+                <p
+                  id="updatePreferencesError"
+                  class="error-message"
+                  style="color: red; display: none"
+                ></p>
+              </form>
+            </fieldset>
+
+            <fieldset id="savedRecipesFieldset">
+              <legend>Saved Recipes</legend>
+              <div id="saved-recipes"></div>
+            </fieldset>
+          </section>
+        </div>
+      </main>
+
+      <footer>
+        <div class="footer-content" id="footer">
+          <p>&copy; 2025 WasteNot</p>
+        </div>
+      </footer>
+    </div>
     <nav class="bottom-menu" id="bottom-menu">
       <!-- Dynamically inserted by script.js -->
     </nav>
