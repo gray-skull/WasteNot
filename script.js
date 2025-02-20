@@ -1,8 +1,45 @@
 // dynamic content generation for the navigation menu
 document.addEventListener("DOMContentLoaded", () => {
+  // insert the footer content into the footer div
+  const footer = document.getElementById("footer")
+  footer.innerHTML = `
+  <p>Images from <a href="https://spoonacular.com/food-api" target="_blank">Spoonacular API</a></p>
+  <a href="#" onclick="openDynamicModal('terms')" class="footer-link">Terms of Use</a> |
+  <a href="#" onclick="openDynamicModal('privacy')" class="footer-link">Privacy Policy</a> |
+  <a href="#" onclick="openDynamicModal('accessibility')" class="footer-link">Accessibility</a>
+  <p>&copy; 2025 WasteNot</p>
+  `
+
+  // Add a modal to the page
+  const modalDiv = document.createElement("div")
+  modalDiv.id = "dynamicModal"
+  modalDiv.classList.add("modal")
+  document.body.appendChild(modalDiv)
+
+    const modalContent = document.createElement("div")
+    modalContent.classList.add("modal-content")
+    modalDiv.appendChild(modalContent)
+
+      const modalSpan = document.createElement("span")
+      modalSpan.classList.add("close")
+      modalSpan.innerHTML = "&times;"
+      modalSpan.onclick = closeModal
+      modalContent.appendChild(modalSpan)
+
+      const modalTitle = document.createElement("h2")
+      modalTitle.id = "modalTitle"
+      modalContent.appendChild(modalTitle)
+
+      const modalText = document.createElement("p")
+      modalText.id = "modalContent"
+      modalContent.appendChild(modalText)
+
+
+      modalTitle.textContent = "Welcome"
+      modalText.textContent = "This is the default content for the modal."
+
   // Add a dark mode toggle button to the page
   const themeToggleBtn = document.createElement("button")
-  const footer = document.getElementById("footer")
   themeToggleBtn.textContent = "Toggle Theme"
   themeToggleBtn.classList.add("darkTheme-button")
   footer.insertBefore(themeToggleBtn, footer.firstChild)
@@ -361,6 +398,156 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   } // >>>>>>>>>> end of login page specific code <<<<<<<<<<
 }) // end of DOMContentLoaded event listener
+
+// modal content
+const modalData = {
+  privacy: { title: "Privacy Policy", content: `Effective Date: 19 February 2025<br><br>
+<ol>
+<li>Introduction
+WasteNot is a web application developed as part of an academic project. As a student project and not a commercial product, we do not collect, sell, or share personal data for commercial purposes. This Privacy Policy outlines the minimal data handling practices we follow to ensure a responsible and secure user experience.</li>
+
+<li>Data Collection and Use
+WasteNot does not require users to provide personally identifiable information to use the core features of the application.
+If users create an account, only necessary information such as usernames and preferences may be stored for functionality purposes.
+Any stored data is used solely to enhance the user experience within the application and is not shared with third parties.</li>
+
+<li>Cookies and Local Storage
+WasteNot may use local storage or session storage to remember user preferences, such as selected dietary filters.
+No third-party tracking cookies are implemented in the application.</li>
+
+<li>Third-Party Services
+WasteNot retrieves recipe and ingredient data from third-party sources via public APIs.
+We do not control the data practices of third-party sources and recommend users review their respective privacy policies.</li>
+
+<li>Data Security
+As a student project, we take basic precautions to protect stored data, but we do not guarantee enterprise-level security measures.
+User data is not sold, shared, or used for purposes beyond the scope of the project.</li>
+
+<li>Limitations and Disclaimers
+WasteNot is an academic project, and data privacy measures are implemented to the best of our ability within the constraints of the project.
+As this is not a commercial application, no guarantees of complete data security or regulatory compliance are provided.
+Users should use the application with the understanding that it is designed for educational purposes only.</li>
+
+<li>Changes to This Policy
+Since WasteNot is a student project, updates may occur based on academic revisions or improvements.
+Users will not receive direct notifications of changes, but updated policies will be reflected within the application.</li>
+
+<li>Contact Information
+WasteNot is a student project and does not provide direct support or contact options. For any privacy-related inquiries, please refer to the project documentation or academic instructor.</li>
+</ol>
+
+By using WasteNot, you acknowledge that this is an academic project with limited data privacy measures and that any data collection is solely for functionality within the application.` 
+},
+  terms: { title: "Terms of Use", content: `Effective Date: 19 February 2025<br><br>
+<ol>
+<li>Introduction<br>
+Welcome to WasteNot, a mobile-friendly web application developed as part of an academic project. WasteNot is designed to help users minimize food waste by providing recipe suggestions based on available ingredients. By accessing or using the WasteNot platform, you acknowledge that this is a student project and agree to comply with these Terms of Use. If you do not agree with these terms, you must refrain from using the application.<br><br></li>
+
+<li>Definitions<br>
+WasteNot refers to the web application developed by Scrum Team 4 for educational purposes. User refers to anyone who accesses or uses WasteNot. Content includes but is not limited to recipes, text, graphics, images, and software. Third-Party Services refers to APIs or external data sources that provide recipe content and other features.<br><br></li>
+
+<li>Eligibility<br>
+To use WasteNot, you must be at least 13 years old. If you are under 18, you may only use the application with parental or guardian consent.<br><br></li>
+
+<li>User Accounts<br>
+Users may create accounts to save preferences, favorite recipes, and set dietary restrictions. You are responsible for maintaining the confidentiality of your account credentials. WasteNot reserves the right to terminate accounts that violate these Terms of Use.<br><br></li>
+
+<li>Permitted Use<br>
+WasteNot grants users a limited, non-exclusive, non-transferable license to use the application for personal, non-commercial purposes. Users may not:<br>
+<ul>
+<li>Use the application for unlawful activities.</li>
+<li>Modify, distribute, sell, or lease any part of WasteNot.</li>
+<li>Interfere with the security or functionality of the application.<br><br></li>
+</ul>
+
+<li>Recipe and Ingredient Data<br>
+WasteNot retrieves recipes and ingredient data from third-party sources. The accuracy, completeness, and reliability of recipe content cannot be guaranteed. Users assume full responsibility for verifying ingredient suitability and dietary compatibility.<br><br></li>
+
+<li>Privacy and Data Collection<br>
+WasteNot does not collect personally identifiable information beyond what is necessary for application functionality. Any stored user data is used solely for academic and functional purposes. Users acknowledge that anonymized data may be used to improve application functionality.<br><br></li>
+
+<li>Third-Party Services<br>
+WasteNot may include links or integrations with third-party services. WasteNot is not responsible for the content, privacy policies, or security of third-party websites or services. Users interact with third-party services at their own risk.<br><br></li>
+
+<li>Limitation of Liability<br>
+WasteNot is provided as is as part of a student project and does not offer any guarantees of accuracy, availability, or security. WasteNot and its developers shall not be liable for any damages, including but not limited to data loss, personal injury, or financial loss, resulting from the use of the application. Users acknowledge that WasteNot does not guarantee uninterrupted or error-free service.<br><br></li>
+
+<li>Modifications to the Terms<br>
+WasteNot reserves the right to modify these Terms of Use at any time without prior notice. Continued use of WasteNot after modifications constitutes acceptance of the revised terms.<br><br></li>
+
+<li>Termination<br>
+WasteNot reserves the right to suspend or terminate access to users who violate these Terms of Use. Users may delete their accounts at any time through account settings. Upon termination, user data may be retained for academic purposes only.<br><br></li>
+
+<li>Governing Law<br>
+These Terms of Use shall be interpreted solely for educational and project-related purposes. Any legal interpretation should recognize that this is a non-commercial student project with no corporate affiliation.<br><br></li>
+
+<li>Contact Information<br>
+WasteNot is a student project, and we do not offer direct support or contact options. For any issues or inquiries, please refer to the project documentation or academic instructor.<br><br></li>
+</ol>
+
+By using WasteNot, you acknowledge that you have read, understood, and agreed to these Terms of Use.<br>
+` },
+  accessibility: { title: "Accessibility", content: `Effective Date: 19 February 2025<br><br>
+<ol>
+<li>Introduction<br>
+WasteNot is a web application developed as part of an academic project. We are committed to ensuring that it is accessible to all users, including individuals with disabilities. While WasteNot is a student project and not a commercial product, we strive to follow recognized accessibility standards and best practices.<br><br></li>
+
+<li>Accessibility Standards Compliance<br>
+WasteNot is designed with reference to the Web Content Accessibility Guidelines (WCAG) 2.1 at the AA level. These guidelines help make web content more accessible to a wider range of people with disabilities, including those with visual, auditory, motor, and cognitive impairments.<br><br></li>
+
+<li>Key Accessibility Features<br>
+<ul>
+  <li>Keyboard Navigation: The app is designed to be navigable using a keyboard, allowing users to interact with essential features without requiring a mouse.</li>
+  <li>Screen Reader Compatibility: Content is structured and labeled appropriately to improve compatibility with screen readers such as NVDA, JAWS, and VoiceOver.</li>
+  <li>Text Alternatives: Non-text content, including images and icons, includes appropriate alternative text descriptions where applicable.</li>
+  <li>Color Contrast: Text and background colors are chosen to maintain a contrast ratio that enhances readability for users with low vision.</li>
+  <li>Resizable Text: Users should be able to resize text up to 200% without loss of functionality or readability.</li>
+  <li>Accessible Forms: Forms include labels and validation messages to assist users in completing input fields accurately.</li>
+  <li>Skip Navigation Links: A skip link is available to allow users to bypass repetitive navigation elements and go directly to the main content.<br><br></li>
+</ul>
+
+<li>Testing and Continuous Improvement<br>
+As an academic project, WasteNot is tested for accessibility through:<br>
+<ul>
+  <li>Automated accessibility testing tools such as Axe and WAVE.</li>
+  <li>Manual testing with screen readers and keyboard navigation.</li>
+  <li>Academic review and feedback to identify and address potential barriers.<br><br></li>
+</ul>
+
+<li>Limitations and Disclaimers<br>
+WasteNot is a student-developed project and does not guarantee full compliance with all accessibility standards.<br>
+While we make efforts to ensure accessibility, certain features may be limited due to resource constraints.<br>
+Users should be aware that accessibility improvements will be made based on academic development cycles rather than commercial support timelines.<br><br></li>
+
+<li>Contact Information<br>
+WasteNot is a student project, and direct support or contact options are not available. For any accessibility-related feedback, please refer to the project documentation or academic instructor.<br><br></li>
+</ol>
+
+By using WasteNot, you acknowledge that this is an academic project and that accessibility efforts are made in good faith to improve user experience where possible.` 
+}
+}
+
+// open modal function
+function openDynamicModal(type) {
+  document.getElementById("modalTitle").textContent = modalData[type].title
+  document.getElementById("modalContent").innerHTML = modalData[type].content
+  document.getElementById("dynamicModal").style.display = "block"
+}
+
+// close modal function
+function closeModal() {
+  document.getElementById("dynamicModal").style.display = "none"
+}
+
+// Close the modal when clicking outside the modal content
+window.onclick = function(event) {
+  let modals = document.querySelectorAll(".modal");
+  modals.forEach(modal => {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  });
+};
 
 // global code for all pages
 // Function to toggle the display of the diet options
