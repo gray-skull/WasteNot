@@ -610,17 +610,16 @@ a.footer-link {
     display: none;
     width: 100%;
     margin: 0rem auto;
-    padding: 1rem;
-    font-size: 1.2rem;
+    padding: 0.5rem;
+    font-size: 1rem;
     border-radius: 10px;
     background-color: var(--main-color-dark);
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    height: auto;
-    border-top: 2px solid var(--tertiary-color-dark);
+    height: 3rem;
+    border-top: 1px solid var(--tertiary-color-dark);
     border-radius: 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.9);
 }
@@ -1159,7 +1158,7 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
 @media (min-width: 1440px) {
     /* Adjust styles for screens larger than 1440px */
     * {
-        font-size: 22px !important;
+        font-size: 20px;
     }
 
     img#logo {
@@ -1240,7 +1239,7 @@ div#dietPreferenceCheckboxArea label:hover, div#intolerancePreferenceCheckboxAre
 @media (max-width: 600px) {
     /* Adjust styles for screens smaller than 600px */
     * {
-        font-size: 18px !important;
+        font-size: 18px;
     }
 
     h1 {

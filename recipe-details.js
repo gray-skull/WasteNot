@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const rating = recipe.spoonacularScore.toFixed(1) || "N/A";
 
         recipeDetails.innerHTML = `
-        <button class="back-link" id="back-button">Back to Recipes</button>
+        <button class="back-link" id="back-button">Go Back</button>
         <h1>${recipe.title}</h1>
         <p>User Rating: ${rating}</p>
         <section class="image-box">
