@@ -103,44 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const clearShoppingList = async () => {
         const shoppingListError = document.getElementById("shopping-list-error");
 
-        if(shoppingListError.textContent !== "") {
-            return;
-        }
-
-        const userConfirmed = await new Promise((resolve) => {
-            const confirmationBox = document.createElement("div");
-            confirmationBox.id = "confirmation-box";
-            confirmationBox.innerHTML = `
-            <p>Are you sure you want to clear your shopping list?</p>
-            <button id="confirm-yes">Yes</button>
-            <button id="confirm-no">No</button>
-            `;
-
-            // Disable shopping list buttons
-            const clearButton = document.getElementById("clear-shopping-list");
-            const deleteButton = document.getElementById("delete-ingredients");
-            clearButton.disabled = true;
-            deleteButton.disabled = true;
-
-            document.body.appendChild(confirmationBox);
-
-            document.getElementById("confirm-yes").addEventListener("click", () => {
-            resolve(true);
-            document.body.removeChild(confirmationBox);
-            // Re-enable shopping list buttons
-            clearButton.disabled = false;
-            deleteButton.disabled = false;
-            });
-
-            document.getElementById("confirm-no").addEventListener("click", () => {
-            resolve(false);
-            document.body.removeChild(confirmationBox);
-            // Re-enable shopping list buttons
-            clearButton.disabled = false;
-            deleteButton.disabled = false;
-            });
-        });
-
+        const userConfirmed = confirm("Are you sure you want to clear your shopping list?");
         if (!userConfirmed) {
             return;
         }
@@ -158,8 +121,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             throw new Error(`HTTP error! status: ${response.status}`);
             }
         } catch (error) {
+            shoppingListError.textContent = error.message || "Error clearing shopping list.";
             shoppingListError.style.display = "block";
         } finally {
+            shoppingListError.textContent = "";
+            shoppingListError.style.display = "none";
             deleteButton.style.display = "none";
             clearButton.style.display = "none";
             await loadShoppingList();
@@ -211,6 +177,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (error) {
             shoppingListError.textContent = error.message || "Error deleting ingredients.";
             shoppingListError.style.display = "block";
+        } finally {
+            setTimeout(() => {
+                shoppingListError.textContent = "";
+                shoppingListError.style.display = "none";
+            }, 5000);
         }
     }
     deleteButton.addEventListener("click", deleteIngredients);
