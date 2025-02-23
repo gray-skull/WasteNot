@@ -115,8 +115,8 @@ app.get("/home", (req, res) =>
 app.get("/about", (req, res) =>
   res.sendFile(path.join(__dirname, "../pages/about.html"))
 )
-app.get("/settings", (req, res) =>
-  res.sendFile(path.join(__dirname, "../pages/settings.html"))
+app.get("/list", (req, res) =>
+  res.sendFile(path.join(__dirname, "../pages/list.html"))
 )
 app.get("/signup", (req, res) =>
   res.sendFile(path.join(__dirname, "../pages/signup.html"))
@@ -187,7 +187,7 @@ app.post("/login", async (req, res) => {
 
     // Generate JWT
     const token = jwt.sign({ userId: user._id }, jwtSecret, {
-      expiresIn: "1h",
+      expiresIn: "7h",
 
     })
 
@@ -595,10 +595,6 @@ app.get("/saved-recipes", async (req, res) => {
   }
 })
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`)
-})
 
 //Save recipe feature
 app.post("/save-recipe", authMiddleware, async (req, res) => {
@@ -658,3 +654,122 @@ app.post("/save-recipe", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Error saving recipe" });
   }
 });
+
+// endpoint for saving recipe ingredients to the users shopping list
+app.post("/shopping-list/ingredients/add", authMiddleware, async (req, res) => {
+  const { ingredients } = req.body
+  if (!ingredients) {
+    console.log("Ingredients are required.")
+    return res.status(400).json({ error: "Ingredients are required." })
+  }
+
+  try {
+    const { userId } = req.user
+    const user = await usersCollection.findOne(ObjectId.createFromHexString(userId))
+
+    if (!user) {
+      console.log("User not found")
+      return res.status(404).json({ error: "User not found" })
+    }
+
+    const updatedShoppingList = user.shoppingList || [];
+
+    ingredients.forEach(ingredient => {
+      const existingIngredient = updatedShoppingList.find(item => item.name === ingredient.name && item.unit === ingredient.unit);
+      if (existingIngredient) {
+      existingIngredient.amount += ingredient.amount;
+      } else {
+      updatedShoppingList.push(ingredient);
+      }
+    });
+
+    await usersCollection.updateOne(
+      { _id: ObjectId.createFromHexString(userId) },
+      { $set: { shoppingList: updatedShoppingList } },
+      { upsert: true }
+    );
+
+    res.status(200).json({ message: "Ingredients saved to shopping list" })
+  } catch (error) {
+    console.error("Error saving ingredients to shopping list:", error)
+    res.status(500).json({ error: "Error saving ingredients to shopping list" })
+  }
+})
+
+// endpoint for deleting ingredients from the user's shopping list
+app.delete("/shopping-list/ingredients/delete", authMiddleware, async (req, res) => {
+  const { ingredients } = req.body;
+  if (!ingredients || !Array.isArray(ingredients)) {
+    return res.status(400).json({ error: "Ingredients array is required." });
+  }
+
+  const { userId } = req.user;
+  try {
+    const user = await usersCollection.findOne(ObjectId.createFromHexString(userId));
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    await usersCollection.updateOne(
+      { _id: ObjectId.createFromHexString(userId) },
+      { $pull: { shoppingList: { name: { $in: ingredients } } } }
+    );
+
+    res.status(200).json({ message: "Ingredients deleted from shopping list" });
+  } catch (error) {
+    console.error("Error deleting ingredients from shopping list:", error);
+    res.status(500).json({ error: "Error deleting ingredients from shopping list" });
+  }
+});
+
+// endpoint for fetching the user's shopping list
+app.get("/shopping-list/get", authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req.user
+    const user = await usersCollection.findOne(ObjectId.createFromHexString(userId))
+    if (!user) {
+      return res.status(200).json({ error: "User not found" })
+    }
+    if (!user.shoppingList || user.shoppingList.length === 0) {
+      return res.status(200).json({ message: "Shopping list is empty" })
+    }
+
+    // Sort the shopping list by aisle
+    user.shoppingList.sort((a, b) => (a.aisle || "").localeCompare(b.aisle || ""))
+
+    res.status(200).json(user.shoppingList)
+  } catch (error) {
+    console.error("Error fetching shopping list:", error)
+    res.status(500).json({ error: "Error fetching shopping list" })
+  }
+});
+
+// endpoint for clearing the user's shopping list
+app.delete("/shopping-list/clear", authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req.user
+    const user = await usersCollection.findOne(ObjectId.createFromHexString(userId))
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
+    }
+    if (user.shoppingList.length === 0) {
+      return res.status(200).json({ message: "Shopping list is already empty" })
+    }
+
+    await usersCollection.updateOne(
+      { _id: ObjectId.createFromHexString(userId) },
+      { $set: { shoppingList: [] } }
+    )
+
+    res.status(200).json({ message: "Shopping list cleared" })
+  } catch (error) {
+    console.error("Error clearing shopping list:", error)
+    res.status(500).json({ error: "Error clearing shopping list" })
+  }
+});
+
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`)
+})

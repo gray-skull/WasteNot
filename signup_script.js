@@ -49,10 +49,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         // Success: Notify the user and redirect to login
-        signupError.textContent = "Signup successful. Redirecting to login..."
-        setTimeout(() => {
-          window.location.href = "/login"
-        }, 5000)
+        let countdown = 5;
+        signupError.textContent = `Signup successful. Redirecting to login in ${countdown} seconds...`;
+        
+        const countdownInterval = setInterval(() => {
+          countdown -= 1;
+          signupError.textContent = `Signup successful. Redirecting to login in ${countdown} seconds...`;
+          
+          if (countdown === 0) {
+            clearInterval(countdownInterval);
+            window.location.href = "/login";
+          }
+        }, 1000);
       } else {
         // Display the error message from the server
         signupError.textContent =

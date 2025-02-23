@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <a href='#' id="home" onclick="window.location.href='/home'">Home</a>
   <a href='#' id="about" onclick="window.location.href='/about'">About</a>
   <a href='#' id="profile" onclick="window.location.href='/profile'">Profile</a>
-  <a href='#' id="settings" onclick="window.location.href='/settings'">Settings</a>
+  <a href='#' id="list" onclick="window.location.href='/list'">List</a>
   `
 
   // load the bottom-menu-select on each page, inserts the html into the bottom-menu-select div
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <option value="/home">Home</option>
     <option value="/about">About</option>
     <option value="/profile">Profile</option>
-    <option value="/settings">Settings</option>
+    <option value="/list">List</option>
   `
   bottomMenuSelect.addEventListener("change", event => {
     const selectedValue = event.target.value
@@ -378,8 +378,13 @@ document.addEventListener("DOMContentLoaded", () => {
             loginError.style.display = "block" // display the error message div
             loginError.textContent = message // display the success message
 
-            // Redirect to the home page
-            window.location.href = "/home"
+            // Redirect to the last page the user was on using document.referrer
+            const lastPage = document.referrer;
+            if (lastPage && lastPage !== window.location.href && !lastPage.includes("/signup")) {
+              window.location.href = lastPage;
+            } else {
+              window.location.href = "/home";
+            }
           } else {
             loginError.style.display = "block" // display the error message div
             loginError.textContent = "Login failed. Please try again." // display an error message
