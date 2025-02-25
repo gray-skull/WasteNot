@@ -1,5 +1,6 @@
 async function fetchProfile() {
     const token = localStorage.getItem("token")
+    const theme = localStorage.getItem("theme") || "light"
 
     // If no token, show login/register message
     if (!token) {
@@ -9,6 +10,7 @@ async function fetchProfile() {
         return
     }
 
+    // Start fetching user profile
     try {
         const response = await fetch("/userProfile", {
         method: "GET",
@@ -17,17 +19,23 @@ async function fetchProfile() {
             "Content-Type": 'application/json',
             }
         });
+        // get the user data
+        const user = await response.json();
 
+        // If the token is invalid, prompt login
         if (!response.ok) {
+            // Clear local storage
+            localStorage.clear()
+            localStorage.setItem("theme", theme)
+            // display a message to the user
             document.getElementById("user-info").innerHTML = `
                 <p>Your session has expired. Please <a href="/login">Sign in</a> again.</p>
             `;
+            // throw an error to stop the function
             throw new Error("Your session has expired. Please Log in again.")
-            
         }
 
-        const user = await response.json()
-
+        // Save user data to local storage
         const username = document.getElementById("username")
         if (username) {
             username.innerHTML = `${user.username}`
@@ -89,6 +97,7 @@ async function fetchProfile() {
         
         // Clear local storage
         localStorage.clear()
+        localStorage.setItem("theme", theme)
 
         // Show login/register buttons
         document.getElementById("login-btn").style.display = "inline"
@@ -96,15 +105,18 @@ async function fetchProfile() {
         // Hide user info and logout button
         document.getElementById("welcome-user").style.display = "none"
         document.getElementById("logout-btn").style.display = "none"
-         
-        document.getElementById("user-info").innerHTML = `
-            <p>Your session has expired. Please <a href="/login">Sign in</a> again.</p>
-            `
-
         // Redirect to login page after 5 seconds
-        setTimeout(() => {
+        let countdown = 5
+        const countdownInterval = setInterval(() => {
+            document.getElementById("user-info").innerHTML += `
+                <p>Redirecting to login in ${countdown} seconds...</p>
+            `
+            countdown -= 1
+            if (countdown === 0) {
+                clearInterval(countdownInterval)
             window.location.href = "/login"
-        }, 5000);
+            }
+        }, 1000)
     }
 }
 
@@ -159,14 +171,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Delete profile listener
+    // Create Delete profile button listener
     if (deleteProfileBtn) {
         deleteProfileBtn.addEventListener("click", async () => {
+            // Confirm the user wants to delete their profile
             const userConfirm = confirm("Are you sure you want to delete your profile? This action cannot be undone.");
+            // If the user confirms, send the delete request
             if (!userConfirm) {
                 return;
-            }
-            else {
+            } else {
+                // Send the delete request
                 try {
                     const response = await fetch("/deleteProfile", {
                         method: "DELETE",
@@ -175,17 +189,28 @@ document.addEventListener("DOMContentLoaded", async () => {
                             "Content-Type": "application/json",
                         },
                     });
+                    // Handle the response
                     if (response.ok) {
+                        // Clear local storage and show a success message
                         localStorage.clear();
                         showError("profileInfoError", "Your profile has been deleted. Redirecting to login..."); 
-                        setTimeout(() => {
+                        // Redirect to the login page after 5 seconds 
+                        let countdown = 5;
+                        const countdownInterval = setInterval(() => {
+                            showError("profileInfoError", `Your profile has been deleted. Redirecting to login in ${countdown} seconds...`);
+                            countdown -= 1;
+                            if (countdown === 0) {
+                                clearInterval(countdownInterval);
                             window.location.href = "/login";
-                        }, 5000);
+                            }
+                        }, 1000);
                     } else {
+                        // Show an error message if the request fails
                         showError("deleteProfileError", "Profile deletion failed. Please try again later.");
                         console.error("Profile deletion failed.");
                     }
                 } catch (error) {
+                    // Show an error message if the request fails
                     showError("deleteProfileError", error.message);
                     console.error(error.message, error.stack.split("\n"));
                 }
@@ -193,20 +218,42 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Update profile listener
+    // Create Update profile listener
     if (updateProfileBtn) {
         updateProfileBtn.addEventListener("click", async () => {
             try {
+                // Get the new username and email values from the form
                 const newUsernameElement = document.getElementById("newUsername");
+                const newUsernameConfirmElement = document.getElementById("newUsernameConfirm");
                 const newEmailElement = document.getElementById("newEmail");
+                const newEmailConfirmElement = document.getElementById("newEmailConfirm");
+                // Get the values from the form elements or set them to empty strings
                 const newUsername = newUsernameElement ? newUsernameElement.value : "";
+                const newUsernameConfirm = newUsernameConfirmElement ? newUsernameConfirmElement.value : "";
                 const newEmail = newEmailElement ? newEmailElement.value : "";
+                const newEmailConfirm = newEmailConfirmElement ? newEmailConfirmElement.value : "";
 
-                if (!newUsername && !newEmail) {
-                    showError("updateProfileError", "Both fields cannot be empty.");
+                
+                // set error message to empty string
+                hideError("updateProfileError");
+                // set conditions for validation errors
+                const validationErrors = [
+                    { condition: !newUsername && !newEmail, message: "Nothing to update!" },
+                    { condition: newUsername && !newUsernameConfirm, message: "Please confirm new username." },
+                    { condition: newEmail && !newEmailConfirm, message: "Please confirm new email." },
+                    { condition: newUsername !== newUsernameConfirm, message: "New username and confirmation do not match." },
+                    { condition: newEmail !== newEmailConfirm, message: "New email and confirmation do not match." }
+                ];
+
+                // Check for validation errors
+                for (const error of validationErrors) {
+                    if (error.condition) {
+                        showError("updateProfileError", error.message);
                     return;
+                    }
                 }
 
+                // Send the update profile request
                 const response = await fetch("/updateProfile", {
                     method: "POST",
                     headers: {
@@ -215,32 +262,35 @@ document.addEventListener("DOMContentLoaded", async () => {
                     },
                     body: JSON.stringify({ newUsername, newEmail }),
                 });
+
+                // Handle the response
                 if (!response.ok) {
                     const errorData = await response.json();
                     showError("updateProfileError", errorData.message || "Profile update failed. Bad response from server.");
                     console.error("Profile update failed.");
                 } else {
+                    // Update the user's information in local storage
                     const updatedUser = await response.json();
-
                     localStorage.setItem("username", updatedUser.username);
                     localStorage.setItem("email", updatedUser.email);
                     localStorage.setItem("lastUpdated", updatedUser.lastUpdate);
-                    
-                    fetchProfile();
-
+                    // Update the user's information on the page
+                    await fetchProfile();
+                    // Update the welcome message
                     const welcomeUser = document.getElementById("welcome-user");
                     welcomeUser.innerHTML = `Welcome, ${localStorage.getItem("username")}!`;
-
+                    // Show the success message
                     showError("updateProfileError", "Profile updated successfully!", "green");
                 }
             } catch (error) {
+                // Show an error message if the request fails
                 showError("updateProfileError", "Profile update failed. Please try again later.");
                 console.error(error.message, error.stack.split("\n"));
             }
         });
     }
 
-    // Update password
+    // Create Update password listener
     if (updatePasswordBtn) {
         updatePasswordBtn.addEventListener("click", async () => {
             try {
@@ -248,8 +298,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const newPassword = document.getElementById("newPassword").value;
                 const confirmNewPassword = document.getElementById("confirmNewPassword").value;
                 
-                // Validate the new password and confirm password
+                // Clear any previous error messages
                 hideError("updatePasswordError");
+
+                // create conditions for validation errors
                 const errors = [
                     { condition: newPassword !== confirmNewPassword, message: "New password and confirm password do not match." },
                     { condition: currentPassword === newPassword, message: "New password cannot be the same as the current password." },
@@ -257,6 +309,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     { condition: newPassword.length > 20, message: "Password must be at most 20 characters long." },
                     { condition: !/^[\x20-\x7E]*$/.test(newPassword), message: "Password can only contain letters, numbers, and common symbols. Allowed symbols: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" },
                 ];
+                // Check for validation errors
                 for (const error of errors) {
                     if (error.condition) {
                         showError("updatePasswordError", error.message);
@@ -272,7 +325,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     },
                     body: JSON.stringify({ currentPassword, newPassword }),
                 });
+                // Handle the response
                 const updatedUser = await response.json();
+                // Check if the response is ok
                 if (response.ok) {
                     // Clear the password fields
                     document.getElementById("currentPassword").value = "";
@@ -283,9 +338,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     localStorage.setItem("lastUpdated", updatedUser.lastUpdate);
                     showError("updatePasswordError", "Password updated successfully!", "green");
                 } else {
+                    // Show an error message if the request fails
                     showError("updatePasswordError", "Password update failed.");
                 }
             } catch (error) {
+                // Show an error message if the request fails
                 console.error(error.message, error.stack.split("\n"));
             }
         });
@@ -295,13 +352,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (updatePreferencesForm) {
         updatePreferencesForm.addEventListener("submit", async (event) => {
             event.preventDefault();
-            try {
+
                 const diets = Array.from(event.target.elements.diet)
                     .filter(d => d.checked)
                     .map(d => d.value);
                 const intolerances = Array.from(event.target.elements.intolerances)
                     .filter(i => i.checked)
                     .map(i => i.value);
+
+            // Send the update preferences request
+            try {
                 const response = await fetch("/updatePreferences", {
                     method: "POST",
                     headers: {
@@ -310,14 +370,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                     },
                     body: JSON.stringify({ diets, intolerances }),
                 });
+                // Handle the response
                 if (response.ok) {
+                    // Update the user's preferences in local storage
                     localStorage.setItem("diets", diets);
                     localStorage.setItem("intolerances", intolerances);
                     showError("updatePreferencesError", "Preferences updated successfully!", "green");
                 } else {
+                    // Show an error message if the request fails
                     showError("updatePreferencesError", "Preferences update failed.");
                 }
             } catch (error) {
+                // Show an error message if the request fails
                 console.error(error.message, error.stack.split("\n"));
             }
         });

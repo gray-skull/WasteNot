@@ -373,23 +373,6 @@ div#intolerancesCheckboxArea label:hover {
 
 /* buttons */
 
-#start-btn {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--main-color);
-
-  width: 80%;
-  height: auto;
-  margin: 1rem auto;
-  padding: 0.5rem;
-
-  background-color: var(--tertiary-color);
-  border-radius: 10px;
-  box-shadow: var(--shadow-standard);
-
-  cursor: pointer;
-}
-
 div.search-button-area {
   display: flex;
   flex-direction: column;
@@ -1100,6 +1083,22 @@ form#login-form button:hover {
   z-index: -1; /* Ensure video background is behind content */
 }
 
+#start-screen-overlay {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  transition: opacity 1s;
+  padding: 20px;
+  max-width: 600px;
+}
+
+#start-screen-logo {
+  width: 50%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
 #start-screen-content {
   color: white;
   height: auto;
@@ -1114,17 +1113,18 @@ form#login-form button:hover {
 }
 
 #start-screen-content h1 {
+  width: auto;
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-weight: bolder;
   color: var(--tertiary-color);
-  font-size: 4.5rem;
+  font-size: 4rem;
   margin: 0;
-  text-shadow: 0px 0px 2px rgb(0, 0, 0);
 }
 
 #start-screen-content p {
   font-size: 1.5rem;
   margin: 0;
-  text-shadow: 0px 0px 6px rgb(0, 0, 0);
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.9);
 }
 
 #start-screen-content button {
@@ -1133,7 +1133,7 @@ form#login-form button:hover {
   text-shadow: var(--shadow-standard);
   color: var(--main-color);
 
-  width: 80%;
+  width: 50%;
   height: auto;
   margin: 1rem auto;
   padding: 0.5rem;
@@ -1264,233 +1264,6 @@ div#intolerancePreferenceCheckboxArea label:hover {
 #forgot-password-form button#cancel-btn:hover {
   color: var(--main-color);
   background-color: var(--main-color-dark);
-}
-
-/*media queries*/
-@media (min-width: 1440px) {
-  /* Adjust styles for screens larger than 1440px */
-  * {
-    font-size: 20px;
-  }
-
-  img#logo {
-    width: 30% !important;
-  }
-
-  .rounded-card {
-    width: 98% !important;
-    margin: 0.5rem auto !important;
-  }
-
-  .toggle-button {
-    width: 80% !important;
-  }
-
-  #auth-buttons {
-    padding: 0.3rem 1.5rem !important;
-    font-size: 1.2rem !important;
-  }
-
-  #auth-buttons button {
-    padding: 0.7em 1.5rem !important;
-    font-size: 1rem !important;
-  }
-
-  #logout-btn {
-    font-size: 1rem !important;
-    padding: 0.5rem 1.5rem !important;
-  }
-
-  .welcome-user {
-    font-size: 1rem !important;
-    padding: 1rem 1rem !important;
-    margin: 0rem !important;
-  }
-
-  .welcome-user a {
-    padding: 1rem 1rem !important;
-    height: 100% !important;
-  }
-
-  .bottom-menu {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-  }
-
-  .bottom-menu a {
-    margin: 0rem 0.5rem !important;
-    height: auto !important;
-    width: auto !important;
-  }
-
-  #bottom-menu-select {
-    display: none !important;
-  }
-
-  body {
-    margin: 0rem auto 0rem auto !important;
-    padding: 3rem 0rem 0rem 0rem !important;
-  }
-
-  #start-screen-content h1 {
-    font-size: 6rem !important;
-  }
-
-  #start-screen-content p {
-    font-size: 2rem !important;
-  }
-
-  #start-screen-content button {
-    font-size: 2.5rem !important;
-  }
-}
-
-@media (max-width: 600px) {
-  /* Adjust styles for screens smaller than 600px */
-  * {
-    font-size: 18px;
-  }
-
-  h1 {
-    font-size: 1.1rem !important;
-  }
-
-  h2 {
-    font-size: 1rem !important;
-  }
-
-  h3 {
-    font-size: 0.9rem !important;
-  }
-
-  h4 {
-    font-size: 0.8rem !important;
-  }
-
-  h5 {
-    font-size: 0.8rem !important;
-  }
-
-  p {
-    font-size: 0.8rem !important;
-  }
-
-  img#logo {
-    width: 30% !important;
-  }
-
-  .rounded-card {
-    width: 98% !important;
-    margin: 0.5rem auto !important;
-  }
-
-  .toggle-button {
-    width: 80% !important;
-  }
-
-  .bottom-menu {
-    display: none !important;
-    flex-wrap: wrap !important;
-  }
-
-  .bottom-menu a {
-    margin: 0rem !important;
-    height: auto !important;
-    width: 50% !important;
-  }
-
-  #bottom-menu-select {
-    display: block !important;
-  }
-
-  body {
-    margin: 0rem auto 0rem auto !important;
-    padding: 3rem 0rem 0rem 0rem !important;
-  }
-
-  #start-screen-content h1 {
-    font-size: 4rem !important;
-  }
-
-  #start-screen-content p {
-    font-size: 1.4rem !important;
-  }
-
-  #start-screen-content button {
-    font-size: 1.4rem !important;
-  }
-
-  #welcome-user,
-  #welcome-user a {
-    font-size: 0.8rem !important;
-    padding: 0.8rem 0.8rem !important;
-    margin: 0rem !important;
-  }
-
-  #welcome-user a {
-    padding: 0.8rem 0.5rem !important;
-    max-width: 200px !important;
-  }
-
-  #logout-btn {
-    font-size: 0.8rem !important;
-    padding: 0.8rem 0.8rem !important;
-  }
-
-  div#dietPreferenceCheckboxArea,
-  div#intolerancePreferenceCheckboxArea {
-    padding: 0rem !important;
-    height: 100% !important;
-    justify-content: space-between !important;
-    gap: 0rem !important;
-  }
-
-  div#dietPreferenceCheckboxArea div,
-  div#intolerancePreferenceCheckboxArea div {
-    line-height: 3rem !important;
-  }
-
-  div#dietPreferenceCheckboxArea label,
-  div#intolerancePreferenceCheckboxArea label {
-    padding: 0.75rem !important;
-  }
-}
-
-@media (max-width: 375px) {
-  fieldset#profileInfo {
-    display: flex !important;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  #start-screen-content h1 {
-    font-size: 3.3rem !important;
-  }
-
-  #start-screen-content p {
-    font-size: 1.1rem !important;
-  }
-
-  #start-screen-content button {
-    font-size: 1.3rem !important;
-  }
-
-  #welcome-user,
-  #welcome-user a {
-    font-size: 0.8rem !important;
-    padding: 0.8rem 0rem !important;
-    margin: 0rem !important;
-  }
-
-  #welcome-user a {
-    padding: 0.8rem 0.5rem !important;
-    max-width: 200px !important;
-  }
-
-  #logout-btn {
-    font-size: 0.8rem !important;
-    padding: 0.8rem 0.5rem !important;
-  }
 }
 
 /* Dark Mode Styles */
@@ -1761,27 +1534,27 @@ input.shopping-list-checkbox {
 #clear-shopping-list,
 #save-shopping-list,
 #delete-ingredients {
-    font-size: 1rem;
-    font-weight: normal;
-    color: var(--tertiary-color-dark);
-    margin: 0.5rem 0rem;
-    padding: 0.5rem 0.5rem;
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--tertiary-color-dark);
+  margin: 0.5rem 0rem;
+  padding: 0.5rem 0.5rem;
 
-    background-color: var(--main-color);
-    box-shadow: var(--shadow-standard);
-    border-radius: 10px;
-    border: 1px solid var(--tertiary-color-dark);
+  background-color: var(--main-color);
+  box-shadow: var(--shadow-standard);
+  border-radius: 10px;
+  border: 1px solid var(--tertiary-color-dark);
 
-    cursor: pointer;
-    display: inline-block; /* Ensure buttons are inline */
+  cursor: pointer;
+  display: inline-block; /* Ensure buttons are inline */
 }
 
 #clear-shopping-list:hover,
 #save-shopping-list:hover,
 #delete-ingredients:hover {
-    background-color: var(--tertiary-color-dark);
-    color: var(--main-color);
-    text-shadow: var(--shadow-standard); /* Highlight color on hover */
+  background-color: var(--tertiary-color-dark);
+  color: var(--main-color);
+  text-shadow: var(--shadow-standard); /* Highlight color on hover */
 }
 
 #confirm-yes,
@@ -1823,4 +1596,250 @@ input.shopping-list-checkbox {
   border: 1px solid var(--main-color-dark);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+}
+
+/*media queries*/
+@media (min-width: 1440px) {
+  /* Adjust styles for screens larger than 1440px */
+  * {
+    font-size: 20px;
+  }
+
+  img#logo {
+    width: 30% !important;
+  }
+
+  .rounded-card {
+    width: 98% !important;
+    margin: 0.5rem auto !important;
+  }
+
+  .toggle-button {
+    width: 80% !important;
+  }
+
+  #auth-buttons {
+    padding: 0.3rem 1.5rem !important;
+    font-size: 1.2rem !important;
+  }
+
+  #auth-buttons button {
+    padding: 0.7em 1.5rem !important;
+    font-size: 1rem !important;
+  }
+
+  #logout-btn {
+    font-size: 1rem !important;
+    padding: 0.5rem 1.5rem !important;
+  }
+
+  .welcome-user {
+    font-size: 1rem !important;
+    padding: 1rem 1rem !important;
+    margin: 0rem !important;
+  }
+
+  .welcome-user a {
+    padding: 1rem 1rem !important;
+    height: 100% !important;
+  }
+
+  .bottom-menu {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .bottom-menu a {
+    margin: 0rem 0.5rem !important;
+    height: auto !important;
+    width: auto !important;
+  }
+
+  #bottom-menu-select {
+    display: none !important;
+  }
+
+  body {
+    margin: 0rem auto 0rem auto !important;
+    padding: 3rem 0rem 0rem 0rem !important;
+  }
+
+  #start-screen-overlay {
+    max-width: 1000px !important;
+    padding: 1rem !important;
+  }
+
+  #start-screen {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    align-content: center !important;
+  }
+
+  #start-screen-content h1 {
+    font-size: 6rem !important;
+  }
+
+  #start-screen-content p {
+    font-size: 2rem !important;
+  }
+
+  #start-screen-content button {
+    font-size: 2.5rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Adjust styles for screens smaller than 600px */
+  * {
+    font-size: 18px;
+  }
+
+  h1 {
+    font-size: 1.1rem !important;
+  }
+
+  h2 {
+    font-size: 1rem !important;
+  }
+
+  h3 {
+    font-size: 0.9rem !important;
+  }
+
+  h4 {
+    font-size: 0.8rem !important;
+  }
+
+  h5 {
+    font-size: 0.8rem !important;
+  }
+
+  p {
+    font-size: 0.8rem !important;
+  }
+
+  img#logo {
+    width: 30% !important;
+  }
+
+  .rounded-card {
+    width: 98% !important;
+    margin: 0.5rem auto !important;
+  }
+
+  .toggle-button {
+    width: 80% !important;
+  }
+
+  .bottom-menu {
+    display: none !important;
+    flex-wrap: wrap !important;
+  }
+
+  .bottom-menu a {
+    margin: 0rem !important;
+    height: auto !important;
+    width: 50% !important;
+  }
+
+  #bottom-menu-select {
+    display: block !important;
+  }
+
+  body {
+    margin: 0rem auto 0rem auto !important;
+    padding: 3rem 0rem 0rem 0rem !important;
+  }
+
+  #start-screen-overlay {
+    max-width: 98% !important;
+  }
+
+  #start-screen-content h1 {
+    font-size: 4rem !important;
+  }
+
+  #start-screen-content p {
+    font-size: 1.1rem !important;
+  }
+
+  #start-screen-content button {
+    font-size: 1.2rem !important;
+    min-height: 50px !important;
+  }
+
+  #welcome-user,
+  #welcome-user a {
+    font-size: 0.8rem !important;
+    padding: 0.8rem 0.8rem !important;
+    margin: 0rem !important;
+  }
+
+  #welcome-user a {
+    padding: 0.8rem 0.5rem !important;
+    max-width: 200px !important;
+  }
+
+  #logout-btn {
+    font-size: 0.8rem !important;
+    padding: 0.8rem 0.8rem !important;
+  }
+
+  div#dietPreferenceCheckboxArea,
+  div#intolerancePreferenceCheckboxArea {
+    padding: 0rem !important;
+    height: 100% !important;
+    justify-content: space-between !important;
+    gap: 0rem !important;
+  }
+
+  div#dietPreferenceCheckboxArea div,
+  div#intolerancePreferenceCheckboxArea div {
+    line-height: 3rem !important;
+  }
+
+  div#dietPreferenceCheckboxArea label,
+  div#intolerancePreferenceCheckboxArea label {
+    padding: 0.75rem !important;
+  }
+}
+
+@media (max-width: 375px) {
+  fieldset#profileInfo {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #start-screen-content h1 {
+    font-size: 3.3rem !important;
+  }
+
+  #start-screen-content p {
+    font-size: 1.1rem !important;
+  }
+
+  #start-screen-content button {
+    font-size: 1.3rem !important;
+  }
+
+  #welcome-user,
+  #welcome-user a {
+    font-size: 0.8rem !important;
+    padding: 0.8rem 0rem !important;
+    margin: 0rem !important;
+  }
+
+  #welcome-user a {
+    padding: 0.8rem 0.5rem !important;
+    max-width: 200px !important;
+  }
+
+  #logout-btn {
+    font-size: 0.8rem !important;
+    padding: 0.8rem 0.5rem !important;
+  }
 }

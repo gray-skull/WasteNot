@@ -106,31 +106,31 @@ const usersCollection = database.collection("users") // Collection for users
 app.use(express.static(path.join(__dirname, "../")))
 
 // Serve HTML pages from the "pages" folder
-app.get("/", (req, res) =>
+app.get("/", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/home.html"))
 )
-app.get("/home", (req, res) =>
+app.get("/home", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/home.html"))
 )
-app.get("/about", (req, res) =>
+app.get("/about", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/about.html"))
 )
-app.get("/list", (req, res) =>
+app.get("/list", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/list.html"))
 )
-app.get("/signup", (req, res) =>
+app.get("/signup", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/signup.html"))
 )
-app.get("/login", (req, res) =>
+app.get("/login", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/login.html"))
 )
-app.get("/profile", (req, res) =>
+app.get("/profile", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/profile.html"))
 )
-app.get("/forgot-password", (req, res) =>
+app.get("/forgot-password", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/forgot-password.html"))
 )
-app.get("/reset-password/:token", (req, res) =>
+app.get("/reset-password/:token", (_req, res) =>
   res.sendFile(path.join(__dirname, "../pages/reset-password.html"))
 )
 
@@ -207,6 +207,15 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Login Error:", error)
     res.status(500).json({ error: "Server error" })
+  }
+})
+
+// JWT verification route
+app.post("/verify-token", authMiddleware, (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "User not authenticated", valid: false })
+  } else {
+    return res.status(200).json({ message: "User is authenticated", valid: true })
   }
 })
 
@@ -315,7 +324,7 @@ app.post("/reset-password/:token", async (req, res) => {
   }
 })
 
-// Added for profile integration
+// User profile route
 app.get("/userProfile", authMiddleware, async (req, res) => {
   try {
     const authenticatedUserData = req.user
@@ -363,7 +372,7 @@ app.get("/userProfile", authMiddleware, async (req, res) => {
   }
 })
 
-// endoint for profile deletion
+// Delete user profile route
 app.delete("/deleteProfile", authMiddleware, async (req, res) => {
   const authenticatedUserData = req.user
   const userId = authenticatedUserData.userId
@@ -767,7 +776,6 @@ app.delete("/shopping-list/clear", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Error clearing shopping list" })
   }
 });
-
 
 // Start the server
 app.listen(port, () => {

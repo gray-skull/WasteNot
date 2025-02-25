@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const newPassword = document.querySelector('#newPassword').value;
         const confirmPassword = document.querySelector('#confirmNewPassword').value;
         const token = window.location.pathname.split('/').pop();
-        console.log(token);
 
         const errors = [
             { condition: newPassword === '' || confirmPassword === '', message: "Please enter and confirm your new password." },

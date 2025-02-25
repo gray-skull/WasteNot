@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WasteNot: Profile</title>
-    <link rel="icon" href="./content/images/favicon.png" type="image/png" />
+    <link rel="icon" href="../content/images/favicon.png" type="image/png" />
     <link rel="stylesheet" type="text/css" href="../style.css" />
     <script src="script.js"></script>
     <script src="profile-script.js"></script>
@@ -51,18 +51,36 @@
             <fieldset id="updateProfile">
               <legend>Update Profile</legend>
               <form id="updateProfileForm">
-                <input
-                  type="text"
-                  id="newUsername"
-                  placeholder="New Username"
-                  autocomplete="username"
-                />
-                <input
-                  type="text"
-                  id="newEmail"
-                  placeholder="New Email"
-                  autocomplete="email"
-                />
+                <label for="newUsernameGroup"><h3>Update Your Username</h3></label>
+                <div id="newUsernameGroup">
+                  <input
+                    type="text"
+                    id="newUsername"
+                    placeholder="New Username"
+                    autocomplete="username"
+                  />
+                  <input
+                    type="text"
+                    id="newUsernameConfirm"
+                    placeholder="Confirm New Username"
+                    autocomplete="username"
+                  />
+                </div>
+                <label for="newEmailGroup"><h3>Update Your Email</h3></label>
+                <div id="newEmailGroup">
+                  <input
+                    type="text"
+                    id="newEmail"
+                    placeholder="New Email"
+                    autocomplete="email"
+                  />
+                  <input
+                    type="text"
+                    id="newEmailConfirm"
+                    placeholder="Confirm New Email"
+                    autocomplete="email"
+                  />
+                </div> <!-- Added closing div tag for newEmailGroup -->
                 <button type="button" class="updateButton" id="updateProfileBtn">
                   Update Profile
                 </button>
@@ -77,33 +95,36 @@
             <fieldset id="updatePassword">
               <legend>Update Password</legend>
               <form id="updatePasswordForm">
-                <input
-                  type="text"
-                  id="hiddenUsername"
-                  autocomplete="username"
-                  hidden
-                />
-                <input
-                  type="password"
-                  id="currentPassword"
-                  placeholder="Current Password"
-                  autocomplete="current-password"
-                  required
-                />
-                <input
-                  type="password"
-                  id="newPassword"
-                  placeholder="New Password"
-                  autocomplete="new-password"
-                  required
-                />
-                <input
-                  type="password"
-                  id="confirmNewPassword"
-                  placeholder="Confirm New Password"
-                  autocomplete="new-password"
-                  required
-                />
+                <label for="updatePasswordGroup"><h3>Update Your Password</h3></label>
+                <div id="updatePasswordGroup">
+                  <input
+                    type="text"
+                    id="hiddenUsername"
+                    autocomplete="username"
+                    hidden
+                  />
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    placeholder="Current Password"
+                    autocomplete="current-password"
+                    required
+                  />
+                  <input
+                    type="password"
+                    id="newPassword"
+                    placeholder="New Password"
+                    autocomplete="new-password"
+                    required
+                  />
+                  <input
+                    type="password"
+                    id="confirmNewPassword"
+                    placeholder="Confirm New Password"
+                    autocomplete="new-password"
+                    required
+                  />
+                </div>
                 <button type="button" class="updateButton" id="updatePasswordBtn">
                   Update Password
                 </button>

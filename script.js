@@ -2,13 +2,15 @@
 document.addEventListener("DOMContentLoaded", () => {
   // insert the footer content into the footer div
   const footer = document.getElementById("footer")
-  footer.innerHTML = `
-  <p>Images from <a href="https://spoonacular.com/food-api" target="_blank">Spoonacular API</a></p>
-  <a href="#" onclick="openDynamicModal('terms')" class="footer-link">Terms of Use</a> |
-  <a href="#" onclick="openDynamicModal('privacy')" class="footer-link">Privacy Policy</a> |
-  <a href="#" onclick="openDynamicModal('accessibility')" class="footer-link">Accessibility</a>
-  <p>&copy; 2025 WasteNot</p>
-  `
+  if (footer) {
+    footer.innerHTML = `
+    <p>Images from <a href="https://spoonacular.com/food-api" target="_blank">Spoonacular API</a></p>
+    <a href="#" onclick="openDynamicModal('terms')" class="footer-link">Terms of Use</a> |
+    <a href="#" onclick="openDynamicModal('privacy')" class="footer-link">Privacy Policy</a> |
+    <a href="#" onclick="openDynamicModal('accessibility')" class="footer-link">Accessibility</a>
+    <p>&copy; 2025 WasteNot</p>
+    `
+  }
 
   // Add a modal to the page
   const modalDiv = document.createElement("div")
@@ -42,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggleBtn = document.createElement("button")
   themeToggleBtn.textContent = "Toggle Theme"
   themeToggleBtn.classList.add("darkTheme-button")
-  footer.insertBefore(themeToggleBtn, footer.firstChild)
+  if (footer) {
+    footer.insertBefore(themeToggleBtn, footer.firstChild)
+  }
 
   // Check saved theme preference
   let currentTheme = localStorage.getItem("theme") || "light"
@@ -65,37 +69,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // load the bottom-menu on each page, inserts the html into the bottom-menu div
   const bottomMenu = document.getElementById("bottom-menu")
-  bottomMenu.innerHTML = `
-  <a href='#' id="home" onclick="window.location.href='/home'">Home</a>
-  <a href='#' id="about" onclick="window.location.href='/about'">About</a>
-  <a href='#' id="profile" onclick="window.location.href='/profile'">Profile</a>
-  <a href='#' id="list" onclick="window.location.href='/list'">List</a>
-  `
+  if (bottomMenu) {
+    bottomMenu.innerHTML = `
+    <a href='#' id="home" onclick="window.location.href='/home'">Home</a>
+    <a href='#' id="about" onclick="window.location.href='/about'">About</a>
+    <a href='#' id="profile" onclick="window.location.href='/profile'">Profile</a>
+    <a href='#' id="list" onclick="window.location.href='/list'">List</a>
+    `
+  }
 
   // load the bottom-menu-select on each page, inserts the html into the bottom-menu-select div
   const bottomMenuSelect = document.getElementById("bottom-menu-select")
-  bottomMenuSelect.innerHTML = `
-    <option value="" disabled selected>Navigate to...</option>
-    <option value="/home">Home</option>
-    <option value="/about">About</option>
-    <option value="/profile">Profile</option>
-    <option value="/list">List</option>
-  `
-  bottomMenuSelect.addEventListener("change", event => {
-    const selectedValue = event.target.value
-    if (selectedValue) {
-      window.location.href = selectedValue
-    }
-  })
+  if (bottomMenuSelect) {
+    bottomMenuSelect.innerHTML = `
+      <option value="" disabled selected>Navigate to...</option>
+      <option value="/home">Home</option>
+      <option value="/about">About</option>
+      <option value="/profile">Profile</option>
+      <option value="/list">List</option>
+    `
+    bottomMenuSelect.addEventListener("change", event => {
+      const selectedValue = event.target.value
+      if (selectedValue) {
+        window.location.href = selectedValue
+      }
+    })
+  }
 
   // load the signup and login buttons on each page, inserts the html into the auth-buttons div
   const authButtons = document.getElementById("auth-buttons")
-  authButtons.innerHTML = `
-  <button id="login-btn" onclick="window.location.href='/login'">Login</button>
-  <button id="signup-btn" onclick="window.location.href='/signup'">Sign Up</button>
-  <span id="welcome-user" style="display: none"></span>
-  <button id="logout-btn" style="display: none">Logout</button>
-  `
+  if (authButtons) {
+    authButtons.innerHTML = `
+    <button id="login-btn" onclick="window.location.href='/login'">Login</button>
+    <button id="signup-btn" onclick="window.location.href='/signup'">Sign Up</button>
+    <span id="welcome-user" style="display: none"></span>
+    <button id="logout-btn" style="display: none">Logout</button>
+    `
+  }
 
   // code for handling login, signup, and logout buttons
   // Get the login, signup, logout, and welcome user elements
@@ -107,28 +117,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token") //Retrieve token from storage
   const username = localStorage.getItem("username") //Retrieve user from storage
 
-  if (token) {
-    //If the user is logged in
-    loginBtn.style.display = "none"
-    signupBtn.style.display = "none"
-    welcomeUser.style.display = "inline"
-    welcomeUser.innerHTML = `Logged in: <a href="/profile">${username}</a>`
-    logoutBtn.style.display = "inline"
-  } else {
-    //If no user is logged in
-    loginBtn.style.display = "inline"
-    signupBtn.style.display = "inline"
-    welcomeUser.style.display = "none"
-    logoutBtn.style.display = "none"
-  }
+  if (window.location.pathname !== "/") {
+    if (token) {
+      // Verify token with the server
+      fetch(`${window.location.origin.replace(/:\d+$/, ":8080")}/verify-token`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.valid) {
+          // If the token is valid
+          loginBtn.style.display = "none"
+          signupBtn.style.display = "none"
+          welcomeUser.style.display = "inline"
+          welcomeUser.innerHTML = `Logged in: <a href="/profile">${username}</a>`
+          logoutBtn.style.display = "inline"
+        } else {
+          // If the token is invalid
+          localStorage.removeItem("token")
+          localStorage.removeItem("username")
+          loginBtn.style.display = "inline"
+          signupBtn.style.display = "inline"
+          welcomeUser.style.display = "none"
+          logoutBtn.style.display = "none"
+        }
+      })
+      .catch(error => {
+        console.error("Error verifying token:", error)
+        loginBtn.style.display = "inline"
+        signupBtn.style.display = "inline"
+        welcomeUser.style.display = "none"
+        logoutBtn.style.display = "none"
+      })
+    } else {
+      // If no user is logged in
+      loginBtn.style.display = "inline"
+      signupBtn.style.display = "inline"
+      welcomeUser.style.display = "none"
+      logoutBtn.style.display = "none"
+    }
 
-  // function to handle the logout button click event
-  logoutBtn.addEventListener("click", () => {
-    const currentTheme = localStorage.getItem("theme") || "light"
-    localStorage.clear()
-    window.location.reload()
-    localStorage.setItem("theme", currentTheme)
-  })
+    // function to handle the logout button click event
+    logoutBtn.addEventListener("click", () => {
+      const currentTheme = localStorage.getItem("theme") || "light"
+      localStorage.clear()
+      window.location.reload()
+      localStorage.setItem("theme", currentTheme)
+    })
+  }
 
   // >>>>>>>>>> HOME: code specific to the home page <<<<<<<<<<
   if (window.location.pathname.includes("/home")) {
@@ -380,7 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Redirect to the last page the user was on using document.referrer
             const lastPage = document.referrer;
-            if (lastPage && lastPage !== window.location.href && !lastPage.includes("/signup")) {
+            if (lastPage && lastPage !== window.location.href && !lastPage.includes("/signup") && !lastPage.includes("/reset-password")) {
               window.location.href = lastPage;
             } else {
               window.location.href = "/home";
