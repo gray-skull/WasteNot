@@ -183,18 +183,18 @@ p {
 
 a {
   color: var(--tertiary-color-dark);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.7);
   text-decoration: none;
   font-weight: bold;
 }
 
 a:hover {
   color: var(--tertiary-color);
-  text-shadow: 0px 0px 2px rgba(0, 0, 0, 1);
+  text-shadow: 0px 0px 6px rgb(255, 255, 255);
 }
 
 a:visited {
-  color: var(--main-color-dark);
+  color: var(--tertiary-color-dark);
 }
 
 img.feature-icon {
@@ -1290,9 +1290,8 @@ div#intolerancePreferenceCheckboxArea label:hover {
 }
 
 .dark-mode a:hover {
-  color: var(--main-color-dark);
-  background-color: var(--tertiary-color-dark);
-  text-shadow: 0px 0px 1px black;
+  color: var(--secondary-color-dark);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
   border-radius: 10px;
 }
 
@@ -1308,8 +1307,8 @@ div#intolerancePreferenceCheckboxArea label:hover {
 .dark-mode input[type="text"],
 .dark-mode input[type="password"],
 .dark-mode input[type="email"] {
-  background-color: var(--main-color-dark) !important;
-  border-color: var(--main-color);
+  background-color: var(--main-color) !important;
+  border-color: var(--main-color-dark);
   color: white;
 }
 

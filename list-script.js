@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                 errorText.style.display = "block";
+                errorText.style.color = "red";
                 if (response.status === 401) {
                     errorText.innerHTML = "Your session has expired. Please <a href='/login'>login</a> again";
                     throw new Error("User not authenticated");
@@ -96,6 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (error) {
             errorText.textContent = error.message || "Error loading shopping list.";
+            errorText.style.color = "red";
             errorText.style.display = "block";
         }
     };
@@ -142,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const row = checkbox.parentElement.parentElement;
             const cells = row.querySelectorAll("td");
             console.log(cells[1].textContent);
-            return cells[1].textContent; // Assuming the ingredient name is in the second cell
+            return cells[1].textContent;
             
         });
 

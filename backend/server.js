@@ -32,11 +32,47 @@ oauth2Client.setCredentials({
 // this function is called in the nodemailer transport configuration
 async function getAccessToken() {
   try {
-    const { token } = await oauth2Client.getAccessToken()
-    return token;
+    const responseData = await oauth2Client.getAccessToken();
+    if (responseData.token) {
+      console.log("OAuth Access Token already exists:", responseData.token);
+      return responseData.token;
+    } else {
+      const newToken = await refreshAccessToken(process.env.GOOGLE_REFRESH_TOKEN);
+      console.log("Retrieved new OAuth Access Token:", newToken);
+      return newToken;
+    }
   } catch (error) {
-    console.error("Error getting access token:", error)
+    console.error("Error getting access token:", error);
     throw new Error("Error getting access token");
+  }
+}
+
+async function refreshAccessToken(refreshToken) {
+  try {
+    const response = await axios.post('https://oauth2.googleapis.com/token', {
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      refresh_token: refreshToken,
+      grant_type: 'refresh_token',
+    });
+
+    const newAccessToken = response.data.access_token;
+    console.log("New Access Token:", newAccessToken);
+    
+    // if a new refresh token is provided, update it
+    if (response.data.refresh_token) {
+      console.log("New Refresh Token:", response.data.refresh_token);
+      process.env.GOOGLE_REFRESH_TOKEN = response.data.refresh_token;
+    }
+
+    return newAccessToken;
+  } catch (error) {
+    if (error.response) {
+      console.error("Failed to refresh token:", error.response.data);
+    } else {
+      console.error("Failed to refresh token:", error.message);
+    }
+    return null;
   }
 }
 
