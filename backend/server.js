@@ -557,12 +557,12 @@ app.post("/recipes", async (req, res) => {
     }))
       */
     const responseData = response.data
-    const responseHeaders = {
-      'x-api-quota-request': response.headers['x-api-quota-request'],
-      'x-api-quota-used': response.headers['x-api-quota-used'],
-      'x-api-quota-left': response.headers['x-api-quota-left']
-    }
-    res.status(200).json({ data: responseData, headers: responseHeaders })
+    //const responseHeaders = {
+    //  'x-api-quota-request': response.headers['x-api-quota-request'],
+    //  'x-api-quota-used': response.headers['x-api-quota-used'],
+    //  'x-api-quota-left': response.headers['x-api-quota-left']
+    //}
+    res.status(200).json({ data: responseData })
   } catch (error) {
     console.error("Error fetching recipes:", error)
     res

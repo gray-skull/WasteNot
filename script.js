@@ -290,10 +290,10 @@ document.addEventListener("DOMContentLoaded", () => {
           if (response.ok) {
             const responseJson = await response.json() // parse the JSON response from the server
             const recipes = responseJson.data ? responseJson.data.results : [] // get the recipes from the response
-            console.log(responseJson.headers)
-            const quotaRequest = responseJson.headers["x-api-quota-request"] // get the quota request from the response headers
-            const quotaUsed = responseJson.headers["x-api-quota-used"] // get the quota used from the response headers
-            const quotaLeft = responseJson.headers["x-api-quota-left"] // get the quota left from the response headers
+            //console.log(responseJson.headers)
+            //const quotaRequest = responseJson.headers["x-api-quota-request"] // get the quota request from the response headers
+            //const quotaUsed = responseJson.headers["x-api-quota-used"] // get the quota used from the response headers
+            //const quotaLeft = responseJson.headers["x-api-quota-left"] // get the quota left from the response headers
 
             searchResults.innerHTML = `<div class="divider"></div>  
                                         <ul id="recipes-list"></ul>
@@ -301,17 +301,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const recipesList = document.getElementById("recipes-list") // get the <ul> element
             recipesList.innerHTML = "" // clear the <ul> element
             
-            if (document.getElementById("quota-message")) {
-              document.getElementById("quota-message").remove()
-            }
-            const quotaMessage = document.createElement("p")
-            quotaMessage.id = "quota-message"
-            quotaMessage.textContent = `DEV ONLY -> API Points used: ${quotaRequest} | Points left: ${quotaLeft} | Total points used today: ${quotaUsed}`
-            document.getElementById("search-form").appendChild(quotaMessage)
+            //if (document.getElementById("quota-message")) {
+            //  document.getElementById("quota-message").remove()
+            //}
+            //const quotaMessage = document.createElement("p")
+            //quotaMessage.id = "quota-message"
+            //quotaMessage.textContent = `DEV ONLY -> API Points used: ${quotaRequest} | Points left: ${quotaLeft} | Total points used today: ${quotaUsed}`
+            //document.getElementById("search-form").appendChild(quotaMessage)
+            //quotaMessage.style.display = "none"
 
             if (
               recipes.length === 0 ||
-              recipes === "Frontend: No recipes found"
+              recipes === "No recipes found"
             ) {
               // if no recipes are found or response is "No recipes found", display a message
               recipesList.innerHTML =
